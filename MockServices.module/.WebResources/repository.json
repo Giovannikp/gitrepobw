@@ -1,0 +1,25 @@
+{
+    "records": [{
+        "name": "Cloud",
+        "items": [],
+        "url": "https://integration.cloud.tibco.com:443"
+    }],
+    "resources": [
+        {
+            "location": "Service Descriptors/mockservices.module.Process-Latest.json",
+            "type": "generated"
+        },
+        {
+            "location": "Service Descriptors/mockservices.module.Holidays-Holidays.json",
+            "type": "generated"
+        },
+        {
+            "location": "Service Descriptors/mockservices.module.Festivo-Festivo.json",
+            "type": "generated"
+        },
+        {
+            "location": "Service Descriptors/mockservices.module.Cambio-Latest.json",
+            "type": "generated"
+        }
+    ]
+}

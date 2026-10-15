@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.6"?>
+
+<target name="bw-runtime">
+<locations>
+
+
+
+<location path="C:/tibco/bw/6.13/system/hotfix/lib/common" type="Directory"/>
+<location path="C:/tibco/bw/6.13/system/lib/common" type="Directory"/>
+
+<location path="C:/tibco/bw/6.13/system/hotfix/palettes" type="Directory"/>
+<location path="C:/tibco/bw/6.13/system/palettes" type="Directory"/>
+
+<location path="C:/tibco/bw/6.13/system/hotfix/shared" type="Directory"/>
+<location path="C:/tibco/bw/6.13/system/shared" type="Profile"/>
+</locations>
+</target>

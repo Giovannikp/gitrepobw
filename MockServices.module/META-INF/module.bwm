@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sca:composite xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BW="http://xsd.tns.tibco.com/amf/models/sca/implementationtype/BW" xmlns:XMLSchema="http://www.w3.org/2001/XMLSchema" xmlns:compositeext="http://schemas.tibco.com/amx/3.0/compositeext" xmlns:rest="http://xsd.tns.tibco.com/bw/models/binding/rest" xmlns:sca="http://www.osoa.org/xmlns/sca/1.0" xmlns:scact="http://xsd.tns.tibco.com/amf/models/sca/componentType" xmlns:scaext="http://xsd.tns.tibco.com/amf/models/sca/extensions" xmi:id="_Bym0IMPVEfGHZ5X5GRrfzg" targetNamespace="http://tns.tibco.com/bw/composite/MockServices.module" name="MockServices.module" compositeext:version="1.0.0" compositeext:formatVersion="2">
+  <sca:service xmi:id="_i6ObocPdEfGHZ5X5GRrfzg" name="v1-latest" promote="ComponentProcess/v1-latest">
+    <sca:interface.wsdl xmi:id="_i6374MPdEfGHZ5X5GRrfzg" interface="http://xmlns.example.com/20261009133154PLT#wsdl.interface(v1-latest)" scaext:wsdlLocation="../Processes/mockservices/module/Process.bwp"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_i7SyoMPdEfGHZ5X5GRrfzg" name="RestService" path="/v1/latest" docBasePath="http://localhost:7777/MockServices.module" docResourcePath="Latest" basePath="/" connector="mockservices.module.Latest" opaqueData="true" technologyVersion="2.0" implementation="Service Descriptors/mockservices.module.Process-Latest.json">
+      <operation xmi:id="_i7SyosPdEfGHZ5X5GRrfzg" operationName="get" nickname="get-v1-latest" httpMethod="GET" notes="getLatest" responseStyle="element" outputPartName="item">
+        <parameters xmi:id="_pztb8MPdEfGHZ5X5GRrfzg">
+          <parameterMapping xmi:id="_pztb8cPdEfGHZ5X5GRrfzg" parameterName="base" parameterType="Query" dataType="string" description=""/>
+          <parameterMapping xmi:id="_sGv1kMPdEfGHZ5X5GRrfzg" parameterName="symbols" parameterType="Query" dataType="string" description=""/>
+        </parameters>
+        <clientFormat>json</clientFormat>
+        <clientRequestFormat>json</clientRequestFormat>
+      </operation>
+      <parameters xmi:id="_i94zoMPdEfGHZ5X5GRrfzg"/>
+      <advancedConfig xmi:id="_i7SyocPdEfGHZ5X5GRrfzg" blockingQueueSize="8192"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_i7Syo8PdEfGHZ5X5GRrfzg" bindingName="RestService"/>
+  </sca:service>
+  <sca:service xmi:id="_30fmYMPuEfG1-5ooWifRGA" name="api-v3-PublicHolidays" promote="ComponentFestivo/api-v3-PublicHolidays">
+    <sca:interface.wsdl xmi:id="_30pXYMPuEfG1-5ooWifRGA" interface="http://xmlns.example.com/20261009163653PLT#wsdl.interface(api-v3-PublicHolidays)" scaext:wsdlLocation="../Processes/mockservices/module/Festivo.bwp"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_30x6QMPuEfG1-5ooWifRGA" name="RestService1" path="/api/v3/PublicHolidays/{year}/{countryCode}" docBasePath="http://localhost:7777/MockServices.module" docResourcePath="Festivo" basePath="/" connector="mockservices.module.Latest" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/mockservices.module.Festivo-Festivo.json">
+      <operation xmi:id="_302ywMPuEfG1-5ooWifRGA" operationName="get" nickname="get-api-v3-PublicHolidays" httpMethod="GET" notes="getFestivo" responseStyle="array" outputPartName="item">
+        <clientFormat>json</clientFormat>
+        <clientRequestFormat>json</clientRequestFormat>
+      </operation>
+      <parameters xmi:id="_31K70MPuEfG1-5ooWifRGA">
+        <parameterMapping xmi:id="_31K70cPuEfG1-5ooWifRGA" parameterName="year" parameterType="Path" required="true" description=""/>
+        <parameterMapping xmi:id="_31K70sPuEfG1-5ooWifRGA" parameterName="countryCode" parameterType="Path" required="true" description=""/>
+      </parameters>
+      <advancedConfig xmi:id="_30x6QcPuEfG1-5ooWifRGA" blockingQueueSize="8192"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_302ywcPuEfG1-5ooWifRGA" bindingName="RestService1"/>
+  </sca:service>
+  <sca:property xmi:id="_CCPyoMPVEfGHZ5X5GRrfzg" name="BW.DEPLOYMENTUNIT.TYPE" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_CCaKsMPVEfGHZ5X5GRrfzg" name="BW.APPNODE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_CCb_4MPVEfGHZ5X5GRrfzg" name="BW.DEPLOYMENTUNIT.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_CCd1EMPVEfGHZ5X5GRrfzg" name="BW.HOST.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_CCg4YMPVEfGHZ5X5GRrfzg" name="BW.DOMAIN.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_CClJ0MPVEfGHZ5X5GRrfzg" name="BW.DEPLOYMENTUNIT.VERSION" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_CCm_AMPVEfGHZ5X5GRrfzg" name="BW.APPSPACE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_CCpbQMPVEfGHZ5X5GRrfzg" name="BW.MODULE.VERSION" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_CCsekMPVEfGHZ5X5GRrfzg" name="BW.MODULE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:component xmi:id="_B5xMEMPVEfGHZ5X5GRrfzg" name="ComponentProcess" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_B5xMEcPVEfGHZ5X5GRrfzg" processName="mockservices.module.Cambio"/>
+    <sca:service xmi:id="_i59V4MPdEfGHZ5X5GRrfzg" name="v1-latest">
+      <sca:interface.wsdl xmi:id="_i6OboMPdEfGHZ5X5GRrfzg" interface="http://xmlns.example.com/20261009133154PLT#wsdl.interface(v1-latest)"/>
+    </sca:service>
+  </sca:component>
+  <sca:component xmi:id="_30OgoMPuEfG1-5ooWifRGA" name="ComponentFestivo" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_30OgocPuEfG1-5ooWifRGA" processName="mockservices.module.Festivo"/>
+    <sca:service xmi:id="_30YRoMPuEfG1-5ooWifRGA" name="api-v3-PublicHolidays">
+      <sca:interface.wsdl xmi:id="_30b8AMPuEfG1-5ooWifRGA" interface="http://xmlns.example.com/20261009163653PLT#wsdl.interface(api-v3-PublicHolidays)" scaext:wsdlLocation="../Processes/mockservices/module/Festivo.bwp"/>
+    </sca:service>
+  </sca:component>
+</sca:composite>

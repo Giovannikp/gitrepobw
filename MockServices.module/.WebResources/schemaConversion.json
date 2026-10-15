@@ -1,0 +1,22 @@
+{"records": [
+    {
+        "jsonSchemaLocation": "/MockServices.module/Service Descriptors/mockservices.module.Holidays-Holidays.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "/T1791549846320Converted/SimpleTypesArraysSchema"
+    },
+    {
+        "jsonSchemaLocation": "/MockServices.module/Service Descriptors/mockservices.module.Holidays-Holidays.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "http://xmlns.example.com/Holidays/parameters"
+    },
+    {
+        "jsonSchemaLocation": "/MockServices.module/Service Descriptors/mockservices.module.Festivo-Festivo.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "/T1791549846320Converted/SimpleTypesArraysSchema"
+    },
+    {
+        "jsonSchemaLocation": "/MockServices.module/Service Descriptors/mockservices.module.Festivo-Festivo.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "http://xmlns.example.com/Festivo/parameters"
+    }
+]}
