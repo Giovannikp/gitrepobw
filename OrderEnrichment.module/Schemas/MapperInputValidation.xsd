@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions" xmlns:tns="http://www.tibco.com/namespaces/tnt/plugins/generalactivities/mapper/1791448757653" targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/generalactivities/mapper/1791448757653">
+    <xsd:complexType name="MapperInputType">
+        <xsd:sequence>
+            <xsd:element name="isValid" type="xsd:boolean"/>
+            <xsd:element name="errorField" type="xsd:string"/>
+            <xsd:element name="errorIssue" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="MapperInput" tibex:source="bw.generalactivities.mapper" type="tns:MapperInputType"/>
+</xsd:schema>

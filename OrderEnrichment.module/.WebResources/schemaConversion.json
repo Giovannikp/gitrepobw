@@ -1,0 +1,12 @@
+{"records": [
+    {
+        "jsonSchemaLocation": "/OrderEnrichment.module/Service Descriptors/orderenrichment.module.Orders-Orders.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "http://www.example.org/OrderRequestSchema"
+    },
+    {
+        "jsonSchemaLocation": "/OrderEnrichment.module/Service Descriptors/orderenrichment.module.Orders-Orders.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "http://www.example.org/OrderResponseSchema"
+    }
+]}

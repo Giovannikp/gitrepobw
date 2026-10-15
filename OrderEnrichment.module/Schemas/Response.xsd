@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:tns="http://www.example.org/OrderResponseSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.example.org/OrderResponseSchema">
+      
+  <!-- Elemento radice: risposta restituita da POST /orders in caso di successo (200) -->
+      
+  <xs:element name="orderResponse" type="tns:OrderResponseType"/>
+      
+  <xs:complexType name="OrderResponseType">
+            
+    <xs:sequence>
+                  
+      <xs:element name="orderId" type="xs:string"/>
+                  
+      <xs:element name="currency" type="xs:string"/>
+                  
+      <xs:element name="totalAmount" type="xs:decimal"/>
+                  
+      <xs:element name="fxRate" type="xs:decimal"/>
+                  
+      <xs:element name="totalEUR" type="xs:decimal"/>
+                  
+      <xs:element name="requestedDeliveryDate" type="xs:string"/>
+                  
+      <xs:element name="effectiveDeliveryDate" type="xs:string"/>
+                  
+      <xs:element name="deliveryShiftReason" type="xs:string"/>
+              
+    </xs:sequence>
+        
+  </xs:complexType>
+      
+  <xs:complexType name="orderResponseArray">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="orderResponse" type="tns:OrderResponseType"/>
+    </xs:sequence>
+  </xs:complexType>
+      
+  <xs:element name="orderResponseArray" type="tns:orderResponseArray"/>
+  
+</xs:schema>

@@ -1,0 +1,166 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0",
+    "title" : "Orders",
+    "description" : "Orders service"
+  },
+  "host" : "localhost:8085",
+  "basePath" : "/",
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/orders" : {
+      "post" : {
+        "summary" : "postOrders",
+        "description" : "postOrders",
+        "operationId" : "post-orders",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "",
+          "schema" : {
+            "$ref" : "#/definitions/orderRequest"
+          },
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a orderResponse to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/orderResponse"
+            }
+          },
+          "400" : {
+            "description" : "Validation Error",
+            "schema" : {
+              "$ref" : "#/definitions/errorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "item" : {
+      "type" : "object",
+      "required" : [ "unitPrice", "qty", "sku" ],
+      "properties" : {
+        "sku" : {
+          "type" : "string"
+        },
+        "qty" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "unitPrice" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "ItemsType" : {
+      "type" : "object",
+      "required" : [ "item" ],
+      "properties" : {
+        "item" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/item",
+            "uniqueItems" : false
+          }
+        }
+      }
+    },
+    "orderRequest" : {
+      "type" : "object",
+      "required" : [ "orderId", "countryCode", "requestedDeliveryDate", "currency", "items" ],
+      "properties" : {
+        "orderId" : {
+          "type" : "string"
+        },
+        "countryCode" : {
+          "type" : "string"
+        },
+        "currency" : {
+          "type" : "string"
+        },
+        "requestedDeliveryDate" : {
+          "type" : "string"
+        },
+        "items" : {
+          "$ref" : "#/definitions/ItemsType"
+        }
+      }
+    },
+    "orderResponse" : {
+      "type" : "object",
+      "required" : [ "totalAmount", "fxRate", "deliveryShiftReason", "orderId", "requestedDeliveryDate", "totalEUR", "currency", "effectiveDeliveryDate" ],
+      "properties" : {
+        "orderId" : {
+          "type" : "string"
+        },
+        "currency" : {
+          "type" : "string"
+        },
+        "totalAmount" : {
+          "type" : "integer"
+        },
+        "fxRate" : {
+          "type" : "integer"
+        },
+        "totalEUR" : {
+          "type" : "integer"
+        },
+        "requestedDeliveryDate" : {
+          "type" : "string"
+        },
+        "effectiveDeliveryDate" : {
+          "type" : "string"
+        },
+        "deliveryShiftReason" : {
+          "type" : "string"
+        }
+      }
+    },
+    "detail" : {
+      "type" : "object",
+      "required" : [ "field", "issue" ],
+      "properties" : {
+        "field" : {
+          "type" : "string"
+        },
+        "issue" : {
+          "type" : "string"
+        }
+      }
+    },
+    "errorResponse" : {
+      "type" : "object",
+      "required" : [ "code", "message" ],
+      "properties" : {
+        "code" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "details" : {
+          "$ref" : "#/definitions/DetailsType"
+        }
+      }
+    },
+    "DetailsType" : {
+      "type" : "object",
+      "properties" : {
+        "detail" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/detail",
+            "uniqueItems" : false
+          }
+        }
+      }
+    }
+  }
+}

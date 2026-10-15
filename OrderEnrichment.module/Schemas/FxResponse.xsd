@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Schema per il ParseJSON della risposta del servizio cambio (Frankfurter reale e mock).
+     JSON: {"amount":1.0,"base":"USD","date":"2026-10-09","rates":{"EUR":0.89238}}
+     Valori semplici come ATTRIBUTI, oggetto annidato "rates" come elemento.
+     elementFormDefault="qualified": BW lo richiede quando c'e' un targetNamespace. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.example.org/FxResponseSchema"
+           xmlns:tns="http://www.example.org/FxResponseSchema"
+           elementFormDefault="qualified">
+
+    <xs:element name="fxResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="rates" minOccurs="0">
+                    <xs:complexType>
+                        <xs:attribute name="EUR" type="xs:decimal"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="amount" type="xs:decimal"/>
+            <xs:attribute name="base" type="xs:string"/>
+            <xs:attribute name="date" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
