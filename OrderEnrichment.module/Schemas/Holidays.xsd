@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Schema per il ParseJSON dell'elenco festivita' (Nager.Date reale e mock).
+     JSON: array di oggetti senza chiave, es.
+       [ {"date":"2026-12-25","localName":"Natale","name":"Christmas Day","countryCode":"IT",
+          "fixed":true,"global":true,"counties":null,"launchYear":null,"types":["Public"]}, ... ]
+     Si descrivono SOLO i campi che servono (date, global, types): gli altri (localName, name,
+     countryCode, fixed, counties, launchYear) vanno ignorati con "Ignore Additional JSON Fields".
+     Valori semplici come ATTRIBUTI; "types" (array di stringhe) come elemento ripetuto.
+     elementFormDefault="qualified": BW lo richiede quando c'e' un targetNamespace. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.example.org/HolidaysSchema"
+           xmlns:tns="http://www.example.org/HolidaysSchema"
+           elementFormDefault="qualified">
+
+    <!-- Contenitore dell'array anonimo di primo livello -->
+    <xs:element name="holidays">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="holiday" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="types" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                        <xs:attribute name="date" type="xs:string"/>
+                        <xs:attribute name="global" type="xs:boolean"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

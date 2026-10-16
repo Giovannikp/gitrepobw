@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.example.org/ErrorSchema"
+           xmlns:tns="http://www.example.org/ErrorSchema"
+           elementFormDefault="qualified">
+
+    <!-- Elemento radice: risposta restituita in caso di errore (es. 400 VALIDATION_ERROR) -->
+    <xs:element name="errorResponse" type="tns:ErrorResponseType"/>
+
+    <xs:complexType name="ErrorResponseType">
+        <xs:sequence>
+            <xs:element name="code" type="xs:string"/>
+            <xs:element name="message" type="xs:string"/>
+            <xs:element ref="tns:details" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Wrapper array: lista dei dettagli di validazione falliti -->
+    <xs:element name="details" type="tns:DetailsType"/>
+
+    <xs:complexType name="DetailsType">
+        <xs:sequence>
+            <xs:element ref="tns:detail" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="detail" type="tns:DetailType"/>
+
+    <xs:complexType name="DetailType">
+        <xs:sequence>
+            <xs:element name="field" type="xs:string"/>
+            <xs:element name="issue" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

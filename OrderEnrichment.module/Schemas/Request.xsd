@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.example.org/OrderRequestSchema"
+           xmlns:tns="http://www.example.org/OrderRequestSchema"
+           elementFormDefault="qualified">
+
+    <!-- Elemento radice: l'ordine ricevuto via POST /orders -->
+    <xs:element name="orderRequest" type="tns:OrderRequestType"/>
+
+    <xs:complexType name="OrderRequestType">
+        <xs:sequence>
+            <xs:element name="orderId" type="xs:string"/>
+            <xs:element name="countryCode" type="xs:string"/>
+            <xs:element name="currency" type="xs:string"/>
+            <xs:element name="requestedDeliveryDate" type="xs:string"/>
+            <xs:element ref="tns:items"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Wrapper array: lista degli item dell'ordine -->
+    <xs:element name="items" type="tns:ItemsType"/>
+
+    <xs:complexType name="ItemsType">
+        <xs:sequence>
+            <xs:element ref="tns:item" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="item" type="tns:ItemType"/>
+
+    <xs:complexType name="ItemType">
+        <xs:sequence>
+            <xs:element name="sku" type="xs:string"/>
+            <xs:element name="qty" type="xs:integer"/>
+            <xs:element name="unitPrice" type="xs:decimal"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
