@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpws:process exitOnStandardFault="no"
     name="mockservices.module.Festivo" suppressJoinFailure="yes"
-    targetNamespace="http://xmlns.example.com/20261009163653"
+    targetNamespace="http://xmlns.example.com/20261019105929"
     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:info="http://www.tibco.com/bw/process/info"
-    xmlns:ns="http://xmlns.example.com/20261009163653PLT"
+    xmlns:ns="http://xmlns.example.com/20261019105929PLT"
     xmlns:ns0="http://www.tibco.com/pe/EngineTypes"
     xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
     xmlns:sca-bpel="http://docs.oasis-open.org/ns/opencsa/sca-bpel/200801"
@@ -185,36 +185,35 @@
             <element name="DuplicateKeyException" type="tns:DuplicateKeyExceptionType"/>
         </schema>
         <wsdl:definitions
-            targetNamespace="http://xmlns.example.com/20261009163653PLT"
-            xmlns:extns="/T1791549846320Converted/SimpleTypesArraysSchema"
-            xmlns:extns1="http://tns.tibco.com/bw/REST"
-            xmlns:extns2="http://xmlns.example.com/Festivo/parameters"
+            targetNamespace="http://xmlns.example.com/20261019105929PLT"
+            xmlns:extns="http://tns.tibco.com/bw/REST"
+            xmlns:extns1="http://xmlns.example.com/Festivo/parameters"
             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
             xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"
-            xmlns:tns="http://xmlns.example.com/20261009163653PLT"
+            xmlns:tns="http://xmlns.example.com/20261019105929PLT"
             xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <plnk:partnerLinkType name="partnerLinkType">
                 <plnk:role name="use" portType="tns:api-v3-PublicHolidays"/>
             </plnk:partnerLinkType>
-            <wsdl:import namespace="/T1791549846320Converted/SimpleTypesArraysSchema"/>
             <wsdl:import namespace="http://tns.tibco.com/bw/REST"/>
             <wsdl:import namespace="http://xmlns.example.com/Festivo/parameters"/>
             <wsdl:message name="getRequest">
-                <wsdl:part element="extns1:httpHeaders"
+                <wsdl:part element="extns:httpHeaders"
                     name="httpHeaders" tibex:source="bw.rest"/>
                 <wsdl:part
-                    element="extns2:api-v3-PublicHolidaysGetParameters"
+                    element="extns1:api-v3-PublicHolidaysGetParameters"
                     name="parameters" tibex:source="bw.rest"/>
             </wsdl:message>
             <wsdl:message name="getResponse">
-                <wsdl:part element="extns:stringArray" name="item" tibex:hasMultipleNamespaces="false"/>
+                <wsdl:part element="extns:messageBody" name="message"
+                    tibex:source="bw.rest" tibex:type="xsd:string"/>
             </wsdl:message>
             <wsdl:message name="get4XXFaultMessage">
-                <wsdl:part element="extns1:client4XXError" name="clientError"/>
+                <wsdl:part element="extns:client4XXError" name="clientError"/>
             </wsdl:message>
             <wsdl:message name="get5XXFaultMessage">
-                <wsdl:part element="extns1:server5XXError" name="serverError"/>
+                <wsdl:part element="extns:server5XXError" name="serverError"/>
             </wsdl:message>
             <wsdl:portType name="api-v3-PublicHolidays"
                 tibex:bw.rest.apipath="/api/v3/PublicHolidays/{year}/{countryCode}"
@@ -233,7 +232,7 @@
         </wsdl:definitions>
     </tibex:Types>
     <tibex:ProcessInfo callable="false" createdBy="user"
-        createdOn="Fri Oct 09 16:36:53 CEST 2026" description=""
+        createdOn="Mon Oct 19 10:59:29 CEST 2026" description=""
         extraErrorVars="true" modifiers="public"
         productVersion="6.13.0 V54 2026-03-02" scalable="true"
         singleton="true" stateless="true" type="IT"/>
@@ -608,11 +607,9 @@
     </notation:Diagram>
     <tibex:NamespaceRegistry enabled="true">
         <tibex:namespaceItem
-            namespace="/T1791549846320Converted/SimpleTypesArraysSchema" prefix="tns1"/>
-        <tibex:namespaceItem
-            namespace="http://xmlns.example.com/20261009163653PLT" prefix="tns"/>
+            namespace="http://xmlns.example.com/20261019105929PLT" prefix="tns"/>
+        <tibex:namespaceItem namespace="http://tns.tibco.com/bw/REST" prefix="tns1"/>
     </tibex:NamespaceRegistry>
-    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="/T1791549846320Converted/SimpleTypesArraysSchema"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://tns.tibco.com/bw/REST"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://xmlns.example.com/Festivo/parameters"/>
     <bpws:partnerLinks>
@@ -636,28 +633,29 @@
     <bpws:scope name="scope">
         <bpws:flow name="flow">
             <bpws:links/>
-            <bpws:pick createInstance="yes" name="pick" tibex:xpdlId="5390d468-4875-47fd-a34b-dfdfae64ef9d">
+            <bpws:pick createInstance="yes" name="pick" tibex:xpdlId="d72d7dfc-886b-4575-a8e1-b1e4fbf2fe35">
                 <bpws:onMessage operation="get"
                     partnerLink="api-v3-PublicHolidays"
                     portType="ns:api-v3-PublicHolidays"
-                    tibex:xpdlId="de0b5114-e251-4475-9c28-4ed10ba8eab3" variable="get">
+                    tibex:xpdlId="a5724703-41a3-43f6-b8d7-45afc59f7f54" variable="get">
                     <bpws:scope name="scope1">
                         <bpws:flow name="flow1">
                             <bpws:links/>
                             <bpws:empty name="OnMessageStart"
-                                tibex:constructor="onMessageStart" tibex:xpdlId="5355637f-692f-44dc-b7e2-8deb7cbc3682"/>
+                                tibex:constructor="onMessageStart" tibex:xpdlId="1a301a98-ff1d-49ed-b99d-ca6879f3ecf3"/>
                             <bpws:empty name="OnMessageEnd"
-                                tibex:constructor="onMessageEnd" tibex:xpdlId="d880112f-7cc8-4a17-8aba-116f167a313e"/>
+                                tibex:constructor="onMessageEnd" tibex:xpdlId="6aa8c6f0-df63-4740-ba02-b7e2d3d86c7a"/>
                             <bpws:reply name="getOut" operation="get"
                                 partnerLink="api-v3-PublicHolidays"
                                 portType="ns:api-v3-PublicHolidays"
-                                tibex:xpdlId="839cf5df-6557-495e-807c-c8c004ee4686" variable="getOut-input">
+                                tibex:xpdlId="3be7459c-862b-4046-af98-a0635dfe9d27" variable="getOut-input">
                                 <tibex:inputBindings>
                                     <tibex:partBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://xmlns.example.com/20261009163653PLT&quot; xmlns:tns1=&quot;/T1791549846320Converted/SimpleTypesArraysSchema&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:template name=&quot;getOut-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns1:stringArray>&#xa;            &lt;tns1:string>&#xa;                &lt;xsl:value-of select=&quot;'[{ &amp;quot;date&amp;quot;: &amp;quot;2026-12-08&amp;quot;, &amp;quot;localName&amp;quot;: &amp;quot;Immacolata Concezione&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;Immaculate Conception&amp;quot;, &amp;quot;countryCode&amp;quot;: &amp;quot;IT&amp;quot;, &amp;quot;global&amp;quot;: true, &amp;quot;types&amp;quot;: [&amp;quot;Public&amp;quot;] }, &amp;#xD;&amp;#xA;  { &amp;quot;date&amp;quot;: &amp;quot;2026-12-25&amp;quot;, &amp;quot;localName&amp;quot;: &amp;quot;Natale&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;Christmas Day&amp;quot;, &amp;quot;countryCode&amp;quot;: &amp;quot;IT&amp;quot;, &amp;quot;global&amp;quot;: true, &amp;quot;types&amp;quot;: [&amp;quot;Public&amp;quot;] }, { &amp;quot;date&amp;quot;: &amp;quot;2026-12-26&amp;quot;, &amp;quot;localName&amp;quot;: &amp;quot;Santo Stefano&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;St. Stephens Day&amp;quot;, &amp;quot;countryCode&amp;quot;: &amp;quot;IT&amp;quot;, &amp;quot;global&amp;quot;: true, &amp;quot;types&amp;quot;: [&amp;quot;Public&amp;quot;] }]'&quot;/>&#xa;            &lt;/tns1:string>&#xa;        &lt;/tns1:stringArray>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://xmlns.example.com/20261019105929PLT&quot; xmlns:tns1=&quot;http://tns.tibco.com/bw/REST&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:template name=&quot;getOut-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns1:messageBody>&#xa;            &lt;xsl:value-of select=&quot;'[{&amp;quot;date&amp;quot;:&amp;quot;2026-12-08&amp;quot;,&amp;quot;localName&amp;quot;:&amp;quot;Immacolata Concezione&amp;quot;,&amp;quot;name&amp;quot;:&amp;quot;Immaculate Conception&amp;quot;,&amp;quot;countryCode&amp;quot;:&amp;quot;IT&amp;quot;,&amp;quot;global&amp;quot;:true,&amp;quot;types&amp;quot;:[&amp;quot;Public&amp;quot;]},{&amp;quot;date&amp;quot;:&amp;quot;2026-12-25&amp;quot;,&amp;quot;localName&amp;quot;:&amp;quot;Natale&amp;quot;,&amp;quot;name&amp;quot;:&amp;quot;Christmas Day&amp;quot;,&amp;quot;countryCode&amp;quot;:&amp;quot;IT&amp;quot;,&amp;quot;global&amp;quot;:true,&amp;quot;types&amp;quot;:[&amp;quot;Public&amp;quot;]},{&amp;quot;date&amp;quot;:&amp;quot;2026-12-26&amp;quot;,&amp;quot;localName&amp;quot;:&amp;quot;Santo Stefano&amp;quot;,&amp;quot;name&amp;quot;:&amp;quot;St Stephens Day&amp;quot;,&amp;quot;countryCode&amp;quot;:&amp;quot;IT&amp;quot;,&amp;quot;global&amp;quot;:true,&amp;quot;types&amp;quot;:[&amp;quot;Public&amp;quot;]}]'&quot;/>&#xa;        &lt;/tns1:messageBody>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                 </tibex:inputBindings>
                                 <tibex:inputBinding expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns="http://xmlns.example.com/20261009163653PLT" xmlns:tns1="/T1791549846320Converted/SimpleTypesArraysSchema" version="2.0"&gt;&lt;xsl:template name="getOut-input" match="/"&gt;&lt;tns:getResponse&gt;&lt;item&gt;&lt;tns1:stringArray&gt;&lt;tns1:string&gt;&lt;xsl:value-of select="'[{ &amp;quot;date&amp;quot;: &amp;quot;2026-12-08&amp;quot;, &amp;quot;localName&amp;quot;: &amp;quot;Immacolata Concezione&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;Immaculate Conception&amp;quot;, &amp;quot;countryCode&amp;quot;: &amp;quot;IT&amp;quot;, &amp;quot;global&amp;quot;: true, &amp;quot;types&amp;quot;: [&amp;quot;Public&amp;quot;] }, &amp;#xD;&amp;#xA;  { &amp;quot;date&amp;quot;: &amp;quot;2026-12-25&amp;quot;, &amp;quot;localName&amp;quot;: &amp;quot;Natale&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;Christmas Day&amp;quot;, &amp;quot;countryCode&amp;quot;: &amp;quot;IT&amp;quot;, &amp;quot;global&amp;quot;: true, &amp;quot;types&amp;quot;: [&amp;quot;Public&amp;quot;] }, { &amp;quot;date&amp;quot;: &amp;quot;2026-12-26&amp;quot;, &amp;quot;localName&amp;quot;: &amp;quot;Santo Stefano&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;St. Stephens Day&amp;quot;, &amp;quot;countryCode&amp;quot;: &amp;quot;IT&amp;quot;, &amp;quot;global&amp;quot;: true, &amp;quot;types&amp;quot;: [&amp;quot;Public&amp;quot;] }]'"/&gt;&lt;/tns1:string&gt;&lt;/tns1:stringArray&gt;&lt;/item&gt;&lt;/tns:getResponse&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;</tibex:inputBinding>
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns="http://xmlns.example.com/20261019105929PLT" xmlns:tns1="http://tns.tibco.com/bw/REST" version="2.0"&gt;&lt;xsl:template name="getOut-input" match="/"&gt;&lt;tns:getResponse&gt;&lt;message&gt;&lt;tns1:messageBody&gt;&lt;xsl:value-of select="'[{&amp;quot;date&amp;quot;:&amp;quot;2026-12-08&amp;quot;,&amp;quot;localName&amp;quot;:&amp;quot;Immacolata Concezione&amp;quot;,&amp;quot;name&amp;quot;:&amp;quot;Immaculate Conception&amp;quot;,&amp;quot;countryCode&amp;quot;:&amp;quot;IT&amp;quot;,&amp;quot;global&amp;quot;:true,&amp;quot;types&amp;quot;:[&amp;quot;Public&amp;quot;]},{&amp;quot;date&amp;quot;:&amp;quot;2026-12-25&amp;quot;,&amp;quot;localName&amp;quot;:&amp;quot;Natale&amp;quot;,&amp;quot;name&amp;quot;:&amp;quot;Christmas Day&amp;quot;,&amp;quot;countryCode&amp;quot;:&amp;quot;IT&amp;quot;,&amp;quot;global&amp;quot;:true,&amp;quot;types&amp;quot;:[&amp;quot;Public&amp;quot;]},{&amp;quot;date&amp;quot;:&amp;quot;2026-12-26&amp;quot;,&amp;quot;localName&amp;quot;:&amp;quot;Santo Stefano&amp;quot;,&amp;quot;name&amp;quot;:&amp;quot;St Stephens Day&amp;quot;,&amp;quot;countryCode&amp;quot;:&amp;quot;IT&amp;quot;,&amp;quot;global&amp;quot;:true,&amp;quot;types&amp;quot;:[&amp;quot;Public&amp;quot;]}]'"/&gt;&lt;/tns1:messageBody&gt;&lt;/message&gt;&lt;/tns:getResponse&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;</tibex:inputBinding>
+                                <bpws:correlations/>
                             </bpws:reply>
                         </bpws:flow>
                     </bpws:scope>

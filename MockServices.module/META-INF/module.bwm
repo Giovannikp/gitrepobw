@@ -11,25 +11,24 @@
         <clientFormat>json</clientFormat>
         <clientRequestFormat>json</clientRequestFormat>
       </operation>
-      <parameters xmi:id="_i94zoMPdEfGHZ5X5GRrfzg"/>
       <advancedConfig xmi:id="_i7SyocPdEfGHZ5X5GRrfzg" blockingQueueSize="8192"/>
     </scaext:binding>
     <scact:bindingAdjunct xmi:id="_i7Syo8PdEfGHZ5X5GRrfzg" bindingName="RestService"/>
   </sca:service>
-  <sca:service xmi:id="_30fmYMPuEfG1-5ooWifRGA" name="api-v3-PublicHolidays" promote="ComponentFestivo/api-v3-PublicHolidays">
-    <sca:interface.wsdl xmi:id="_30pXYMPuEfG1-5ooWifRGA" interface="http://xmlns.example.com/20261009163653PLT#wsdl.interface(api-v3-PublicHolidays)" scaext:wsdlLocation="../Processes/mockservices/module/Festivo.bwp"/>
-    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_30x6QMPuEfG1-5ooWifRGA" name="RestService1" path="/api/v3/PublicHolidays/{year}/{countryCode}" docBasePath="http://localhost:7777/MockServices.module" docResourcePath="Festivo" basePath="/" connector="mockservices.module.Latest" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/mockservices.module.Festivo-Festivo.json">
-      <operation xmi:id="_302ywMPuEfG1-5ooWifRGA" operationName="get" nickname="get-api-v3-PublicHolidays" httpMethod="GET" notes="getFestivo" responseStyle="array" outputPartName="item">
+  <sca:service xmi:id="_ZP2lccubEfGEAO5aqGPUsg" name="api-v3-PublicHolidays" promote="ComponentFestivo/api-v3-PublicHolidays">
+    <sca:interface.wsdl xmi:id="_ZQISQcubEfGEAO5aqGPUsg" interface="http://xmlns.example.com/20261019105929PLT#wsdl.interface(api-v3-PublicHolidays)" scaext:wsdlLocation="../Processes/mockservices/module/Festivo.bwp"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_ZQL8oMubEfGEAO5aqGPUsg" name="RestService1" path="/api/v3/PublicHolidays/{year}/{countryCode}" docBasePath="http://localhost:7777/MockServices.module" docResourcePath="Festivo" basePath="/" connector="mockservices.module.Latest" opaqueData="true" technologyVersion="2.0" implementation="Service Descriptors/mockservices.module.Festivo-Festivo.json">
+      <operation xmi:id="_ZQL8osubEfGEAO5aqGPUsg" operationName="get" nickname="get-api-v3-PublicHolidays" httpMethod="GET" notes="getFestivo" responseStyle="element" outputPartName="item">
         <clientFormat>json</clientFormat>
         <clientRequestFormat>json</clientRequestFormat>
       </operation>
-      <parameters xmi:id="_31K70MPuEfG1-5ooWifRGA">
-        <parameterMapping xmi:id="_31K70cPuEfG1-5ooWifRGA" parameterName="year" parameterType="Path" required="true" description=""/>
-        <parameterMapping xmi:id="_31K70sPuEfG1-5ooWifRGA" parameterName="countryCode" parameterType="Path" required="true" description=""/>
+      <parameters xmi:id="_ZRFUgMubEfGEAO5aqGPUsg">
+        <parameterMapping xmi:id="_ZRFUgcubEfGEAO5aqGPUsg" parameterName="year" parameterType="Path" required="true" description=""/>
+        <parameterMapping xmi:id="_ZRFUgsubEfGEAO5aqGPUsg" parameterName="countryCode" parameterType="Path" required="true" description=""/>
       </parameters>
-      <advancedConfig xmi:id="_30x6QcPuEfG1-5ooWifRGA" blockingQueueSize="8192"/>
+      <advancedConfig xmi:id="_ZQL8ocubEfGEAO5aqGPUsg" blockingQueueSize="8192"/>
     </scaext:binding>
-    <scact:bindingAdjunct xmi:id="_302ywcPuEfG1-5ooWifRGA" bindingName="RestService1"/>
+    <scact:bindingAdjunct xmi:id="_ZQL8o8ubEfGEAO5aqGPUsg" bindingName="RestService1"/>
   </sca:service>
   <sca:property xmi:id="_CCPyoMPVEfGHZ5X5GRrfzg" name="BW.DEPLOYMENTUNIT.TYPE" type="XMLSchema:string" scalable="true"/>
   <sca:property xmi:id="_CCaKsMPVEfGHZ5X5GRrfzg" name="BW.APPNODE.NAME" type="XMLSchema:string" scalable="true"/>
@@ -46,10 +45,10 @@
       <sca:interface.wsdl xmi:id="_i6OboMPdEfGHZ5X5GRrfzg" interface="http://xmlns.example.com/20261009133154PLT#wsdl.interface(v1-latest)"/>
     </sca:service>
   </sca:component>
-  <sca:component xmi:id="_30OgoMPuEfG1-5ooWifRGA" name="ComponentFestivo" compositeext:version="1.0.0.qualifier">
-    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_30OgocPuEfG1-5ooWifRGA" processName="mockservices.module.Festivo"/>
-    <sca:service xmi:id="_30YRoMPuEfG1-5ooWifRGA" name="api-v3-PublicHolidays">
-      <sca:interface.wsdl xmi:id="_30b8AMPuEfG1-5ooWifRGA" interface="http://xmlns.example.com/20261009163653PLT#wsdl.interface(api-v3-PublicHolidays)" scaext:wsdlLocation="../Processes/mockservices/module/Festivo.bwp"/>
+  <sca:component xmi:id="_ZPs0cMubEfGEAO5aqGPUsg" name="ComponentFestivo" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_ZPs0ccubEfGEAO5aqGPUsg" processName="mockservices.module.Festivo"/>
+    <sca:service xmi:id="_ZP0JMMubEfGEAO5aqGPUsg" name="api-v3-PublicHolidays">
+      <sca:interface.wsdl xmi:id="_ZP2lcMubEfGEAO5aqGPUsg" interface="http://xmlns.example.com/20261019105929PLT#wsdl.interface(api-v3-PublicHolidays)" scaext:wsdlLocation="../Processes/mockservices/module/Festivo.bwp"/>
     </sca:service>
   </sca:component>
 </sca:composite>
