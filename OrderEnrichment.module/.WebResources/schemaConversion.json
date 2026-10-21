@@ -8,5 +8,10 @@
         "jsonSchemaLocation": "/OrderEnrichment.module/Service Descriptors/orderenrichment.module.Orders-Orders.json",
         "conversionType": "linked",
         "xsdSchemaTargetNamespace": "http://www.example.org/OrderResponseSchema"
+    },
+    {
+        "jsonSchemaLocation": "/OrderEnrichment.module/Service Descriptors/orderenrichment.module.Main_Orders-Orders.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "http://www.example.org/ErrorSchema"
     }
 ]}

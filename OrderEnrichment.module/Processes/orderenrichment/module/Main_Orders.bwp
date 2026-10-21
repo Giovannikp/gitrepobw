@@ -7,6 +7,7 @@
     xmlns:ns="http://xmlns.example.com/20261008100054PLT"
     xmlns:ns0="http://www.tibco.com/pe/EngineTypes"
     xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/generalactivities/mapper/1791448757653"
+    xmlns:ns10="http://www.example.com/namespaces/tns/1792569309078"
     xmlns:ns2="http://www.example.org/ErrorSchema"
     xmlns:ns3="http://www.example.com/namespaces/tns/1791449171016"
     xmlns:ns4="http://www.example.com/namespaces/tns/1791449211496"
@@ -20,6 +21,11 @@
     xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"
     xmlns:tibprop="http://ns.tibco.com/bw/property" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <tibex:VariableDescriptor type="MemorySaving">
+        <task name="pick">
+            <endingVariables>
+                <variable>Mapper</variable>
+            </endingVariables>
+        </task>
         <task name="flow1">
             <endingVariables>
                 <variable>post</variable>
@@ -45,7 +51,6 @@
         <task name="MapperErrorResponse">
             <endingVariables>
                 <variable>MapperErrorResponse-input</variable>
-                <variable>Mapper</variable>
             </endingVariables>
         </task>
         <task name="PostOut_Error">
@@ -84,6 +89,17 @@
         <task name="MapperInvalidCurrency">
             <endingVariables>
                 <variable>MapperInvalidCurrency-input</variable>
+            </endingVariables>
+        </task>
+        <task name="MapperUpstreamFx">
+            <endingVariables>
+                <variable>MapperUpstreamFx-input</variable>
+            </endingVariables>
+        </task>
+        <task name="PostOut_UpstreamFx">
+            <endingVariables>
+                <variable>PostOut_UpstreamFx-input</variable>
+                <variable>MapperUpstreamFx</variable>
             </endingVariables>
         </task>
         <task name="Log">
@@ -283,6 +299,7 @@
             xmlns:extns2="http://tns.tibco.com/bw/REST"
             xmlns:extns3="http://www.example.org/ErrorSchema"
             xmlns:extns4="http://xmlns.example.com/Orders/parameters"
+            xmlns:extns5="http://xmlns.example.com/Orders/headerParameters"
             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
             xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"
             xmlns:tns="http://xmlns.example.com/20261008100054PLT"
@@ -296,28 +313,44 @@
             <wsdl:import namespace="http://tns.tibco.com/bw/REST"/>
             <wsdl:import namespace="http://www.example.org/ErrorSchema"/>
             <wsdl:import namespace="http://xmlns.example.com/Orders/parameters"/>
+            <wsdl:import namespace="http://xmlns.example.com/Orders/headerParameters"/>
             <wsdl:message name="postRequest">
                 <wsdl:part element="extns:orderRequest" name="item" tibex:hasMultipleNamespaces="false"/>
-                <wsdl:part element="extns2:httpHeaders"
+                <wsdl:part element="extns5:ordersPostHeader"
                     name="httpHeaders" tibex:source="bw.rest"/>
             </wsdl:message>
             <wsdl:message name="postResponse">
                 <wsdl:part element="extns1:orderResponse" name="item" tibex:hasMultipleNamespaces="false"/>
+                <wsdl:part element="extns5:ordersPostResponseHeader"
+                    name="httpResponseHeaders" tibex:source="bw.rest"/>
             </wsdl:message>
             <wsdl:message name="post4XXFaultMessage">
                 <wsdl:part element="extns2:client4XXError" name="clientError"/>
+                <wsdl:part element="extns5:ordersPostResponseHeader"
+                    name="httpFaultHeaders" tibex:source="bw.rest"/>
             </wsdl:message>
             <wsdl:message name="post5XXFaultMessage">
                 <wsdl:part element="extns2:server5XXError" name="serverError"/>
+                <wsdl:part element="extns5:ordersPostResponseHeader"
+                    name="httpFaultHeaders" tibex:source="bw.rest"/>
             </wsdl:message>
             <wsdl:message name="post400FaultMessage">
                 <wsdl:part element="extns3:errorResponse"
                     name="client-400-ValidationError"
                     tibex:reasonPhrase="Validation Error" tibex:statusCode="400"/>
+                <wsdl:part element="extns5:ordersPostResponseHeader"
+                    name="httpFaultHeaders" tibex:source="bw.rest"/>
             </wsdl:message>
             <wsdl:message name="post400FaultMessage1">
                 <wsdl:part name="client-400-OK" tibex:reasonPhrase="OK"
                     tibex:statusCode="400" type="xsd:string"/>
+            </wsdl:message>
+            <wsdl:message name="post502FaultMessage">
+                <wsdl:part element="extns3:errorResponse"
+                    name="server-502-UPSTREAM_FX_UNAVAILABLE"
+                    tibex:reasonPhrase="UPSTREAM_FX_UNAVAILABLE" tibex:statusCode="502"/>
+                <wsdl:part element="extns5:ordersPostResponseHeader"
+                    name="httpFaultHeaders" tibex:source="bw.rest"/>
             </wsdl:message>
             <wsdl:portType name="orders" tibex:bw.rest.apipath="/orders"
                 tibex:bw.rest.basepath="Orders"
@@ -332,6 +365,7 @@
                     <wsdl:fault message="tns:post5XXFaultMessage" name="serverFault"/>
                     <wsdl:fault message="tns:post400FaultMessage" name="client-400-Fault"/>
                     <wsdl:fault message="tns:post400FaultMessage1" name="client-400-Fault1"/>
+                    <wsdl:fault message="tns:post502FaultMessage" name="server-502-Fault"/>
                 </wsdl:operation>
             </wsdl:portType>
         </wsdl:definitions>
@@ -1109,6 +1143,118 @@
                                     xsi:type="notation:Bounds" y="246"/>
                                     </children>
 
+                                    <children type="4002 bw.generalactivities.mapper">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.13"/>
+
+                                    <layoutConstraint
+                                    height="40"
+                                    width="40"
+                                    x="291"
+                                    xsi:type="notation:Bounds" y="349"/>
+                                    </children>
+
+                                    <children type="4002 com.tibco.bw.core.design.process.editor.Activity_4002_Reply">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.14"/>
+
+                                    <layoutConstraint
+                                    height="40"
+                                    width="40"
+                                    x="438"
+                                    xsi:type="notation:Bounds" y="349"/>
+                                    </children>
+
                                     <styles xsi:type="notation:DrawerStyle"/>
 
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -1132,7 +1278,7 @@
                                     <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity"/>
 
                                     <layoutConstraint
-                                    height="439"
+                                    height="460"
                                     width="690" xsi:type="notation:Bounds"/>
                                     </children>
 
@@ -1154,8 +1300,8 @@
                                     <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity"/>
 
                                     <layoutConstraint
-                                    height="375"
-                                    width="693"
+                                    height="426"
+                                    width="737"
                                     x="15" xsi:type="notation:Bounds"/>
                                     </children>
 
@@ -1384,8 +1530,8 @@
                                     <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity"/>
 
                                     <layoutConstraint
-                                    height="576"
-                                    width="733" xsi:type="notation:Bounds"/>
+                                    height="627"
+                                    width="777" xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles xsi:type="notation:SortingStyle"/>
                                     <styles xsi:type="notation:FilteringStyle"/>
@@ -1450,8 +1596,8 @@
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.0/@messages.0"/>
                                     <layoutConstraint
-                                    height="595"
-                                    width="795"
+                                    height="646"
+                                    width="839"
                                     x="2" xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -1464,7 +1610,7 @@
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.0"/>
                                     <layoutConstraint
-                                    height="625" width="814" xsi:type="notation:Bounds"/>
+                                    height="676" width="858" xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -1478,8 +1624,8 @@
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity"/>
-                                    <layoutConstraint height="722"
-                                    width="824" xsi:type="notation:Bounds"/>
+                                    <layoutConstraint height="720"
+                                    width="868" xsi:type="notation:Bounds"/>
                                 </children>
                                 <styles xsi:type="notation:SortingStyle"/>
                                 <styles xsi:type="notation:FilteringStyle"/>
@@ -1489,7 +1635,7 @@
                             <styles xsi:type="bwnotation:BackgroundStyle"/>
                             <styles xsi:type="bwnotation:ResizingStyle"/>
                             <element href="//0/@process/@activity"/>
-                            <layoutConstraint height="722" width="827" xsi:type="notation:Bounds"/>
+                            <layoutConstraint height="720" width="871" xsi:type="notation:Bounds"/>
                         </children>
                         <styles xsi:type="notation:SortingStyle"/>
                         <styles xsi:type="notation:FilteringStyle"/>
@@ -1499,7 +1645,7 @@
                     <styles xsi:type="bwnotation:BackgroundStyle"/>
                     <styles xsi:type="bwnotation:ResizingStyle"/>
                     <element href="//0/@process/@activity"/>
-                    <layoutConstraint height="746" width="827" x="1"
+                    <layoutConstraint height="744" width="871" x="1"
                         xsi:type="notation:Bounds" y="1"/>
                 </children>
                 <styles xsi:type="notation:SortingStyle"/>
@@ -1508,7 +1654,7 @@
             </children>
             <styles fontName="Segoe UI" lineColor="0" xsi:type="notation:ShapeStyle"/>
             <element href="//0/@process"/>
-            <layoutConstraint height="752" width="1169" xsi:type="notation:Bounds"/>
+            <layoutConstraint height="796" width="1213" xsi:type="notation:Bounds"/>
         </children>
         <styles xsi:type="notation:DiagramStyle"/>
         <element href="//0"/>
@@ -1645,6 +1791,28 @@
             <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@faultHandlers/@catchAll/@activity/@activity/@links/@children.0"/>
             <bendpoints points="[25, -1, -283, 0]$[284, 0, -24, 1]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
+        <edges
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.8"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.11" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@links/@children.11"/>
+            <bendpoints points="[25, 16, -107, -72]$[108, 72, -24, -16]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.11"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.12" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@links/@children.12"/>
+            <bendpoints points="[25, -2, -122, 11]$[123, -11, -24, 2]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
     </notation:Diagram>
     <tibex:NamespaceRegistry enabled="true">
         <tibex:namespaceItem
@@ -1667,6 +1835,10 @@
             namespace="http://www.example.com/namespaces/tns/1791450262275" prefix="tns7"/>
         <tibex:namespaceItem
             namespace="http://www.tibco.com/pe/WriteToLogActivitySchema" prefix="tns8"/>
+        <tibex:namespaceItem
+            namespace="http://xmlns.example.com/Orders/headerParameters" prefix="tns9"/>
+        <tibex:namespaceItem
+            namespace="http://www.example.com/namespaces/tns/1791449715314" prefix="tns10"/>
     </tibex:NamespaceRegistry>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/OrderRequestSchema"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/OrderResponseSchema"/>
@@ -1680,6 +1852,8 @@
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1791449715314"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1791450262275"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://xmlns.example.com/Orders/parameters"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://xmlns.example.com/Orders/headerParameters"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1792569309078"/>
     <bpws:partnerLinks>
         <bpws:partnerLink myRole="use" name="orders"
             partnerLinkType="ns:partnerLinkType" sca-bpel:ignore="false" sca-bpel:service="orders"/>
@@ -1698,7 +1872,7 @@
             name="MapperErrorResponse" sca-bpel:internal="true"/>
         <bpws:variable messageType="ns:post400FaultMessage"
             name="PostOut_Error-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns3:currency" name="Call_FxRate-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns10:input" name="Call_FxRate-input" sca-bpel:internal="true"/>
         <bpws:variable element="ns4:fxRate" name="Call_FxRate" sca-bpel:internal="true"/>
         <bpws:variable element="ns5:input"
             name="Call_DeliveryDate-input" sca-bpel:internal="true"/>
@@ -1723,6 +1897,12 @@
         <bpws:variable name="FaultName1" sca-bpel:internal="true" type="xsd:string"/>
         <bpws:variable element="ns0:FaultDetail" name="FaultDetails" sca-bpel:internal="true"/>
         <bpws:variable element="ns8:ActivityInput" name="Log-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns2:errorResponse"
+            name="MapperUpstreamFx-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns2:errorResponse"
+            name="MapperUpstreamFx" sca-bpel:internal="true"/>
+        <bpws:variable messageType="ns:post502FaultMessage"
+            name="PostOut_UpstreamFx-input" sca-bpel:internal="true"/>
     </bpws:variables>
     <bpws:extensions>
         <bpws:extension mustUnderstand="no" namespace="http://www.eclipse.org/gmf/runtime/1.0.3/notation"/>
@@ -1765,7 +1945,7 @@
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns8=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;_error&quot;/>&lt;xsl:template name=&quot;Log-input&quot; match=&quot;/&quot;>&lt;tns8:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('Errore non gestito | Messaggio: ' ,$_error/Msg, '| MsgCode: ' ,$_error/MsgCode, '|Class: ' ,$_error/Class )&quot;/>&lt;/message>&lt;/tns8:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns8=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;_error&quot;/>&lt;xsl:param name=&quot;Mapper&quot;/>&lt;xsl:template name=&quot;Log-input&quot; match=&quot;/&quot;>&lt;tns8:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('[', $Mapper/correlationId, '] ', 'Errore non gestito | Messaggio: ' ,$_error/Msg, '| MsgCode: ' ,$_error/MsgCode, '|Class: ' ,$_error/Class )&quot;/>&lt;/message>&lt;/tns8:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                     </tibex:inputBindings>
                                     <tibex:config>
                                     <bwext:BWActivity
@@ -1808,6 +1988,10 @@
                                 <bpws:link
                                     name="Mapper1ToCopy_1_PostOut_Error" tibex:linkType="SUCCESS"/>
                                 <bpws:link name="LogFxErrorToMapper1" tibex:linkType="SUCCESSWITHCONDITION"/>
+                                <bpws:link
+                                    name="LogFxErrorToMapperUpstreamFx" tibex:linkType="SUCCESSWITHNOCONDITION"/>
+                                <bpws:link
+                                    name="MapperUpstreamFxToCopy_1_PostOut_InvalidCurrency" tibex:linkType="SUCCESS"/>
                             </bpws:links>
                             <bpws:empty name="OnMessageStart"
                                 tibex:constructor="onMessageStart" tibex:xpdlId="87f8e790-392f-44cb-9336-6b981375f6d7">
@@ -1823,10 +2007,12 @@
                                 tibex:xpdlId="e0b66f4d-140b-4e9b-87bb-338a4c7e1b9d" variable="postOut-input">
                                 <tibex:inputBindings>
                                     <tibex:partBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.example.com/20261008100054PLT&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;MapperResponce&quot;/>&#xa;    &lt;xsl:template name=&quot;postOut-input&quot; match=&quot;/&quot;>&#xa;        &lt;xsl:copy-of select=&quot;$MapperResponce&quot;/>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.example.com/20261008100054PLT&quot; xmlns:tns9=&quot;http://xmlns.example.com/Orders/headerParameters&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;MapperResponce&quot;/>&#xa;    &lt;xsl:template name=&quot;postOut-input&quot; match=&quot;/&quot;>&#xa;        &lt;xsl:copy-of select=&quot;$MapperResponce&quot;/>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    <tibex:partBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.example.com/20261008100054PLT&quot; xmlns:tns9=&quot;http://xmlns.example.com/Orders/headerParameters&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;Mapper&quot;/>&#xa;    &lt;xsl:template name=&quot;postOut-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns9:ordersPostResponseHeader>&#xa;            &lt;X-Correlation-Id>&#xa;                &lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&#xa;            &lt;/X-Correlation-Id>&#xa;        &lt;/tns9:ordersPostResponseHeader>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                 </tibex:inputBindings>
                                 <tibex:inputBinding expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns4="http://xmlns.example.com/20261008100054PLT" version="2.0"&gt;&lt;xsl:param name="MapperResponce"/&gt;&lt;xsl:template name="postOut-input" match="/"&gt;&lt;tns4:postResponse&gt;&lt;item&gt;&lt;xsl:copy-of select="$MapperResponce"/&gt;&lt;/item&gt;&lt;/tns4:postResponse&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;</tibex:inputBinding>
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns4="http://xmlns.example.com/20261008100054PLT" xmlns:tns9="http://xmlns.example.com/Orders/headerParameters" version="2.0"&gt;&lt;xsl:param name="MapperResponce"/&gt;&lt;xsl:param name="Mapper"/&gt;&lt;xsl:template name="postOut-input" match="/"&gt;&lt;tns4:postResponse&gt;&lt;item&gt;&lt;xsl:copy-of select="$MapperResponce"/&gt;&lt;/item&gt;&lt;httpResponseHeaders&gt;&lt;tns9:ordersPostResponseHeader&gt;&lt;X-Correlation-Id&gt;&lt;xsl:value-of select="$Mapper/correlationId"/&gt;&lt;/X-Correlation-Id&gt;&lt;/tns9:ordersPostResponseHeader&gt;&lt;/httpResponseHeaders&gt;&lt;/tns4:postResponse&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;</tibex:inputBinding>
                                 <bpws:targets>
                                     <bpws:target linkName="Mapper1TopostOut"/>
                                 </bpws:targets>
@@ -1834,7 +2020,7 @@
                             </bpws:reply>
                             <bpws:extensionActivity>
                                 <tibex:activityExtension
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://www.tibco.com/namespaces/tnt/plugins/generalactivities/mapper/1791448757653&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;post&quot;/>&lt;xsl:template name=&quot;Mapper-input&quot; match=&quot;/&quot;>&lt;tns1:MapperInput>&lt;isValid>&lt;xsl:value-of select=&quot;boolean(string-length($post/item/tns2:orderRequest/tns2:orderId) > 0&amp;#xD;&amp;#xA;and matches($post/item/tns2:orderRequest/tns2:countryCode, '^[A-Z]{2}$')&amp;#xD;&amp;#xA;and matches($post/item/tns2:orderRequest/tns2:currency, '^[A-Z]{3}$')&amp;#xD;&amp;#xA;and matches($post/item/tns2:orderRequest/tns2:requestedDeliveryDate, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$')&amp;#xD;&amp;#xA;and count($post/item/tns2:orderRequest/tns2:items/tns2:item) >= 1&amp;#xD;&amp;#xA;and count($post/item/tns2:orderRequest/tns2:items/tns2:item[not(number(tns2:qty) > 0)]) = 0&amp;#xD;&amp;#xA;and count($post/item/tns2:orderRequest/tns2:items/tns2:item[not(number(tns2:unitPrice) >= 0)]) = 0)&quot;/>&lt;/isValid>&lt;errorField>&lt;xsl:value-of select=&quot;if (string-length($post/item/tns2:orderRequest/tns2:orderId) = 0) then 'orderId'&amp;#xD;&amp;#xA;else if (not(matches($post/item/tns2:orderRequest/tns2:countryCode, '^[A-Z]{2}$'))) then 'countryCode'&amp;#xD;&amp;#xA;else if (not(matches($post/item/tns2:orderRequest/tns2:currency, '^[A-Z]{3}$'))) then 'currency'&amp;#xD;&amp;#xA;else if (not(matches($post/item/tns2:orderRequest/tns2:requestedDeliveryDate, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'))) then 'requestedDeliveryDate'&amp;#xD;&amp;#xA;else if (count($post/item/tns2:orderRequest/tns2:items/tns2:item) = 0) then 'items'&amp;#xD;&amp;#xA;&amp;#xD;&amp;#xA;&amp;#xD;&amp;#xA;else ' '&quot;/>&lt;/errorField>&lt;errorIssue>&lt;xsl:value-of select=&quot;if (string-length($post/item/tns2:orderRequest/tns2:orderId) = 0) then 'è obbligatorio'&amp;#xD;&amp;#xA;else if (not(matches($post/item/tns2:orderRequest/tns2:countryCode, '^[A-Z]{2}$'))) then 'deve essere di 2 lettere maiuscole'&amp;#xD;&amp;#xA;else if (not(matches($post/item/tns2:orderRequest/tns2:currency, '^[A-Z]{3}$'))) then 'deve essere di 3 lettere maiuscole'&amp;#xD;&amp;#xA;else if (not(matches($post/item/tns2:orderRequest/tns2:requestedDeliveryDate, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'))) then 'deve essere nel formato AAAA-MM-GG'&amp;#xD;&amp;#xA;else if (count($post/item/tns2:orderRequest/tns2:items/tns2:item) = 0) then 'deve contenere almeno un item'&amp;#xD;&amp;#xA;else if (count($post/item/tns2:orderRequest/tns2:items/tns2:item[not(number(tns2:qty) > 0)]) > 0) then 'deve essere > 0'&amp;#xD;&amp;#xA;else if (count($post/item/tns2:orderRequest/tns2:items/tns2:item[not(number(tns2:unitPrice) >= 0)]) > 0) then 'deve essere >= 0'&amp;#xD;&amp;#xA;else ' '&quot;/>&lt;/errorIssue>&lt;/tns1:MapperInput>&lt;/xsl:template>&lt;/xsl:stylesheet>"
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://www.tibco.com/namespaces/tnt/plugins/generalactivities/mapper/1791448757653&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns9=&quot;http://xmlns.example.com/Orders/headerParameters&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post&quot;/>&#xa;    &lt;xsl:param name=&quot;_processContext&quot;/>&#xa;    &lt;xsl:template name=&quot;Mapper-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns1:MapperInput>&#xa;            &lt;isValid>&#xa;                &lt;xsl:value-of select=&quot;boolean(string-length($post/item/tns2:orderRequest/tns2:orderId) > 0&amp;#xD;&amp;#xA;and matches($post/item/tns2:orderRequest/tns2:countryCode, '^[A-Z]{2}$')&amp;#xD;&amp;#xA;and matches($post/item/tns2:orderRequest/tns2:currency, '^[A-Z]{3}$')&amp;#xD;&amp;#xA;and matches($post/item/tns2:orderRequest/tns2:requestedDeliveryDate, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$')&amp;#xD;&amp;#xA;and count($post/item/tns2:orderRequest/tns2:items/tns2:item) >= 1&amp;#xD;&amp;#xA;and count($post/item/tns2:orderRequest/tns2:items/tns2:item[not(number(tns2:qty) > 0)]) = 0&amp;#xD;&amp;#xA;and count($post/item/tns2:orderRequest/tns2:items/tns2:item[not(number(tns2:unitPrice) >= 0)]) = 0)&quot;/>&#xa;            &lt;/isValid>&#xa;            &lt;errorField>&#xa;                &lt;xsl:value-of select=&quot;if (string-length($post/item/tns2:orderRequest/tns2:orderId) = 0) then 'orderId'&amp;#xD;&amp;#xA;else if (not(matches($post/item/tns2:orderRequest/tns2:countryCode, '^[A-Z]{2}$'))) then 'countryCode'&amp;#xD;&amp;#xA;else if (not(matches($post/item/tns2:orderRequest/tns2:currency, '^[A-Z]{3}$'))) then 'currency'&amp;#xD;&amp;#xA;else if (not(matches($post/item/tns2:orderRequest/tns2:requestedDeliveryDate, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'))) then 'requestedDeliveryDate'&amp;#xD;&amp;#xA;else if (count($post/item/tns2:orderRequest/tns2:items/tns2:item[not(number(tns2:qty) > 0)]) > 0) then 'qty' else if (count($post/item/tns2:orderRequest/tns2:items/tns2:item) = 0) then 'items'&amp;#xD;&amp;#xA;else ' '&quot;/>&#xa;            &lt;/errorField>&#xa;            &lt;errorIssue>&#xa;                &lt;xsl:value-of select=&quot;if (string-length($post/item/tns2:orderRequest/tns2:orderId) = 0) then 'è obbligatorio'&amp;#xD;&amp;#xA;else if (not(matches($post/item/tns2:orderRequest/tns2:countryCode, '^[A-Z]{2}$'))) then 'deve essere di 2 lettere maiuscole'&amp;#xD;&amp;#xA;else if (not(matches($post/item/tns2:orderRequest/tns2:currency, '^[A-Z]{3}$'))) then 'deve essere di 3 lettere maiuscole'&amp;#xD;&amp;#xA;else if (not(matches($post/item/tns2:orderRequest/tns2:requestedDeliveryDate, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'))) then 'deve essere nel formato AAAA-MM-GG'&amp;#xD;&amp;#xA;else if (count($post/item/tns2:orderRequest/tns2:items/tns2:item) = 0) then 'deve contenere almeno un item'&amp;#xD;&amp;#xA;else if (count($post/item/tns2:orderRequest/tns2:items/tns2:item[not(number(tns2:qty) > 0)]) > 0) then 'deve essere > 0'&amp;#xD;&amp;#xA;else if (count($post/item/tns2:orderRequest/tns2:items/tns2:item[not(number(tns2:unitPrice) >= 0)]) > 0) then 'deve essere >= 0'&amp;#xD;&amp;#xA;else ' '&quot;/>&#xa;            &lt;/errorIssue>&#xa;            &lt;correlationId>&#xa;                &lt;xsl:value-of select=&quot;if (string-length($post/httpHeaders/tns9:ordersPostHeader/X-Correlation-Id) > 0) then $post/httpHeaders/tns9:ordersPostHeader/X-Correlation-Id else concat('REQ-', $_processContext/JobId, '-', replace(string(current-dateTime()), '[^0-9]', ''))&quot;/>&#xa;            &lt;/correlationId>&#xa;        &lt;/tns1:MapperInput>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>"
                                     expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"
                                     inputVariable="Mapper-input"
                                     name="Mapper"
@@ -1861,7 +2047,7 @@
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://www.tibco.com/namespaces/tnt/plugins/generalactivities/mapper/1791448757653&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post.item&quot;/>&#xa;    &lt;xsl:template name=&quot;Mapper-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns1:MapperInput>&#xa;            &lt;isValid>&#xa;                &lt;xsl:value-of select=&quot;boolean(string-length($post.item/tns2:orderId) > 0&amp;#xD;&amp;#xA;and matches($post.item/tns2:countryCode, '^[A-Z]{2}$')&amp;#xD;&amp;#xA;and matches($post.item/tns2:currency, '^[A-Z]{3}$')&amp;#xD;&amp;#xA;and matches($post.item/tns2:requestedDeliveryDate, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$')&amp;#xD;&amp;#xA;and count($post.item/tns2:items/tns2:item) >= 1&amp;#xD;&amp;#xA;and count($post.item/tns2:items/tns2:item[not(number(tns2:qty) > 0)]) = 0&amp;#xD;&amp;#xA;and count($post.item/tns2:items/tns2:item[not(number(tns2:unitPrice) >= 0)]) = 0)&quot;/>&#xa;            &lt;/isValid>&#xa;            &lt;errorField>&#xa;                &lt;xsl:value-of select=&quot;if (string-length($post.item/tns2:orderId) = 0) then 'orderId'&amp;#xD;&amp;#xA;else if (not(matches($post.item/tns2:countryCode, '^[A-Z]{2}$'))) then 'countryCode'&amp;#xD;&amp;#xA;else if (not(matches($post.item/tns2:currency, '^[A-Z]{3}$'))) then 'currency'&amp;#xD;&amp;#xA;else if (not(matches($post.item/tns2:requestedDeliveryDate, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'))) then 'requestedDeliveryDate'&amp;#xD;&amp;#xA;else if (count($post.item/tns2:items/tns2:item) = 0) then 'items'&amp;#xD;&amp;#xA;&amp;#xD;&amp;#xA;&amp;#xD;&amp;#xA;else ' '&quot;/>&#xa;            &lt;/errorField>&#xa;            &lt;errorIssue>&#xa;                &lt;xsl:value-of select=&quot;if (string-length($post.item/tns2:orderId) = 0) then 'è obbligatorio'&amp;#xD;&amp;#xA;else if (not(matches($post.item/tns2:countryCode, '^[A-Z]{2}$'))) then 'deve essere di 2 lettere maiuscole'&amp;#xD;&amp;#xA;else if (not(matches($post.item/tns2:currency, '^[A-Z]{3}$'))) then 'deve essere di 3 lettere maiuscole'&amp;#xD;&amp;#xA;else if (not(matches($post.item/tns2:requestedDeliveryDate, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'))) then 'deve essere nel formato AAAA-MM-GG'&amp;#xD;&amp;#xA;else if (count($post.item/tns2:items/tns2:item) = 0) then 'deve contenere almeno un item'&amp;#xD;&amp;#xA;else if (count($post.item/tns2:items/tns2:item[not(number(tns2:qty) > 0)]) > 0) then 'deve essere > 0'&amp;#xD;&amp;#xA;else if (count($post.item/tns2:items/tns2:item[not(number(tns2:unitPrice) >= 0)]) > 0) then 'deve essere >= 0'&amp;#xD;&amp;#xA;else ' '&quot;/>&#xa;            &lt;/errorIssue>&#xa;        &lt;/tns1:MapperInput>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://www.tibco.com/namespaces/tnt/plugins/generalactivities/mapper/1791448757653&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns9=&quot;http://xmlns.example.com/Orders/headerParameters&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post.item&quot;/>&#xa;    &lt;xsl:param name=&quot;post.httpHeaders&quot;/>&#xa;    &lt;xsl:param name=&quot;_processContext&quot;/>&#xa;    &lt;xsl:template name=&quot;Mapper-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns1:MapperInput>&#xa;            &lt;isValid>&#xa;                &lt;xsl:value-of select=&quot;boolean(string-length($post.item/tns2:orderId) > 0&amp;#xD;&amp;#xA;and matches($post.item/tns2:countryCode, '^[A-Z]{2}$')&amp;#xD;&amp;#xA;and matches($post.item/tns2:currency, '^[A-Z]{3}$')&amp;#xD;&amp;#xA;and matches($post.item/tns2:requestedDeliveryDate, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$')&amp;#xD;&amp;#xA;and count($post.item/tns2:items/tns2:item) >= 1&amp;#xD;&amp;#xA;and count($post.item/tns2:items/tns2:item[not(number(tns2:qty) > 0)]) = 0&amp;#xD;&amp;#xA;and count($post.item/tns2:items/tns2:item[not(number(tns2:unitPrice) >= 0)]) = 0)&quot;/>&#xa;            &lt;/isValid>&#xa;            &lt;errorField>&#xa;                &lt;xsl:value-of select=&quot;if (string-length($post.item/tns2:orderId) = 0) then 'orderId'&amp;#xD;&amp;#xA;else if (not(matches($post.item/tns2:countryCode, '^[A-Z]{2}$'))) then 'countryCode'&amp;#xD;&amp;#xA;else if (not(matches($post.item/tns2:currency, '^[A-Z]{3}$'))) then 'currency'&amp;#xD;&amp;#xA;else if (not(matches($post.item/tns2:requestedDeliveryDate, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'))) then 'requestedDeliveryDate'&amp;#xD;&amp;#xA;else if (count($post.item/tns2:items/tns2:item[not(number(tns2:qty) > 0)]) > 0) then 'qty' else if (count($post.item/tns2:items/tns2:item) = 0) then 'items'&amp;#xD;&amp;#xA;else ' '&quot;/>&#xa;            &lt;/errorField>&#xa;            &lt;errorIssue>&#xa;                &lt;xsl:value-of select=&quot;if (string-length($post.item/tns2:orderId) = 0) then 'è obbligatorio'&amp;#xD;&amp;#xA;else if (not(matches($post.item/tns2:countryCode, '^[A-Z]{2}$'))) then 'deve essere di 2 lettere maiuscole'&amp;#xD;&amp;#xA;else if (not(matches($post.item/tns2:currency, '^[A-Z]{3}$'))) then 'deve essere di 3 lettere maiuscole'&amp;#xD;&amp;#xA;else if (not(matches($post.item/tns2:requestedDeliveryDate, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'))) then 'deve essere nel formato AAAA-MM-GG'&amp;#xD;&amp;#xA;else if (count($post.item/tns2:items/tns2:item) = 0) then 'deve contenere almeno un item'&amp;#xD;&amp;#xA;else if (count($post.item/tns2:items/tns2:item[not(number(tns2:qty) > 0)]) > 0) then 'deve essere > 0'&amp;#xD;&amp;#xA;else if (count($post.item/tns2:items/tns2:item[not(number(tns2:unitPrice) >= 0)]) > 0) then 'deve essere >= 0'&amp;#xD;&amp;#xA;else ' '&quot;/>&#xa;            &lt;/errorIssue>&#xa;            &lt;correlationId>&#xa;                &lt;xsl:value-of select=&quot;if (string-length($post.httpHeaders/X-Correlation-Id) > 0) then $post.httpHeaders/X-Correlation-Id else concat('REQ-', $_processContext/JobId, '-', replace(string(current-dateTime()), '[^0-9]', ''))&quot;/>&#xa;            &lt;/correlationId>&#xa;        &lt;/tns1:MapperInput>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                     </tibex:inputBindings>
                                     <tibex:config>
                                     <bwext:BWActivity
@@ -1885,7 +2071,7 @@
                             </bpws:extensionActivity>
                             <bpws:extensionActivity>
                                 <tibex:extActivity
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; xmlns:tns5=&quot;http://www.example.com/namespaces/tns/1791449171016&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post&quot;/>&#xa;    &lt;xsl:template name=&quot;Call_FxRate-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns5:currency>&#xa;            &lt;xsl:value-of select=&quot;$post/item/tns2:orderRequest/tns2:currency&quot;/>&#xa;        &lt;/tns5:currency>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>"
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; xmlns:tns5=&quot;http://www.example.com/namespaces/tns/1791449171016&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1792569309078&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;post&quot;/>&lt;xsl:param name=&quot;Mapper&quot;/>&lt;xsl:template name=&quot;Call_FxRate-input&quot; match=&quot;/&quot;>&lt;tns:input>&lt;tns:currency>&lt;xsl:value-of select=&quot;$post/item/tns2:orderRequest/tns2:currency&quot;/>&lt;/tns:currency>&lt;tns:correlationId>&lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&lt;/tns:correlationId>&lt;/tns:input>&lt;/xsl:template>&lt;/xsl:stylesheet>"
                                     expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"
                                     inputVariable="Call_FxRate-input"
                                     name="Call_FxRate"
@@ -1918,7 +2104,7 @@
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding coercion=""
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; xmlns:tns5=&quot;http://www.example.com/namespaces/tns/1791449171016&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post.item&quot;/>&#xa;    &lt;xsl:template name=&quot;Call_FxRate-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns5:currency>&#xa;            &lt;xsl:value-of select=&quot;$post.item/tns2:currency&quot;/>&#xa;        &lt;/tns5:currency>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; xmlns:tns5=&quot;http://www.example.com/namespaces/tns/1791449171016&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1792569309078&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post.item&quot;/>&#xa;    &lt;xsl:param name=&quot;Mapper&quot;/>&#xa;    &lt;xsl:template name=&quot;Call_FxRate-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns:input>&#xa;            &lt;tns:currency>&#xa;                &lt;xsl:value-of select=&quot;$post.item/tns2:currency&quot;/>&#xa;            &lt;/tns:currency>&#xa;            &lt;tns:correlationId>&#xa;                &lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&#xa;            &lt;/tns:correlationId>&#xa;        &lt;/tns:input>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                     </tibex:inputBindings>
                                     <tibex:CallProcess
                                     subProcessName="orderenrichment.module.At_FxRate" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
@@ -1938,7 +2124,7 @@
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.example.org/ErrorSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Mapper&quot;/>&lt;xsl:template name=&quot;MapperErrorResponse-input&quot; match=&quot;/&quot;>&lt;tns3:errorResponse>&lt;tns3:code>&lt;xsl:value-of select=&quot;'VALIDATION_ERROR'&quot;/>&lt;/tns3:code>&lt;tns3:message>&lt;xsl:value-of select=&quot;'Request non valida'&quot;/>&lt;/tns3:message>&lt;tns3:details>&lt;tns3:detail>&lt;tns3:field>&lt;xsl:value-of select=&quot;$Mapper/errorField&quot;/>&lt;/tns3:field>&lt;tns3:issue>&lt;xsl:value-of select=&quot;$Mapper/errorIssue&quot;/>&lt;/tns3:issue>&lt;/tns3:detail>&lt;/tns3:details>&lt;/tns3:errorResponse>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.example.org/ErrorSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Mapper&quot;/>&lt;xsl:template name=&quot;MapperErrorResponse-input&quot; match=&quot;/&quot;>&lt;tns3:errorResponse>&lt;tns3:code>&lt;xsl:value-of select=&quot;'VALIDATION_ERROR'&quot;/>&lt;/tns3:code>&lt;tns3:message>&lt;xsl:value-of select=&quot;'Request non valida'&quot;/>&lt;/tns3:message>&lt;tns3:correlationId>&lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&lt;/tns3:correlationId>&lt;tns3:details>&lt;tns3:detail>&lt;tns3:field>&lt;xsl:value-of select=&quot;$Mapper/errorField&quot;/>&lt;/tns3:field>&lt;tns3:issue>&lt;xsl:value-of select=&quot;$Mapper/errorIssue&quot;/>&lt;/tns3:issue>&lt;/tns3:detail>&lt;/tns3:details>&lt;/tns3:errorResponse>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                     </tibex:inputBindings>
                                     <tibex:config>
                                     <bwext:BWActivity
@@ -1966,10 +2152,12 @@
                                 portType="ns:orders"
                                 tibex:xpdlId="91c837c8-3a53-4ee5-8332-23784ce42c01" variable="PostOut_Error-input">
                                 <tibex:inputBinding expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns4="http://xmlns.example.com/20261008100054PLT" xmlns:tns6="http://www.example.org/OrderResponseSchema" xmlns:tns3="http://www.example.org/ErrorSchema" version="2.0"&gt;&lt;xsl:param name="MapperErrorResponse"/&gt;&lt;xsl:template name="PostOut_Error-input" match="/"&gt;&lt;tns4:post400FaultMessage&gt;&lt;client-400-ValidationError&gt;&lt;tns3:errorResponse&gt;&lt;tns3:code&gt;&lt;xsl:value-of select="$MapperErrorResponse/tns3:code"/&gt;&lt;/tns3:code&gt;&lt;tns3:message&gt;&lt;xsl:value-of select="$MapperErrorResponse/tns3:message"/&gt;&lt;/tns3:message&gt;&lt;tns3:details&gt;&lt;xsl:copy-of select="$MapperErrorResponse/tns3:details/tns3:detail"/&gt;&lt;/tns3:details&gt;&lt;/tns3:errorResponse&gt;&lt;/client-400-ValidationError&gt;&lt;/tns4:post400FaultMessage&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;</tibex:inputBinding>
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns4="http://xmlns.example.com/20261008100054PLT" xmlns:tns3="http://www.example.org/ErrorSchema" xmlns:tns9="http://xmlns.example.com/Orders/headerParameters" version="2.0"&gt;&lt;xsl:param name="MapperErrorResponse"/&gt;&lt;xsl:param name="Mapper"/&gt;&lt;xsl:template name="PostOut_Error-input" match="/"&gt;&lt;tns4:post400FaultMessage&gt;&lt;client-400-ValidationError&gt;&lt;tns3:errorResponse&gt;&lt;tns3:code&gt;&lt;xsl:value-of select="$MapperErrorResponse/tns3:code"/&gt;&lt;/tns3:code&gt;&lt;tns3:message&gt;&lt;xsl:value-of select="$MapperErrorResponse/tns3:message"/&gt;&lt;/tns3:message&gt;&lt;tns3:correlationId&gt;&lt;xsl:value-of select="$Mapper/correlationId"/&gt;&lt;/tns3:correlationId&gt;&lt;tns3:details&gt;&lt;xsl:copy-of select="$MapperErrorResponse/tns3:details/tns3:detail"/&gt;&lt;/tns3:details&gt;&lt;/tns3:errorResponse&gt;&lt;/client-400-ValidationError&gt;&lt;httpFaultHeaders&gt;&lt;tns9:ordersPostResponseHeader&gt;&lt;X-Correlation-Id&gt;&lt;xsl:value-of select="$Mapper/correlationId"/&gt;&lt;/X-Correlation-Id&gt;&lt;/tns9:ordersPostResponseHeader&gt;&lt;/httpFaultHeaders&gt;&lt;/tns4:post400FaultMessage&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;</tibex:inputBinding>
                                 <tibex:inputBindings>
                                     <tibex:partBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.example.com/20261008100054PLT&quot; xmlns:tns6=&quot;http://www.example.org/OrderResponseSchema&quot; xmlns:tns3=&quot;http://www.example.org/ErrorSchema&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;MapperErrorResponse&quot;/>&#xa;    &lt;xsl:template name=&quot;PostOut_Error-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns3:errorResponse>&#xa;            &lt;tns3:code>&#xa;                &lt;xsl:value-of select=&quot;$MapperErrorResponse/tns3:code&quot;/>&#xa;            &lt;/tns3:code>&#xa;            &lt;tns3:message>&#xa;                &lt;xsl:value-of select=&quot;$MapperErrorResponse/tns3:message&quot;/>&#xa;            &lt;/tns3:message>&#xa;            &lt;tns3:details>&#xa;                &lt;xsl:copy-of select=&quot;$MapperErrorResponse/tns3:details/tns3:detail&quot;/>&#xa;            &lt;/tns3:details>&#xa;        &lt;/tns3:errorResponse>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.example.com/20261008100054PLT&quot; xmlns:tns3=&quot;http://www.example.org/ErrorSchema&quot; xmlns:tns9=&quot;http://xmlns.example.com/Orders/headerParameters&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;MapperErrorResponse&quot;/>&#xa;    &lt;xsl:param name=&quot;Mapper&quot;/>&#xa;    &lt;xsl:template name=&quot;PostOut_Error-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns3:errorResponse>&#xa;            &lt;tns3:code>&#xa;                &lt;xsl:value-of select=&quot;$MapperErrorResponse/tns3:code&quot;/>&#xa;            &lt;/tns3:code>&#xa;            &lt;tns3:message>&#xa;                &lt;xsl:value-of select=&quot;$MapperErrorResponse/tns3:message&quot;/>&#xa;            &lt;/tns3:message>&#xa;            &lt;tns3:correlationId>&#xa;                &lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&#xa;            &lt;/tns3:correlationId>&#xa;            &lt;tns3:details>&#xa;                &lt;xsl:copy-of select=&quot;$MapperErrorResponse/tns3:details/tns3:detail&quot;/>&#xa;            &lt;/tns3:details>&#xa;        &lt;/tns3:errorResponse>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    <tibex:partBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.example.com/20261008100054PLT&quot; xmlns:tns3=&quot;http://www.example.org/ErrorSchema&quot; xmlns:tns9=&quot;http://xmlns.example.com/Orders/headerParameters&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;Mapper&quot;/>&#xa;    &lt;xsl:template name=&quot;PostOut_Error-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns9:ordersPostResponseHeader>&#xa;            &lt;X-Correlation-Id>&#xa;                &lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&#xa;            &lt;/X-Correlation-Id>&#xa;        &lt;/tns9:ordersPostResponseHeader>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                 </tibex:inputBindings>
                                 <bpws:targets>
                                     <bpws:target linkName="MapperErrorResponseToReply"/>
@@ -1978,7 +2166,7 @@
                             </bpws:reply>
                             <bpws:extensionActivity>
                                 <tibex:extActivity
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; xmlns:tns9=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post&quot;/>&#xa;    &lt;xsl:template name=&quot;Call_DeliveryDate-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns9:input>&#xa;            &lt;tns9:countryCode>&#xa;                &lt;xsl:value-of select=&quot;$post/item/tns2:orderRequest/tns2:countryCode&quot;/>&#xa;            &lt;/tns9:countryCode>&#xa;            &lt;tns9:requestedDeliveryDate>&#xa;                &lt;xsl:value-of select=&quot;$post/item/tns2:orderRequest/tns2:requestedDeliveryDate&quot;/>&#xa;            &lt;/tns9:requestedDeliveryDate>&#xa;        &lt;/tns9:input>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>"
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; xmlns:tns10=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post&quot;/>&#xa;    &lt;xsl:param name=&quot;Mapper&quot;/>&#xa;    &lt;xsl:template name=&quot;Call_DeliveryDate-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns10:input>&#xa;            &lt;tns10:countryCode>&#xa;                &lt;xsl:value-of select=&quot;$post/item/tns2:orderRequest/tns2:countryCode&quot;/>&#xa;            &lt;/tns10:countryCode>&#xa;            &lt;tns10:requestedDeliveryDate>&#xa;                &lt;xsl:value-of select=&quot;$post/item/tns2:orderRequest/tns2:requestedDeliveryDate&quot;/>&#xa;            &lt;/tns10:requestedDeliveryDate>&#xa;            &lt;tns10:correlationId>&#xa;                &lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&#xa;            &lt;/tns10:correlationId>&#xa;        &lt;/tns10:input>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>"
                                     expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"
                                     inputVariable="Call_DeliveryDate-input"
                                     name="Call_DeliveryDate"
@@ -1993,7 +2181,7 @@
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding coercion=""
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; xmlns:tns9=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post.item&quot;/>&#xa;    &lt;xsl:template name=&quot;Call_DeliveryDate-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns9:input>&#xa;            &lt;tns9:countryCode>&#xa;                &lt;xsl:value-of select=&quot;$post.item/tns2:countryCode&quot;/>&#xa;            &lt;/tns9:countryCode>&#xa;            &lt;tns9:requestedDeliveryDate>&#xa;                &lt;xsl:value-of select=&quot;$post.item/tns2:requestedDeliveryDate&quot;/>&#xa;            &lt;/tns9:requestedDeliveryDate>&#xa;        &lt;/tns9:input>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; xmlns:tns10=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post.item&quot;/>&#xa;    &lt;xsl:param name=&quot;Mapper&quot;/>&#xa;    &lt;xsl:template name=&quot;Call_DeliveryDate-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns10:input>&#xa;            &lt;tns10:countryCode>&#xa;                &lt;xsl:value-of select=&quot;$post.item/tns2:countryCode&quot;/>&#xa;            &lt;/tns10:countryCode>&#xa;            &lt;tns10:requestedDeliveryDate>&#xa;                &lt;xsl:value-of select=&quot;$post.item/tns2:requestedDeliveryDate&quot;/>&#xa;            &lt;/tns10:requestedDeliveryDate>&#xa;            &lt;tns10:correlationId>&#xa;                &lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&#xa;            &lt;/tns10:correlationId>&#xa;        &lt;/tns10:input>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                     </tibex:inputBindings>
                                     <tibex:CallProcess
                                     subProcessName="orderenrichment.module.At_DeliveryDate" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
@@ -2087,10 +2275,17 @@
                                     </tibex:DesignExpression>
                                     <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[matches(string($_error/Msg), '\[4[0-9]{2}\]')]]></bpws:transitionCondition>
                                     </bpws:source>
+                                    <bpws:source linkName="LogFxErrorToMapperUpstreamFx">
+                                    <tibex:DesignExpression>
+                                    <tibex:expression
+                                    expression="##otherwise##" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                                    </tibex:DesignExpression>
+                                    <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[##otherwise##]]></bpws:transitionCondition>
+                                    </bpws:source>
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns8=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;_error&quot;/>&lt;xsl:template name=&quot;LogFxError-input&quot; match=&quot;/&quot;>&lt;tns8:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('Messaggio: ' ,$_error/Msg, '| MsgCode: ' ,$_error/MsgCode, '|Class: ' ,$_error/Class )&quot;/>&lt;/message>&lt;/tns8:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns8=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;_error&quot;/>&lt;xsl:param name=&quot;Mapper&quot;/>&lt;xsl:template name=&quot;LogFxError-input&quot; match=&quot;/&quot;>&lt;tns8:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('[', $Mapper/correlationId, '] ', 'Messaggio: ' ,$_error/Msg, '| MsgCode: ' ,$_error/MsgCode, '|Class: ' ,$_error/Class )&quot;/>&lt;/message>&lt;/tns8:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                     </tibex:inputBindings>
                                     <tibex:config>
                                     <bwext:BWActivity
@@ -2120,10 +2315,12 @@
                                 tibex:xpdlId="4ac9d420-b915-436e-85fa-a59d921694be" variable="PostOut_InvalidCurrency-input">
                                 <tibex:inputBindings>
                                     <tibex:partBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.example.com/20261008100054PLT&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;MapperInvalidCurrency&quot;/>&#xa;    &lt;xsl:template name=&quot;PostOut_InvalidCurrency-input&quot; match=&quot;/&quot;>&#xa;        &lt;xsl:copy-of select=&quot;$MapperInvalidCurrency&quot;/>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.example.com/20261008100054PLT&quot; xmlns:tns9=&quot;http://xmlns.example.com/Orders/headerParameters&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;MapperInvalidCurrency&quot;/>&#xa;    &lt;xsl:template name=&quot;PostOut_InvalidCurrency-input&quot; match=&quot;/&quot;>&#xa;        &lt;xsl:copy-of select=&quot;$MapperInvalidCurrency&quot;/>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    <tibex:partBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.example.com/20261008100054PLT&quot; xmlns:tns9=&quot;http://xmlns.example.com/Orders/headerParameters&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;Mapper&quot;/>&#xa;    &lt;xsl:template name=&quot;PostOut_InvalidCurrency-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns9:ordersPostResponseHeader>&#xa;            &lt;X-Correlation-Id>&#xa;                &lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&#xa;            &lt;/X-Correlation-Id>&#xa;        &lt;/tns9:ordersPostResponseHeader>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                 </tibex:inputBindings>
                                 <tibex:inputBinding expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns4="http://xmlns.example.com/20261008100054PLT" version="2.0"&gt;&lt;xsl:param name="MapperInvalidCurrency"/&gt;&lt;xsl:template name="PostOut_InvalidCurrency-input" match="/"&gt;&lt;tns4:post400FaultMessage&gt;&lt;client-400-ValidationError&gt;&lt;xsl:copy-of select="$MapperInvalidCurrency"/&gt;&lt;/client-400-ValidationError&gt;&lt;/tns4:post400FaultMessage&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;</tibex:inputBinding>
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns4="http://xmlns.example.com/20261008100054PLT" xmlns:tns9="http://xmlns.example.com/Orders/headerParameters" version="2.0"&gt;&lt;xsl:param name="MapperInvalidCurrency"/&gt;&lt;xsl:param name="Mapper"/&gt;&lt;xsl:template name="PostOut_InvalidCurrency-input" match="/"&gt;&lt;tns4:post400FaultMessage&gt;&lt;client-400-ValidationError&gt;&lt;xsl:copy-of select="$MapperInvalidCurrency"/&gt;&lt;/client-400-ValidationError&gt;&lt;httpFaultHeaders&gt;&lt;tns9:ordersPostResponseHeader&gt;&lt;X-Correlation-Id&gt;&lt;xsl:value-of select="$Mapper/correlationId"/&gt;&lt;/X-Correlation-Id&gt;&lt;/tns9:ordersPostResponseHeader&gt;&lt;/httpFaultHeaders&gt;&lt;/tns4:post400FaultMessage&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;</tibex:inputBinding>
                                 <bpws:targets>
                                     <bpws:target linkName="Mapper1ToCopy_1_PostOut_Error"/>
                                 </bpws:targets>
@@ -2131,7 +2328,7 @@
                             </bpws:reply>
                             <bpws:extensionActivity>
                                 <tibex:activityExtension
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.example.org/ErrorSchema&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;post&quot;/>&lt;xsl:template name=&quot;MapperInvalidCurrency-input&quot; match=&quot;/&quot;>&lt;tns3:errorResponse>&lt;tns3:code>&lt;xsl:value-of select=&quot;'INVALID_CURRENCY'&quot;/>&lt;/tns3:code>&lt;tns3:message>&lt;xsl:value-of select=&quot;'VALUTA NON SUPPORTATA'&quot;/>&lt;/tns3:message>&lt;tns3:details>&lt;tns3:detail>&lt;tns3:field>&lt;xsl:value-of select=&quot;$post/item/tns2:orderRequest/tns2:currency&quot;/>&lt;/tns3:field>&lt;tns3:issue>&lt;xsl:value-of select=&quot;'VALUTA SCONOSCIUTA'&quot;/>&lt;/tns3:issue>&lt;/tns3:detail>&lt;/tns3:details>&lt;/tns3:errorResponse>&lt;/xsl:template>&lt;/xsl:stylesheet>"
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.example.org/ErrorSchema&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;post&quot;/>&lt;xsl:param name=&quot;Mapper&quot;/>&lt;xsl:template name=&quot;MapperInvalidCurrency-input&quot; match=&quot;/&quot;>&lt;tns3:errorResponse>&lt;tns3:code>&lt;xsl:value-of select=&quot;'INVALID_CURRENCY'&quot;/>&lt;/tns3:code>&lt;tns3:message>&lt;xsl:value-of select=&quot;'VALUTA NON SUPPORTATA'&quot;/>&lt;/tns3:message>&lt;tns3:correlationId>&lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&lt;/tns3:correlationId>&lt;tns3:details>&lt;tns3:detail>&lt;tns3:field>&lt;xsl:value-of select=&quot;$post/item/tns2:orderRequest/tns2:currency&quot;/>&lt;/tns3:field>&lt;tns3:issue>&lt;xsl:value-of select=&quot;'VALUTA SCONOSCIUTA'&quot;/>&lt;/tns3:issue>&lt;/tns3:detail>&lt;/tns3:details>&lt;/tns3:errorResponse>&lt;/xsl:template>&lt;/xsl:stylesheet>"
                                     expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"
                                     inputVariable="MapperInvalidCurrency-input"
                                     name="MapperInvalidCurrency"
@@ -2145,7 +2342,7 @@
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.example.org/ErrorSchema&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post.item&quot;/>&#xa;    &lt;xsl:template name=&quot;MapperInvalidCurrency-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns3:errorResponse>&#xa;            &lt;tns3:code>&#xa;                &lt;xsl:value-of select=&quot;'INVALID_CURRENCY'&quot;/>&#xa;            &lt;/tns3:code>&#xa;            &lt;tns3:message>&#xa;                &lt;xsl:value-of select=&quot;'VALUTA NON SUPPORTATA'&quot;/>&#xa;            &lt;/tns3:message>&#xa;            &lt;tns3:details>&#xa;                &lt;tns3:detail>&#xa;                    &lt;tns3:field>&#xa;                        &lt;xsl:value-of select=&quot;$post.item/tns2:currency&quot;/>&#xa;                    &lt;/tns3:field>&#xa;                    &lt;tns3:issue>&#xa;                        &lt;xsl:value-of select=&quot;'VALUTA SCONOSCIUTA'&quot;/>&#xa;                    &lt;/tns3:issue>&#xa;                &lt;/tns3:detail>&#xa;            &lt;/tns3:details>&#xa;        &lt;/tns3:errorResponse>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.example.org/ErrorSchema&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post.item&quot;/>&#xa;    &lt;xsl:param name=&quot;Mapper&quot;/>&#xa;    &lt;xsl:template name=&quot;MapperInvalidCurrency-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns3:errorResponse>&#xa;            &lt;tns3:code>&#xa;                &lt;xsl:value-of select=&quot;'INVALID_CURRENCY'&quot;/>&#xa;            &lt;/tns3:code>&#xa;            &lt;tns3:message>&#xa;                &lt;xsl:value-of select=&quot;'VALUTA NON SUPPORTATA'&quot;/>&#xa;            &lt;/tns3:message>&#xa;            &lt;tns3:correlationId>&#xa;                &lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&#xa;            &lt;/tns3:correlationId>&#xa;            &lt;tns3:details>&#xa;                &lt;tns3:detail>&#xa;                    &lt;tns3:field>&#xa;                        &lt;xsl:value-of select=&quot;$post.item/tns2:currency&quot;/>&#xa;                    &lt;/tns3:field>&#xa;                    &lt;tns3:issue>&#xa;                        &lt;xsl:value-of select=&quot;'VALUTA SCONOSCIUTA'&quot;/>&#xa;                    &lt;/tns3:issue>&#xa;                &lt;/tns3:detail>&#xa;            &lt;/tns3:details>&#xa;        &lt;/tns3:errorResponse>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                     </tibex:inputBindings>
                                     <tibex:config>
                                     <bwext:BWActivity
@@ -2167,6 +2364,62 @@
                                     </tibex:config>
                                 </tibex:activityExtension>
                             </bpws:extensionActivity>
+                            <bpws:extensionActivity>
+                                <tibex:activityExtension
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.example.org/ErrorSchema&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;post&quot;/>&lt;xsl:param name=&quot;Mapper&quot;/>&lt;xsl:template name=&quot;MapperUpstreamFx-input&quot; match=&quot;/&quot;>&lt;tns3:errorResponse>&lt;tns3:code>&lt;xsl:value-of select=&quot;'UPSTREAM_FX_UNAVAILABLE'&quot;/>&lt;/tns3:code>&lt;tns3:message>&lt;xsl:value-of select=&quot;'Servizio di cambio non disponibile'&quot;/>&lt;/tns3:message>&lt;tns3:correlationId>&lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&lt;/tns3:correlationId>&lt;tns3:details>&lt;tns3:detail>&lt;tns3:field>&lt;xsl:value-of select=&quot;$post/item/tns2:orderRequest/tns2:currency&quot;/>&lt;/tns3:field>&lt;tns3:issue>&lt;xsl:value-of select=&quot;'cambio non disponibile'&quot;/>&lt;/tns3:issue>&lt;/tns3:detail>&lt;/tns3:details>&lt;/tns3:errorResponse>&lt;/xsl:template>&lt;/xsl:stylesheet>"
+                                    expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"
+                                    inputVariable="MapperUpstreamFx-input"
+                                    name="MapperUpstreamFx"
+                                    outputVariable="MapperUpstreamFx"
+                                    tibex:xpdlId="c4d5ef9f-3ae8-45cc-8ebf-9107f7400710" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                                    <bpws:targets>
+                                    <bpws:target linkName="LogFxErrorToMapperUpstreamFx"/>
+                                    </bpws:targets>
+                                    <bpws:sources>
+                                    <bpws:source linkName="MapperUpstreamFxToCopy_1_PostOut_InvalidCurrency"/>
+                                    </bpws:sources>
+                                    <tibex:inputBindings>
+                                    <tibex:inputBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.example.org/ErrorSchema&quot; xmlns:tns2=&quot;http://www.example.org/OrderRequestSchema&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;post.item&quot;/>&#xa;    &lt;xsl:param name=&quot;Mapper&quot;/>&#xa;    &lt;xsl:template name=&quot;MapperUpstreamFx-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns3:errorResponse>&#xa;            &lt;tns3:code>&#xa;                &lt;xsl:value-of select=&quot;'UPSTREAM_FX_UNAVAILABLE'&quot;/>&#xa;            &lt;/tns3:code>&#xa;            &lt;tns3:message>&#xa;                &lt;xsl:value-of select=&quot;'Servizio di cambio non disponibile'&quot;/>&#xa;            &lt;/tns3:message>&#xa;            &lt;tns3:correlationId>&#xa;                &lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&#xa;            &lt;/tns3:correlationId>&#xa;            &lt;tns3:details>&#xa;                &lt;tns3:detail>&#xa;                    &lt;tns3:field>&#xa;                        &lt;xsl:value-of select=&quot;$post.item/tns2:currency&quot;/>&#xa;                    &lt;/tns3:field>&#xa;                    &lt;tns3:issue>&#xa;                        &lt;xsl:value-of select=&quot;'cambio non disponibile'&quot;/>&#xa;                    &lt;/tns3:issue>&#xa;                &lt;/tns3:detail>&#xa;            &lt;/tns3:details>&#xa;        &lt;/tns3:errorResponse>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    </tibex:inputBindings>
+                                    <tibex:config>
+                                    <bwext:BWActivity
+                                    activityTypeID="bw.generalactivities.mapper"
+                                    version="6.0.0.001"
+                                    xmlns:ErrorSchema="http://www.example.org/ErrorSchema"
+                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                                    xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                    <activityConfig>
+                                    <properties
+                                    name="config" xsi:type="activityconfig:EMFProperty">
+                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Mapper"/>
+                                    <value
+                                    inputQName="ErrorSchema:errorResponse" xsi:type="generalactivities:Mapper"/>
+                                    </properties>
+                                    </activityConfig>
+                                    </bwext:BWActivity>
+                                    </tibex:config>
+                                </tibex:activityExtension>
+                            </bpws:extensionActivity>
+                            <bpws:reply faultName="server-502-Fault"
+                                name="PostOut_UpstreamFx"
+                                operation="post" partnerLink="orders"
+                                portType="ns:orders"
+                                tibex:xpdlId="f749b0c2-07ab-45f3-a3a9-4dffd4c7e0c6" variable="PostOut_UpstreamFx-input">
+                                <tibex:inputBindings>
+                                    <tibex:partBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.example.com/20261008100054PLT&quot; xmlns:tns9=&quot;http://xmlns.example.com/Orders/headerParameters&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;MapperUpstreamFx&quot;/>&#xa;    &lt;xsl:template name=&quot;PostOut_UpstreamFx-input&quot; match=&quot;/&quot;>&#xa;        &lt;xsl:copy-of select=&quot;$MapperUpstreamFx&quot;/>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    <tibex:partBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.example.com/20261008100054PLT&quot; xmlns:tns9=&quot;http://xmlns.example.com/Orders/headerParameters&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;Mapper&quot;/>&#xa;    &lt;xsl:template name=&quot;PostOut_UpstreamFx-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns9:ordersPostResponseHeader>&#xa;            &lt;X-Correlation-Id>&#xa;                &lt;xsl:value-of select=&quot;$Mapper/correlationId&quot;/>&#xa;            &lt;/X-Correlation-Id>&#xa;        &lt;/tns9:ordersPostResponseHeader>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                </tibex:inputBindings>
+                                <tibex:inputBinding expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns4="http://xmlns.example.com/20261008100054PLT" xmlns:tns9="http://xmlns.example.com/Orders/headerParameters" version="2.0"&gt;&lt;xsl:param name="MapperUpstreamFx"/&gt;&lt;xsl:param name="Mapper"/&gt;&lt;xsl:template name="PostOut_UpstreamFx-input" match="/"&gt;&lt;tns4:post502FaultMessage&gt;&lt;server-502-UPSTREAM_FX_UNAVAILABLE&gt;&lt;xsl:copy-of select="$MapperUpstreamFx"/&gt;&lt;/server-502-UPSTREAM_FX_UNAVAILABLE&gt;&lt;httpFaultHeaders&gt;&lt;tns9:ordersPostResponseHeader&gt;&lt;X-Correlation-Id&gt;&lt;xsl:value-of select="$Mapper/correlationId"/&gt;&lt;/X-Correlation-Id&gt;&lt;/tns9:ordersPostResponseHeader&gt;&lt;/httpFaultHeaders&gt;&lt;/tns4:post502FaultMessage&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;</tibex:inputBinding>
+                                <bpws:targets>
+                                    <bpws:target linkName="MapperUpstreamFxToCopy_1_PostOut_InvalidCurrency"/>
+                                </bpws:targets>
+                                <bpws:correlations/>
+                            </bpws:reply>
                         </bpws:flow>
                     </bpws:scope>
                 </bpws:onMessage>

@@ -8,6 +8,7 @@
     xmlns:ns0="http://www.example.com/namespaces/tns/1791449171016"
     xmlns:ns1="http://www.example.com/namespaces/tns/1791449211496"
     xmlns:ns10="http://www.tibco.com/pe/WriteToLogActivitySchema"
+    xmlns:ns11="http://www.example.com/namespaces/tns/1792569309078"
     xmlns:ns2="http://tns.tibco.com/bw/activity/sendhttprequest/input+65a6d27f-df2e-449f-9384-63d96afbab14+RequestActivityInput"
     xmlns:ns3="http://tns.tibco.com/bw/activity/sendhttprequest/output+65a6d27f-df2e-449f-9384-63d96afbab14+RequestActivityOutput"
     xmlns:ns4="http://tns.tibco.com/bw/palette/internal/activityerror+bw.http.sendHTTPRequest"
@@ -595,7 +596,7 @@
         productVersion="6.13.0 V54 2026-03-02" scalable="true"
         singleton="true" stateless="false" type="IT"/>
     <tibex:ProcessInterface context=""
-        input="{http://www.example.com/namespaces/tns/1791449171016}currency" output="{http://www.example.com/namespaces/tns/1791449211496}fxRate"/>
+        input="{http://www.example.com/namespaces/tns/1792569309078}input" output="{http://www.example.com/namespaces/tns/1791449211496}fxRate"/>
     <tibex:ProcessTemplateConfigurations/>
     <notation:Diagram measurementUnit="Pixel" type="BWProcess"
         xmlns:bwnotation="http://tns.tibco.com/bw/runtime/BWNotation"
@@ -1021,14 +1022,19 @@
             namespace="http://schemas.tibco.com/bw/plugins/basic/6.0/Exceptions" prefix="tns4"/>
         <tibex:namespaceItem
             namespace="http://schemas.tibco.com/bw/pe/plugin/5.0/exceptions" prefix="tns5"/>
+        <tibex:namespaceItem
+            namespace="http://www.example.org/FxResponseSchema" prefix="tns6"/>
+        <tibex:namespaceItem
+            namespace="http://www.example.com/namespaces/tns/1792569309078" prefix="tns7"/>
     </tibex:NamespaceRegistry>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1791449171016"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1791449211496"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/FxResponseSchema"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1792569309078"/>
     <bpws:variables>
         <bpws:variable element="ns:ProcessContext"
             name="_processContext" sca-bpel:internal="true"/>
-        <bpws:variable element="ns0:currency" name="Start"
+        <bpws:variable element="ns11:input" name="Start"
             sca-bpel:internal="true" tibex:parameter="in"/>
         <bpws:variable element="ns1:fxRate" name="End-input"
             sca-bpel:internal="true" tibex:parameter="out"/>
@@ -1094,7 +1100,7 @@
                                 </bpws:sources>
                                 <tibex:inputBindings>
                                     <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;LogFxTimeout-input&quot; match=&quot;/&quot;>&lt;tns3:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('Timeout chiamata cambio, valuta= ', $Start)&quot;/>&lt;/message>&lt;/tns3:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:tns7=&quot;http://www.example.com/namespaces/tns/1792569309078&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;LogFxTimeout-input&quot; match=&quot;/&quot;>&lt;tns3:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('[', $Start/tns7:correlationId, '] ', 'Timeout chiamata cambio, valuta= ', $Start/tns7:currency)&quot;/>&lt;/message>&lt;/tns3:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                 </tibex:inputBindings>
                                 <tibex:config>
                                     <bwext:BWActivity
@@ -1136,16 +1142,16 @@
                         <bpws:source linkName="StartToEnd">
                             <tibex:DesignExpression>
                                 <tibex:expression
-                                    expression="$Start = 'EUR'" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                                    expression="$Start/ns11:currency = 'EUR'" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
                             </tibex:DesignExpression>
-                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[$Start = 'EUR']]></bpws:transitionCondition>
+                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[$Start/ns11:currency = 'EUR']]></bpws:transitionCondition>
                         </bpws:source>
                         <bpws:source linkName="StartToSendHTTPRequest">
                             <tibex:DesignExpression>
                                 <tibex:expression
-                                    expression="$Start != 'EUR'" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                                    expression="$Start/ns11:currency != 'EUR'" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
                             </tibex:DesignExpression>
-                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[$Start != 'EUR']]></bpws:transitionCondition>
+                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[$Start/ns11:currency != 'EUR']]></bpws:transitionCondition>
                         </bpws:source>
                     </bpws:sources>
                     <tibex:eventSource>
@@ -1163,7 +1169,7 @@
                     </bpws:targets>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1791449211496&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns6=&quot;http://www.example.org/FxResponseSchema&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;Start&quot;/>&#xa;    &lt;xsl:param name=&quot;ParseJSON&quot;/>&#xa;    &lt;xsl:template name=&quot;End-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns:fxRate>&#xa;            &lt;xsl:value-of select=&quot;xsd:double(if ($Start = 'EUR') then 1 else $ParseJSON/tns6:rates/@EUR)&quot;/>&#xa;        &lt;/tns:fxRate>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1791449211496&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns6=&quot;http://www.example.org/FxResponseSchema&quot; xmlns:tns7=&quot;http://www.example.com/namespaces/tns/1792569309078&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;Start&quot;/>&#xa;    &lt;xsl:param name=&quot;ParseJSON&quot;/>&#xa;    &lt;xsl:template name=&quot;End-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns:fxRate>&#xa;            &lt;xsl:value-of select=&quot;xsd:double(if ($Start/tns7:currency = 'EUR') then 1 else $ParseJSON/tns6:rates/@EUR)&quot;/>&#xa;        &lt;/tns:fxRate>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -1196,7 +1202,7 @@
                     </bpws:sources>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://tns.tibco.com/bw/activity/sendhttprequest/input+65a6d27f-df2e-449f-9384-63d96afbab14+RequestActivityInput&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:bw=&quot;http://www.tibco.com/bw/xpath/bw-custom-functions&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;SendHTTPRequest-input&quot; match=&quot;/&quot;>&lt;tns1:RequestActivityInput>&lt;Method>&lt;xsl:value-of select=&quot;'GET'&quot;/>&lt;/Method>&lt;RequestURI>&lt;xsl:value-of select=&quot;'/v1/latest'&quot;/>&lt;/RequestURI>&lt;QueryString>&lt;xsl:value-of select=&quot;concat('base=', $Start, '&amp;amp;symbols=EUR')&quot;/>&lt;/QueryString>&lt;Timeout>&lt;xsl:value-of select=&quot;xsd:int(bw:getModuleProperty(&amp;quot;fx.timeoutMs&amp;quot;))&quot;/>&lt;/Timeout>&lt;/tns1:RequestActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://tns.tibco.com/bw/activity/sendhttprequest/input+65a6d27f-df2e-449f-9384-63d96afbab14+RequestActivityInput&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns7=&quot;http://www.example.com/namespaces/tns/1792569309078&quot; xmlns:bw=&quot;http://www.tibco.com/bw/xpath/bw-custom-functions&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;Start&quot;/>&#xa;    &lt;xsl:template name=&quot;SendHTTPRequest-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns1:RequestActivityInput>&#xa;            &lt;Method>&#xa;                &lt;xsl:value-of select=&quot;'GET'&quot;/>&#xa;            &lt;/Method>&#xa;            &lt;RequestURI>&#xa;                &lt;xsl:value-of select=&quot;'/v1/latest'&quot;/>&#xa;            &lt;/RequestURI>&#xa;            &lt;QueryString>&#xa;                &lt;xsl:value-of select=&quot;concat('base=', $Start/tns7:currency, '&amp;amp;symbols=EUR')&quot;/>&#xa;            &lt;/QueryString>&#xa;            &lt;Timeout>&#xa;                &lt;xsl:value-of select=&quot;xsd:int(bw:getModuleProperty(&amp;quot;fx.timeoutMs&amp;quot;))&quot;/>&#xa;            &lt;/Timeout>&#xa;        &lt;/tns1:RequestActivityInput>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -1246,7 +1252,9 @@
                             <activityConfig>
                                 <properties name="config" xsi:type="activityconfig:EMFProperty">
                                     <type href="http://ns.tibco.com/bw/palette/restjson#//JsonParser"/>
-                                    <value jsonInputStyle="None"
+                                    <value
+                                    IgnoreAdditionalJSONFields="true"
+                                    jsonInputStyle="None"
                                     schemaType="Xsd" xsi:type="restjson:JsonParser">
                                     <outputEditorElement href="platform:/resource/OrderEnrichment.module/Schemas/FxResponse.xsd#//fxResponse;XSDElementDeclaration"/>
                                     </value>

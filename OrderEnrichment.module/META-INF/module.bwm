@@ -4,7 +4,12 @@
     <sca:interface.wsdl xmi:id="_YzXH8MLuEfGOfqiy79ywfQ" interface="http://xmlns.example.com/20261008100054PLT#wsdl.interface(orders)" scaext:wsdlLocation="../Processes/orderenrichment/module/Orders.bwp"/>
     <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_Yzfq0MLuEfGOfqiy79ywfQ" name="RestService" path="/orders" docBasePath="http://localhost:7777/OrderEnrichment.module" docResourcePath="Orders" basePath="/" connector="orderenrichment.module.OrderHTTPConnectorResource" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/orderenrichment.module.Main_Orders-Orders.json">
       <operation xmi:id="_YzhgAMLuEfGOfqiy79ywfQ" operationName="post" nickname="post-orders" httpMethod="POST" notes="postOrders" responseStyle="element" requestStyle="element" outputPartName="item">
+        <parameters xmi:id="__vqXUM0cEfGEAO5aqGPUsg">
+          <parameterMapping xmi:id="__vqXUc0cEfGEAO5aqGPUsg" parameterName="X-Correlation-Id" parameterType="Header" dataType="string" description=""/>
+          <parameterMapping xmi:id="_WFFY0M0rEfGEAO5aqGPUsg" parameterName="X-Correlation-Id" parameterType="ResponseHeader" dataType="string" description=""/>
+        </parameters>
         <responseStatus xmi:id="_8qa88MMREfGOfqiy79ywfQ" statusCode="400" reasonPhrase="Validation Error" elementQName="ErrorSchema:errorResponse"/>
+        <responseStatus xmi:id="__Whc0MyTEfGEAO5aqGPUsg" statusCode="502" reasonPhrase="UPSTREAM_FX_UNAVAILABLE" elementQName="ErrorSchema:errorResponse"/>
         <clientFormat>json</clientFormat>
         <clientRequestFormat>json</clientRequestFormat>
       </operation>
@@ -23,18 +28,27 @@
   <sca:property xmi:id="_08NT4MLsEfGOfqiy79ywfQ" name="BW.APPSPACE.NAME" type="XMLSchema:string" scalable="true"/>
   <sca:property xmi:id="_08SzcMLsEfGOfqiy79ywfQ" name="BW.MODULE.VERSION" type="XMLSchema:string" scalable="true"/>
   <sca:property xmi:id="_08V2wMLsEfGOfqiy79ywfQ" name="BW.MODULE.NAME" type="XMLSchema:string" scalable="true"/>
-  <sca:property xmi:id="_u3Da0MOtEfGOfqiy79ywfQ" name="BW.HOST.NAME1" type="XMLSchema:string" scaext:simpleValue="" publicAccess="true" scalable="true"/>
   <sca:property xmi:id="_HiMf4MYUEfG1-5ooWifRGA" name="fx.host" type="XMLSchema:string" publicAccess="true" scalable="true"/>
   <sca:property xmi:id="_LZm2UMYUEfG1-5ooWifRGA" name="fx.port" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
   <sca:property xmi:id="_RElmsMYVEfG1-5ooWifRGA" name="fx.baseUrl" type="XMLSchema:string" publicAccess="true" scalable="true"/>
   <sca:property xmi:id="_XU7jYMYVEfG1-5ooWifRGA" name="nager.baseUrl" type="XMLSchema:string" publicAccess="true" scalable="true"/>
   <sca:property xmi:id="_3omFwMYaEfG1-5ooWifRGA" name="frankfurter.host" type="XMLSchema:string" publicAccess="true" scalable="true"/>
   <sca:property xmi:id="_G38rYMZIEfG1-5ooWifRGA" name="nager.host" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_FrVMMMlGEfGEAO5aqGPUsg" name="frankfurter.port" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_FwCtEMlGEfGEAO5aqGPUsg" name="nager.port" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
   <sca:property xmi:id="_HwVZkMk1EfGEAO5aqGPUsg" name="fx.timeoutMs" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_RSn6MMyNEfGEAO5aqGPUsg" name="fx.retryCount" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_YpBgAMyNEfGEAO5aqGPUsg" name="fx.retryDelayMs" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_pqA70MyNEfGEAO5aqGPUsg" name="nager.timeoutMs" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_pv0o4MyNEfGEAO5aqGPUsg" name="nager.retryCount" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_p5Y0kMyNEfGEAO5aqGPUsg" name="nager.retryDelayMs" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
   <sca:component xmi:id="_YzDl8MLuEfGOfqiy79ywfQ" name="ComponentOrders" compositeext:version="1.0.0.qualifier">
     <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_YzDl8cLuEfGOfqiy79ywfQ" processName="orderenrichment.module.Main_Orders"/>
     <sca:service xmi:id="_YzHQUMLuEfGOfqiy79ywfQ" name="orders">
       <sca:interface.wsdl xmi:id="_YzLhwMLuEfGOfqiy79ywfQ" interface="http://xmlns.example.com/20261008100054PLT#wsdl.interface(orders)" scaext:wsdlLocation="../Processes/orderenrichment/module/Orders.bwp"/>
     </sca:service>
+  </sca:component>
+  <sca:component xmi:id="_xBfksMxWEfGEAO5aqGPUsg" name="ComponentTestGetHolidays" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_xBfkscxWEfGEAO5aqGPUsg" processName="orderenrichment.module.TestGetHolidays"/>
   </sca:component>
 </sca:composite>

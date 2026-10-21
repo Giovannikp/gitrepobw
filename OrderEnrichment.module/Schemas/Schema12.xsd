@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:tns="http://www.example.com/namespaces/tns/1792569309078" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.example.com/namespaces/tns/1792569309078">
+  <xsd:element name="input">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="currency" type="xsd:string"/>
+        <xsd:element name="correlationId" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

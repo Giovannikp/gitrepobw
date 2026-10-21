@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.com/namespaces/tns/1792416057120" elementFormDefault="qualified" targetNamespace="http://www.example.com/namespaces/tns/1792416057120">
+    <xsd:element name="root" type="xsd:string"/>
+</xsd:schema>

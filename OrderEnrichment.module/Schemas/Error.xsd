@@ -11,6 +11,7 @@
         <xs:sequence>
             <xs:element name="code" type="xs:string"/>
             <xs:element name="message" type="xs:string"/>
+            <xs:element name="correlationId" type="xs:string"/>
             <xs:element ref="tns:details" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>

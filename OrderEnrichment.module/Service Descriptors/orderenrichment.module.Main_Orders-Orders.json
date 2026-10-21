@@ -24,16 +24,34 @@
             "$ref" : "#/definitions/orderRequest"
           },
           "required" : true
+        }, {
+          "name" : "X-Correlation-Id",
+          "in" : "header",
+          "description" : "",
+          "type" : "string",
+          "required" : false
         } ],
         "responses" : {
           "200" : {
             "description" : "a orderResponse to be returned",
             "schema" : {
               "$ref" : "#/definitions/orderResponse"
+            },
+            "headers" : {
+              "X-Correlation-Id" : {
+                "description" : "",
+                "type" : "string"
+              }
             }
           },
           "400" : {
             "description" : "Validation Error",
+            "schema" : {
+              "$ref" : "#/definitions/errorResponse"
+            }
+          },
+          "502" : {
+            "description" : "UPSTREAM_FX_UNAVAILABLE",
             "schema" : {
               "$ref" : "#/definitions/errorResponse"
             }
@@ -137,12 +155,15 @@
     },
     "errorResponse" : {
       "type" : "object",
-      "required" : [ "code", "message" ],
+      "required" : [ "code", "correlationId", "message" ],
       "properties" : {
         "code" : {
           "type" : "string"
         },
         "message" : {
+          "type" : "string"
+        },
+        "correlationId" : {
           "type" : "string"
         },
         "details" : {

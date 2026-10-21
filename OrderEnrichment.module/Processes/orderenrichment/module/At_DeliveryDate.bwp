@@ -8,6 +8,9 @@
     xmlns:ns="http://www.tibco.com/pe/EngineTypes"
     xmlns:ns0="http://www.example.com/namespaces/tns/1791449715314"
     xmlns:ns1="http://www.example.com/namespaces/tns/1791450262275"
+    xmlns:ns10="http://www.example.com/namespaces/tns/1792416103416"
+    xmlns:ns11="http://www.example.com/namespaces/tns/1792416216625"
+    xmlns:ns12="http://www.example.com/namespaces/tns/1792485468889"
     xmlns:ns2="http://tns.tibco.com/bw/activity/sendhttprequest/input+9b37cc6c-b71d-4918-bbcd-39b5bcdd5e28+RequestActivityInput"
     xmlns:ns3="http://tns.tibco.com/bw/activity/sendhttprequest/output+9b37cc6c-b71d-4918-bbcd-39b5bcdd5e28+RequestActivityOutput"
     xmlns:ns4="http://tns.tibco.com/bw/palette/internal/activityerror+bw.http.sendHTTPRequest"
@@ -24,29 +27,30 @@
         <task name="End">
             <endingVariables>
                 <variable>Start</variable>
-                <variable>MapperFestivo</variable>
+                <variable>Call_GetHolidays</variable>
+                <variable>Mapper1</variable>
+                <variable>Mapper2</variable>
             </endingVariables>
         </task>
-        <task name="SendHTTPRequest">
+        <task name="Call_GetHolidays">
             <endingVariables>
-                <variable>SendHTTPRequest-input</variable>
+                <variable>Call_GetHolidays-input</variable>
             </endingVariables>
         </task>
-        <task name="Log">
+        <task name="Mapper1">
             <endingVariables>
-                <variable>Log-input</variable>
+                <variable>Mapper1-input</variable>
             </endingVariables>
         </task>
-        <task name="ParseJSON">
+        <task name="Call_GetHolidaysNextYear">
             <endingVariables>
-                <variable>ParseJSON-input</variable>
-                <variable>SendHTTPRequest</variable>
+                <variable>Call_GetHolidaysNextYear-input</variable>
             </endingVariables>
         </task>
-        <task name="MapperFestivo">
+        <task name="Mapper2">
             <endingVariables>
-                <variable>MapperFestivo-input</variable>
-                <variable>ParseJSON</variable>
+                <variable>Mapper2-input</variable>
+                <variable>Call_GetHolidaysNextYear</variable>
             </endingVariables>
         </task>
     </tibex:VariableDescriptor>
@@ -217,363 +221,6 @@
             </complexType>
             <element name="DuplicateKeyException" type="tns:DuplicateKeyExceptionType"/>
         </schema>
-        <schema elementFormDefault="unqualified"
-            targetNamespace="http://xmlns.tibco.com/encodings/mime"
-            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://xmlns.tibco.com/encodings/mime">
-            <complexType name="mimePartType">
-                <sequence>
-                    <element maxOccurs="1" minOccurs="1"
-                        name="mimeHeaders" type="tns:mimeHeadersType"/>
-                    <choice>
-                        <element name="binaryContent" type="base64Binary"/>
-                        <element name="textContent" type="string"/>
-                        <element name="fileName" type="string"/>
-                        <element name="mimeEnvelopeElement" type="tns:mimeEnvelopeElementType"/>
-                    </choice>
-                </sequence>
-            </complexType>
-            <complexType name="mimeHeadersType">
-                <sequence>
-                    <element maxOccurs="1" minOccurs="0"
-                        name="content-disposition" type="string"/>
-                    <element maxOccurs="1" minOccurs="1"
-                        name="content-type" type="string"/>
-                    <element maxOccurs="1" minOccurs="0"
-                        name="content-transfer-encoding" type="string"/>
-                    <element maxOccurs="1" minOccurs="0"
-                        name="content-id" type="string"/>
-                    <any maxOccurs="unbounded" minOccurs="0"
-                        namespace="##any" processContents="lax"/>
-                </sequence>
-            </complexType>
-            <complexType name="mimeEnvelopeElementType">
-                <sequence>
-                    <element maxOccurs="unbounded" minOccurs="0"
-                        name="mimePart" type="tns:mimePartType"/>
-                </sequence>
-            </complexType>
-            <element name="mimeEnvelopeElement" type="tns:mimeEnvelopeElementType"/>
-        </schema>
-        <schema elementFormDefault="unqualified"
-            targetNamespace="http://tns.tibco.com/bw/activity/sendhttprequest/input+9b37cc6c-b71d-4918-bbcd-39b5bcdd5e28+RequestActivityInput"
-            xmlns="http://www.w3.org/2001/XMLSchema"
-            xmlns:ns0="http://xmlns.tibco.com/encodings/mime" xmlns:tns="http://tns.tibco.com/bw/activity/sendhttprequest/input+9b37cc6c-b71d-4918-bbcd-39b5bcdd5e28+RequestActivityInput">
-            <import namespace="http://xmlns.tibco.com/encodings/mime"/>
-            <complexType name="inputHeadersType">
-                <sequence>
-                    <element form="unqualified" minOccurs="0"
-                        name="Accept" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Accept-Charset" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Accept-Encoding" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Content-Type" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Cookie" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Pragma" type="string"/>
-                </sequence>
-            </complexType>
-            <complexType name="DynamicHeaders">
-                <sequence>
-                    <element form="unqualified" maxOccurs="unbounded"
-                        minOccurs="0" name="Header" type="tns:Header"/>
-                </sequence>
-            </complexType>
-            <complexType name="Header">
-                <sequence>
-                    <element form="unqualified" name="Name" type="string"/>
-                    <element form="unqualified" name="Value" type="string"/>
-                </sequence>
-            </complexType>
-            <complexType name="statusLineType">
-                <sequence>
-                    <element form="unqualified" minOccurs="0"
-                        name="httpVersion" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="statusCode" type="int"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="reasonPhrase" type="string"/>
-                </sequence>
-            </complexType>
-            <complexType name="RequestActivityInput">
-                <sequence>
-                    <element form="unqualified" maxOccurs="1"
-                        minOccurs="0" name="Host" type="string"/>
-                    <element form="unqualified" maxOccurs="1"
-                        minOccurs="0" name="Port" type="int"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Method" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="RequestURI" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="PostData" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="QueryString" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Timeout" type="int"/>
-                    <element maxOccurs="1" minOccurs="0" name="Headers" type="tns:inputHeadersType"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="DynamicHeaders" type="tns:DynamicHeaders"/>
-                    <element minOccurs="0" ref="ns0:mimeEnvelopeElement"/>
-                </sequence>
-            </complexType>
-            <element name="RequestActivityInput" type="tns:RequestActivityInput"/>
-        </schema>
-        <schema elementFormDefault="unqualified"
-            targetNamespace="http://tns.tibco.com/bw/activity/sendhttprequest/output+9b37cc6c-b71d-4918-bbcd-39b5bcdd5e28+RequestActivityOutput"
-            xmlns="http://www.w3.org/2001/XMLSchema"
-            xmlns:ns0="http://xmlns.tibco.com/encodings/mime" xmlns:tns="http://tns.tibco.com/bw/activity/sendhttprequest/output+9b37cc6c-b71d-4918-bbcd-39b5bcdd5e28+RequestActivityOutput">
-            <import namespace="http://xmlns.tibco.com/encodings/mime"/>
-            <complexType name="outputHeadersType">
-                <sequence>
-                    <element form="unqualified" maxOccurs="unbounded"
-                        minOccurs="0" name="Allow" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Content-Type" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Content-Length" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Content-Encoding" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Date" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Location" type="string"/>
-                    <element form="unqualified" maxOccurs="unbounded"
-                        minOccurs="0" name="Set-Cookie" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="Pragma" type="string"/>
-                </sequence>
-            </complexType>
-            <complexType name="DynamicHeaders">
-                <sequence>
-                    <element form="unqualified" maxOccurs="unbounded"
-                        minOccurs="0" name="Header" type="tns:Header"/>
-                </sequence>
-            </complexType>
-            <complexType name="Header">
-                <sequence>
-                    <element form="unqualified" name="Name" type="string"/>
-                    <element form="unqualified" name="Value" type="string"/>
-                </sequence>
-            </complexType>
-            <complexType name="statusLineType">
-                <sequence>
-                    <element form="unqualified" minOccurs="0"
-                        name="httpVersion" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="statusCode" type="int"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="reasonPhrase" type="string"/>
-                </sequence>
-            </complexType>
-            <complexType name="RequestActivityOutput">
-                <sequence>
-                    <element form="unqualified" minOccurs="0"
-                        name="Header" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="statusLine" type="tns:statusLineType"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="binaryContent" type="base64Binary"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="asciiContent" type="string"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="filePath" type="string"/>
-                    <element maxOccurs="1" minOccurs="0" name="Headers" type="tns:outputHeadersType"/>
-                    <element form="unqualified" minOccurs="0"
-                        name="DynamicHeaders" type="tns:DynamicHeaders"/>
-                    <element minOccurs="0" ref="ns0:mimeEnvelopeElement"/>
-                </sequence>
-            </complexType>
-            <element name="RequestActivityOutput" type="tns:RequestActivityOutput"/>
-        </schema>
-        <schema attributeFormDefault="unqualified"
-            elementFormDefault="unqualified"
-            targetNamespace="http://schemas.tibco.com/bw/plugins/http/5.0/httpExceptions"
-            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.tibco.com/bw/plugins/http/5.0/httpExceptions">
-            <complexType name="StatusLineType">
-                <sequence>
-                    <element name="httpVersion" type="string"/>
-                    <element name="statusCode" type="integer"/>
-                    <element name="reasonPhrase" type="string"/>
-                </sequence>
-            </complexType>
-            <complexType name="HeadersType">
-                <sequence>
-                    <any maxOccurs="unbounded" minOccurs="0" processContents="lax"/>
-                </sequence>
-            </complexType>
-            <complexType name="HttpMessageType">
-                <sequence>
-                    <element name="headers" type="tns:HeadersType"/>
-                    <element minOccurs="0" name="binaryContent" type="base64Binary"/>
-                    <element minOccurs="0" name="asciiContent" type="string"/>
-                </sequence>
-            </complexType>
-            <complexType name="BaseExceptionType">
-                <sequence>
-                    <element form="unqualified" name="msg" type="string"/>
-                    <element form="unqualified" name="msgCode" type="string"/>
-                </sequence>
-            </complexType>
-            <complexType name="HttpExceptionType">
-                <complexContent>
-                    <extension base="tns:BaseExceptionType"/>
-                </complexContent>
-            </complexType>
-            <complexType name="HttpClientExceptionType">
-                <complexContent>
-                    <extension base="tns:HttpResponseExceptionType"/>
-                </complexContent>
-            </complexType>
-            <complexType name="HttpCommunicationExceptionType">
-                <complexContent>
-                    <extension base="tns:BaseExceptionType"/>
-                </complexContent>
-            </complexType>
-            <complexType name="HystrixCircuitBreakerOpenExceptionType">
-                <complexContent>
-                    <extension base="tns:BaseExceptionType"/>
-                </complexContent>
-            </complexType>
-            <complexType name="Resilience4jCircuitBreakerOpenExceptionType">
-                <complexContent>
-                    <extension base="tns:BaseExceptionType"/>
-                </complexContent>
-            </complexType>
-            <complexType name="HttpResponseExceptionType">
-                <complexContent>
-                    <extension base="tns:BaseExceptionType">
-                        <sequence>
-                            <element name="statusLine" type="tns:StatusLineType"/>
-                            <element minOccurs="0" name="httpMessage" type="tns:HttpMessageType"/>
-                        </sequence>
-                    </extension>
-                </complexContent>
-            </complexType>
-            <complexType name="HttpServerExceptionType">
-                <complexContent>
-                    <extension base="tns:HttpResponseExceptionType"/>
-                </complexContent>
-            </complexType>
-            <element name="HttpClientException" type="tns:HttpClientExceptionType"/>
-            <element name="HttpCommunicationException" type="tns:HttpCommunicationExceptionType"/>
-            <element name="HttpException" type="tns:HttpExceptionType"/>
-            <element name="HttpResponseException" type="tns:HttpResponseExceptionType"/>
-            <element name="HttpServerException" type="tns:HttpServerExceptionType"/>
-            <element name="ActivityTimedOutException" type="tns:BaseExceptionType"/>
-            <element name="HystrixCircuitBreakerOpenException" type="tns:HystrixCircuitBreakerOpenExceptionType"/>
-            <element name="Resilience4jCircuitBreakerOpenException" type="tns:Resilience4jCircuitBreakerOpenExceptionType"/>
-        </schema>
-        <xs:schema attributeFormDefault="unqualified"
-            elementFormDefault="qualified"
-            targetNamespace="http://www.tibco.com/pe/WriteToLogActivitySchema"
-            xmlns:tns="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-            <xs:complexType name="LogParametersType">
-                <xs:sequence>
-                    <xs:element form="unqualified" minOccurs="0"
-                        name="msgCode" type="xs:string"/>
-                    <xs:element form="unqualified" minOccurs="0"
-                        name="loggerName" type="xs:string"/>
-                    <xs:element form="unqualified" minOccurs="0"
-                        name="logLevel" type="xs:string"/>
-                    <xs:element form="unqualified" name="message" type="xs:string"/>
-                </xs:sequence>
-            </xs:complexType>
-            <xs:element name="ActivityInput" type="tns:LogParametersType"/>
-        </xs:schema>
-        <schema elementFormDefault="unqualified"
-            targetNamespace="activity.jsonParser.input+c2f5f4db-f41b-4ab6-962d-cf3f2d6c920b+ActivityInputType"
-            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="activity.jsonParser.input+c2f5f4db-f41b-4ab6-962d-cf3f2d6c920b+ActivityInputType">
-            <complexType name="ActivityInputClassType">
-                <sequence>
-                    <element maxOccurs="1" minOccurs="1"
-                        name="jsonString" type="string"/>
-                </sequence>
-            </complexType>
-            <element name="ActivityInputClass" type="tns:ActivityInputClassType"/>
-        </schema>
-        <schema elementFormDefault="unqualified"
-            targetNamespace="http://schemas.tibco.com/bw/plugins/xml/5.0/JSONActivitiesExceptions"
-            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.tibco.com/bw/plugins/xml/5.0/JSONActivitiesExceptions">
-            <element name="JSONActivityException" type="tns:JSONActivityException"/>
-            <complexType name="JSONActivityException">
-                <sequence>
-                    <element name="msg" type="string"/>
-                    <element minOccurs="0" name="msgCode" type="string"/>
-                </sequence>
-            </complexType>
-            <element name="UnsupportedEncodingException" type="tns:UnsupportedEncodingExceptionType"/>
-            <complexType name="UnsupportedEncodingExceptionType">
-                <complexContent>
-                    <extension base="tns:JSONActivityException">
-                        <sequence>
-                            <element name="encoding" type="string"/>
-                        </sequence>
-                    </extension>
-                </complexContent>
-            </complexType>
-            <complexType name="JSONParserExceptionType">
-                <complexContent>
-                    <extension base="tns:JSONActivityException"/>
-                </complexContent>
-            </complexType>
-            <element name="JSONParserException" type="tns:JSONParserExceptionType"/>
-            <complexType name="JSONTransformExceptionType">
-                <complexContent>
-                    <extension base="tns:JSONActivityException"/>
-                </complexContent>
-            </complexType>
-            <element name="JSONTransformException" type="tns:JSONTransformExceptionType"/>
-            <complexType name="JSONRenderExceptionType">
-                <complexContent>
-                    <extension base="tns:JSONActivityException"/>
-                </complexContent>
-            </complexType>
-            <element name="JSONRenderException" type="tns:JSONRenderExceptionType"/>
-            <complexType name="JSONRestExceptionType">
-                <complexContent>
-                    <extension base="tns:JSONActivityException"/>
-                </complexContent>
-            </complexType>
-            <element name="JSONRestException" type="tns:JSONRestExceptionType"/>
-            <complexType name="ValidationExceptionType">
-                <complexContent>
-                    <extension base="tns:JSONActivityException"/>
-                </complexContent>
-            </complexType>
-            <element name="ValidationException" type="tns:ValidationExceptionType"/>
-        </schema>
-        <schema elementFormDefault="unqualified"
-            targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+bw.http.sendHTTPRequest"
-            xmlns="http://www.w3.org/2001/XMLSchema"
-            xmlns:Q1="http://schemas.tibco.com/bw/plugins/http/5.0/httpExceptions"
-            xmlns:Q2="http://schemas.tibco.com/bw/pe/plugin/5.0/exceptions" xmlns:tns="http://tns.tibco.com/bw/palette/internal/activityerror+bw.http.sendHTTPRequest">
-            <import namespace="http://schemas.tibco.com/bw/pe/plugin/5.0/exceptions"/>
-            <import namespace="http://schemas.tibco.com/bw/plugins/http/5.0/httpExceptions"/>
-            <element name="ActivityErrorData" type="tns:ActivityErrorDataType"/>
-            <complexType name="ActivityErrorDataType">
-                <choice>
-                    <element maxOccurs="1" minOccurs="0" ref="Q1:HttpClientException"/>
-                    <element maxOccurs="1" minOccurs="0" ref="Q1:HttpServerException"/>
-                    <element maxOccurs="1" minOccurs="0" ref="Q1:HttpCommunicationException"/>
-                    <element maxOccurs="1" minOccurs="0" ref="Q2:ActivityTimedOutException"/>
-                </choice>
-            </complexType>
-        </schema>
-        <schema elementFormDefault="unqualified"
-            targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+bw.restjson.JsonParser"
-            xmlns="http://www.w3.org/2001/XMLSchema"
-            xmlns:Q1="http://schemas.tibco.com/bw/plugins/xml/5.0/JSONActivitiesExceptions" xmlns:tns="http://tns.tibco.com/bw/palette/internal/activityerror+bw.restjson.JsonParser">
-            <import namespace="http://schemas.tibco.com/bw/plugins/xml/5.0/JSONActivitiesExceptions"/>
-            <element name="ActivityErrorData" type="tns:ActivityErrorDataType"/>
-            <complexType name="ActivityErrorDataType">
-                <choice>
-                    <element maxOccurs="1" minOccurs="0" ref="Q1:JSONParserException"/>
-                </choice>
-            </complexType>
-        </schema>
     </tibex:Types>
     <tibex:ProcessInfo callable="true" createdBy="user"
         createdOn="Thu Oct 08 10:50:37 CEST 2026" description=""
@@ -673,7 +320,7 @@
                                     <layoutConstraint x="323"
                                     xsi:type="notation:Bounds" y="2"/>
                                     </children>
-                                    <children type="4002 bw.http.sendHTTPRequest">
+                                    <children type="4002 bw.generalactivities.callprocess">
                                     <children type="4017">
                                     <styles
                                     fontName="Segoe UI"
@@ -707,10 +354,10 @@
                                     <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     <layoutConstraint
                                     height="40" width="40"
-                                    x="146"
-                                    xsi:type="notation:Bounds" y="148"/>
+                                    x="99"
+                                    xsi:type="notation:Bounds" y="82"/>
                                     </children>
-                                    <children type="4002 bw.generalactivities.log">
+                                    <children type="4002 bw.generalactivities.mapper">
                                     <children type="4017">
                                     <styles
                                     fontName="Segoe UI"
@@ -744,10 +391,10 @@
                                     <element href="//0/@process/@activity/@activity/@activities.3"/>
                                     <layoutConstraint
                                     height="40" width="40"
-                                    x="74"
-                                    xsi:type="notation:Bounds" y="71"/>
+                                    x="189"
+                                    xsi:type="notation:Bounds" y="82"/>
                                     </children>
-                                    <children type="4002 bw.restjson.JsonParser">
+                                    <children type="4002 bw.generalactivities.callprocess">
                                     <children type="4017">
                                     <styles
                                     fontName="Segoe UI"
@@ -781,8 +428,8 @@
                                     <element href="//0/@process/@activity/@activity/@activities.4"/>
                                     <layoutConstraint
                                     height="40" width="40"
-                                    x="284"
-                                    xsi:type="notation:Bounds" y="148"/>
+                                    x="189"
+                                    xsi:type="notation:Bounds" y="202"/>
                                     </children>
                                     <children type="4002 bw.generalactivities.mapper">
                                     <children type="4017">
@@ -818,8 +465,8 @@
                                     <element href="//0/@process/@activity/@activity/@activities.5"/>
                                     <layoutConstraint
                                     height="40" width="40"
-                                    x="402"
-                                    xsi:type="notation:Bounds" y="148"/>
+                                    x="323"
+                                    xsi:type="notation:Bounds" y="202"/>
                                     </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -833,7 +480,7 @@
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity"/>
-                                    <layoutConstraint height="272"
+                                    <layoutConstraint height="287"
                                     width="535" xsi:type="notation:Bounds"/>
                                 </children>
                                 <styles xsi:type="notation:SortingStyle"/>
@@ -843,7 +490,7 @@
                             <styles xsi:type="bwnotation:BackgroundStyle"/>
                             <styles xsi:type="bwnotation:ResizingStyle"/>
                             <element href="//0/@process/@activity"/>
-                            <layoutConstraint height="272" width="538" xsi:type="notation:Bounds"/>
+                            <layoutConstraint height="287" width="538" xsi:type="notation:Bounds"/>
                         </children>
                         <styles xsi:type="notation:SortingStyle"/>
                         <styles xsi:type="notation:FilteringStyle"/>
@@ -853,7 +500,7 @@
                     <styles xsi:type="bwnotation:BackgroundStyle"/>
                     <styles xsi:type="bwnotation:ResizingStyle"/>
                     <element href="//0/@process/@activity"/>
-                    <layoutConstraint height="296" width="538" x="1"
+                    <layoutConstraint height="311" width="538" x="1"
                         xsi:type="notation:Bounds" y="1"/>
                 </children>
                 <styles xsi:type="notation:SortingStyle"/>
@@ -862,24 +509,24 @@
             </children>
             <styles fontName="Segoe UI" lineColor="0" xsi:type="notation:ShapeStyle"/>
             <element href="//0/@process"/>
-            <layoutConstraint height="348" width="880" xsi:type="notation:Bounds"/>
+            <layoutConstraint height="363" width="880" xsi:type="notation:Bounds"/>
         </children>
         <styles xsi:type="notation:DiagramStyle"/>
         <element href="//0"/>
         <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3" type="4006">
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@links/@children.0"/>
-            <bendpoints points="[25, 22, -71, -66]$[72, 66, -24, -22]" xsi:type="notation:RelativeBendpoints"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -889,15 +536,26 @@
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@links/@children.2"/>
-            <bendpoints points="[25, 1, -113, 0]$[114, 0, -24, -1]" xsi:type="notation:RelativeBendpoints"/>
+            <bendpoints points="[25, -15, -109, 65]$[110, -65, -24, 15]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.3"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4"
@@ -907,8 +565,8 @@
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.3"/>
-            <bendpoints points="[25, 2, -79, 0]$[80, 0, -24, -2]" xsi:type="notation:RelativeBendpoints"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.4"/>
+            <bendpoints points="[25, 0, -117, 0]$[118, 0, -24, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5"
@@ -918,9 +576,8 @@
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.4"/>
-            <bendpoints
-                points="[-23, -24, 116, 122]$[-116, -121, 23, 25]" xsi:type="notation:RelativeBendpoints"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.5"/>
+            <bendpoints points="[-8, -24, 0, 176]$[0, -175, 8, 25]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
     </notation:Diagram>
     <tibex:NamespaceRegistry enabled="true">
@@ -940,6 +597,10 @@
             namespace="http://www.example.org/HolidaysSchema" prefix="tns6"/>
         <tibex:namespaceItem
             namespace="http://www.w3.org/2001/XMLSchema" prefix="xsd"/>
+        <tibex:namespaceItem
+            namespace="http://www.example.com/namespaces/tns/1792485468889" prefix="tns7"/>
+        <tibex:namespaceItem
+            namespace="http://www.example.com/namespaces/tns/1792416103416" prefix="tns8"/>
     </tibex:NamespaceRegistry>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1791449599916"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1791449653483"/>
@@ -948,6 +609,9 @@
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1791450262275"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/HolidaysSchema"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1791816753162"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1792416103416"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1792416216625"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1792485468889"/>
     <bpws:variables>
         <bpws:variable element="ns:ProcessContext"
             name="_processContext" sca-bpel:internal="true"/>
@@ -963,21 +627,16 @@
                 <bpws:literal>orderenrichment.module.NagerHttpClientResource</bpws:literal>
             </bpws:from>
         </bpws:variable>
-        <bpws:variable element="ns2:RequestActivityInput"
-            name="SendHTTPRequest-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns3:RequestActivityOutput"
-            name="SendHTTPRequest" sca-bpel:internal="true"/>
-        <bpws:variable element="ns4:ActivityErrorData"
-            name="_error_SendHTTPRequest" sca-bpel:internal="true"/>
-        <bpws:variable element="ns:ErrorReport" name="_error" sca-bpel:internal="true"/>
-        <bpws:variable element="ns5:ActivityInput" name="Log-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns6:ActivityInputClass"
-            name="ParseJSON-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns8:holidays" name="ParseJSON" sca-bpel:internal="true"/>
-        <bpws:variable element="ns7:ActivityErrorData"
-            name="_error_ParseJSON" sca-bpel:internal="true"/>
-        <bpws:variable element="ns9:festivo" name="MapperFestivo-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns9:festivo" name="MapperFestivo" sca-bpel:internal="true"/>
+        <bpws:variable element="ns10:root" name="Call_GetHolidays-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns11:dates" name="Call_GetHolidays" sca-bpel:internal="true"/>
+        <bpws:variable element="ns12:campo" name="Mapper1-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns12:campo" name="Mapper1" sca-bpel:internal="true"/>
+        <bpws:variable element="ns10:root"
+            name="Call_GetHolidaysNextYear-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns11:dates"
+            name="Call_GetHolidaysNextYear" sca-bpel:internal="true"/>
+        <bpws:variable element="ns12:campo" name="Mapper2-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns12:campo" name="Mapper2" sca-bpel:internal="true"/>
     </bpws:variables>
     <bpws:extensions>
         <bpws:extension mustUnderstand="no" namespace="http://www.eclipse.org/gmf/runtime/1.0.3/notation"/>
@@ -990,11 +649,12 @@
     <bpws:scope name="scope">
         <bpws:flow name="flow">
             <bpws:links>
-                <bpws:link name="StartToSendHTTPRequest" tibex:linkType="SUCCESS"/>
-                <bpws:link name="LogToSendHTTPRequest" tibex:linkType="SUCCESS"/>
-                <bpws:link name="SendHTTPRequestToParseJSON" tibex:linkType="SUCCESS"/>
-                <bpws:link name="ParseJSONToMapper" tibex:linkType="SUCCESS"/>
-                <bpws:link name="MapperToEnd" tibex:linkType="SUCCESS"/>
+                <bpws:link name="StartToCallProcess" tibex:linkType="SUCCESS"/>
+                <bpws:link name="Call_GetHolidaysToMapper" tibex:linkType="SUCCESS"/>
+                <bpws:link name="MapperToEnd" tibex:linkType="SUCCESSWITHNOCONDITION"/>
+                <bpws:link name="MapperToCallProcess" tibex:linkType="SUCCESSWITHCONDITION"/>
+                <bpws:link name="Call_GetHolidaysNextYearToMapper2" tibex:linkType="SUCCESS"/>
+                <bpws:link name="Mapper2ToEnd" tibex:linkType="SUCCESS"/>
             </bpws:links>
             <bpws:extensionActivity>
                 <tibex:receiveEvent createInstance="yes"
@@ -1002,7 +662,7 @@
                     tibex:xpdlId="b8536fc8-e2d5-4822-bed5-a963058adf3f"
                     variable="Start" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:sources>
-                        <bpws:source linkName="StartToSendHTTPRequest"/>
+                        <bpws:source linkName="StartToCallProcess"/>
                     </bpws:sources>
                     <tibex:eventSource>
                         <tibex:StartEvent xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
@@ -1015,10 +675,11 @@
                     tibex:xpdlId="86427cb8-b7b1-4c7d-ae7e-db61eee797f3" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
                         <bpws:target linkName="MapperToEnd"/>
+                        <bpws:target linkName="Mapper2ToEnd"/>
                     </bpws:targets>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1791450262275&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:param name=&quot;MapperFestivo&quot;/>&lt;xsl:template name=&quot;End-input&quot; match=&quot;/&quot;>&lt;tns:root>&lt;tns:effectiveDeliveryDate>&lt;xsl:value-of select=&quot;string((for $i in 0 to 30&amp;#xD;&amp;#xA; return if (not(((((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) - xsd:date('1900-01-07')) div xsd:dayTimeDuration('P1D')) mod 7) = (0, 6))&amp;#xD;&amp;#xA;            and not(string((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D')))) = tokenize($MapperFestivo, ',')))&amp;#xD;&amp;#xA;        then (xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) else ())[1])&quot;/>&lt;/tns:effectiveDeliveryDate>&lt;tns:deliveryShiftReason>&lt;xsl:value-of select=&quot;if ($Start/tns1:requestedDeliveryDate = tokenize($MapperFestivo, ',')) then 'HOLIDAY'&amp;#xD;&amp;#xA;else if (((xsd:date($Start/tns1:requestedDeliveryDate) - xsd:date('1900-01-07')) div xsd:dayTimeDuration('P1D')) mod 7 = (0, 6)) then 'WEEKEND'&amp;#xD;&amp;#xA;else 'NONE'&quot;/>&lt;/tns:deliveryShiftReason>&lt;/tns:root>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1791450262275&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:param name=&quot;Mapper1&quot;/>&lt;xsl:param name=&quot;Mapper2&quot;/>&lt;xsl:param name=&quot;Call_GetHolidays&quot;/>&lt;xsl:template name=&quot;End-input&quot; match=&quot;/&quot;>&lt;tns:root>&lt;tns:effectiveDeliveryDate>&lt;xsl:value-of select=&quot;if (substring($Mapper1, 1, 4) != substring($Start/tns1:requestedDeliveryDate, 1, 4)) then $Mapper2 else $Mapper1&quot;/>&lt;/tns:effectiveDeliveryDate>&lt;tns:deliveryShiftReason>&lt;xsl:value-of select=&quot;if ($Start/tns1:requestedDeliveryDate = tokenize($Call_GetHolidays, ',')) then 'HOLIDAY'&amp;#xD;&amp;#xA;else if (((xsd:date($Start/tns1:requestedDeliveryDate) - xsd:date('1900-01-07')) div xsd:dayTimeDuration('P1D')) mod 7 = (0, 6)) then 'WEEKEND'&amp;#xD;&amp;#xA;else 'NONE'&quot;/>&lt;/tns:deliveryShiftReason>&lt;/tns:root>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -1037,127 +698,52 @@
                 </tibex:activityExtension>
             </bpws:extensionActivity>
             <bpws:extensionActivity>
-                <tibex:activityExtension
-                    governedObjectTypes="BWHttpReference"
-                    inputVariable="SendHTTPRequest-input"
-                    name="SendHTTPRequest"
-                    outputVariable="SendHTTPRequest"
-                    tibex:xpdlId="9b37cc6c-b71d-4918-bbcd-39b5bcdd5e28" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                <tibex:extActivity
+                    inputVariable="Call_GetHolidays-input"
+                    name="Call_GetHolidays"
+                    outputVariable="Call_GetHolidays"
+                    tibex:xpdlId="a81e9daa-e7f0-4a52-b5ee-0bc1f47bad02"
+                    type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="LogToSendHTTPRequest"/>
+                        <bpws:target linkName="StartToCallProcess"/>
                     </bpws:targets>
                     <bpws:sources>
-                        <bpws:source linkName="SendHTTPRequestToParseJSON"/>
+                        <bpws:source linkName="Call_GetHolidaysToMapper"/>
                     </bpws:sources>
                     <tibex:inputBindings>
-                        <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://tns.tibco.com/bw/activity/sendhttprequest/input+9b37cc6c-b71d-4918-bbcd-39b5bcdd5e28+RequestActivityInput&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;SendHTTPRequest-input&quot; match=&quot;/&quot;>&lt;tns4:RequestActivityInput>&lt;Method>&lt;xsl:value-of select=&quot;'GET'&quot;/>&lt;/Method>&lt;RequestURI>&lt;xsl:value-of select=&quot;concat('/api/v3/PublicHolidays/', substring($Start/tns1:requestedDeliveryDate, 1, 4), '/', $Start/tns1:countryCode)&quot;/>&lt;/RequestURI>&lt;/tns4:RequestActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                        <tibex:inputBinding coercion=""
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; xmlns:tns8=&quot;http://www.example.com/namespaces/tns/1792416103416&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;Call_GetHolidays-input&quot; match=&quot;/&quot;>&lt;tns8:root>&lt;tns8:countryCode>&lt;xsl:value-of select=&quot;$Start/tns1:countryCode&quot;/>&lt;/tns8:countryCode>&lt;tns8:year>&lt;xsl:value-of select=&quot;substring($Start/tns1:requestedDeliveryDate, 1, 4)&quot;/>&lt;/tns8:year>&lt;tns8:correlationId>&lt;xsl:value-of select=&quot;$Start/tns1:correlationId&quot;/>&lt;/tns8:correlationId>&lt;/tns8:root>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
-                    <tibex:config>
-                        <bwext:BWActivity
-                            activityTypeID="bw.http.sendHTTPRequest"
-                            version="6.0.0.20132205"
-                            xmlns:RequestActivityInput="http://tns.tibco.com/bw/activity/sendhttprequest/input+9b37cc6c-b71d-4918-bbcd-39b5bcdd5e28+RequestActivityInput"
-                            xmlns:RequestActivityOutput="http://tns.tibco.com/bw/activity/sendhttprequest/output+9b37cc6c-b71d-4918-bbcd-39b5bcdd5e28+RequestActivityOutput"
-                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                            xmlns:http="http://ns.tibco.com/bw/palette/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                            <activityConfig>
-                                <properties name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/http#//SendHTTPRequest"/>
-                                    <value
-                                    httpClientResource="httpClientResource"
-                                    inputHeadersQName="RequestActivityInput:inputHeadersType"
-                                    outputHeadersQName="RequestActivityOutput:outputHeadersType"
-                                    postDataAs="String" xsi:type="http:SendHTTPRequest"/>
-                                </properties>
-                            </activityConfig>
-                        </bwext:BWActivity>
-                    </tibex:config>
-                </tibex:activityExtension>
+                    <tibex:CallProcess
+                        subProcessName="orderenrichment.module.GetHolidays" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
+                </tibex:extActivity>
             </bpws:extensionActivity>
             <bpws:extensionActivity>
-                <tibex:activityExtension inputVariable="Log-input"
-                    name="Log"
-                    tibex:xpdlId="af5b0072-904a-47c0-92fa-088a3baac473" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                <tibex:activityExtension inputVariable="Mapper1-input"
+                    name="Mapper1" outputVariable="Mapper1"
+                    tibex:xpdlId="6687112e-a5b2-4718-a6fe-49fb2d57010a" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="StartToSendHTTPRequest"/>
+                        <bpws:target linkName="Call_GetHolidaysToMapper"/>
                     </bpws:targets>
                     <bpws:sources>
-                        <bpws:source linkName="LogToSendHTTPRequest"/>
+                        <bpws:source linkName="MapperToEnd">
+                            <tibex:DesignExpression>
+                                <tibex:expression
+                                    expression="##otherwise##" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                            </tibex:DesignExpression>
+                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[##otherwise##]]></bpws:transitionCondition>
+                        </bpws:source>
+                        <bpws:source linkName="MapperToCallProcess">
+                            <tibex:DesignExpression>
+                                <tibex:expression
+                                    expression="substring($Mapper1, 1, 4) != substring($Start/ns0:requestedDeliveryDate, 1, 4)" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                            </tibex:DesignExpression>
+                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[substring($Mapper1, 1, 4) != substring($Start/ns0:requestedDeliveryDate, 1, 4)]]></bpws:transitionCondition>
+                        </bpws:source>
                     </bpws:sources>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;Log-input&quot; match=&quot;/&quot;>&lt;tns3:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('Festivita: paese=', $Start/tns1:countryCode, ' anno=', substring($Start/tns1:requestedDeliveryDate, 1, 4))&quot;/>&lt;/message>&lt;/tns3:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
-                    </tibex:inputBindings>
-                    <tibex:config>
-                        <bwext:BWActivity
-                            activityTypeID="bw.generalactivities.log"
-                            version="6.0.0.001"
-                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                            xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                            <activityConfig>
-                                <properties name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Log"/>
-                                    <value controlBy="Application"
-                                    role="Info"
-                                    suppressJobInfo="true" xsi:type="generalactivities:Log"/>
-                                </properties>
-                            </activityConfig>
-                        </bwext:BWActivity>
-                    </tibex:config>
-                </tibex:activityExtension>
-            </bpws:extensionActivity>
-            <bpws:extensionActivity>
-                <tibex:activityExtension inputVariable="ParseJSON-input"
-                    name="ParseJSON" outputVariable="ParseJSON"
-                    tibex:xpdlId="c2f5f4db-f41b-4ab6-962d-cf3f2d6c920b" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
-                    <bpws:targets>
-                        <bpws:target linkName="SendHTTPRequestToParseJSON"/>
-                    </bpws:targets>
-                    <bpws:sources>
-                        <bpws:source linkName="ParseJSONToMapper"/>
-                    </bpws:sources>
-                    <tibex:inputBindings>
-                        <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;activity.jsonParser.input+c2f5f4db-f41b-4ab6-962d-cf3f2d6c920b+ActivityInputType&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;SendHTTPRequest&quot;/>&lt;xsl:template name=&quot;ParseJSON-input&quot; match=&quot;/&quot;>&lt;tns2:ActivityInputClass>&lt;jsonString>&lt;xsl:value-of select=&quot;$SendHTTPRequest/asciiContent&quot;/>&lt;/jsonString>&lt;/tns2:ActivityInputClass>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
-                    </tibex:inputBindings>
-                    <tibex:config>
-                        <bwext:BWActivity
-                            activityTypeID="bw.restjson.JsonParser"
-                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                            xmlns:restjson="http://ns.tibco.com/bw/palette/restjson" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                            <activityConfig>
-                                <properties name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/restjson#//JsonParser"/>
-                                    <value
-                                    IgnoreAdditionalJSONFields="true"
-                                    jsonInputStyle="Anonymous Array"
-                                    schemaType="Xsd" xsi:type="restjson:JsonParser">
-                                    <outputEditorElement href="platform:/resource/OrderEnrichment.module/Schemas/Holidays.xsd#//holidays;XSDElementDeclaration"/>
-                                    </value>
-                                </properties>
-                            </activityConfig>
-                        </bwext:BWActivity>
-                    </tibex:config>
-                </tibex:activityExtension>
-            </bpws:extensionActivity>
-            <bpws:extensionActivity>
-                <tibex:activityExtension
-                    inputVariable="MapperFestivo-input"
-                    name="MapperFestivo" outputVariable="MapperFestivo"
-                    tibex:xpdlId="c0a17230-c677-458d-ba61-501f0c46fbb3" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
-                    <bpws:targets>
-                        <bpws:target linkName="ParseJSONToMapper"/>
-                    </bpws:targets>
-                    <bpws:sources>
-                        <bpws:source linkName="MapperToEnd"/>
-                    </bpws:sources>
-                    <tibex:inputBindings>
-                        <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns5=&quot;http://www.example.com/namespaces/tns/1791816753162&quot; xmlns:tns6=&quot;http://www.example.org/HolidaysSchema&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;ParseJSON&quot;/>&#xa;    &lt;xsl:template name=&quot;MapperFestivo-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns5:festivo>&#xa;            &lt;xsl:value-of select=&quot;string-join($ParseJSON/tns6:holiday[@global = true() and tns6:types = 'Public']/@date, ',')&quot;/>&#xa;        &lt;/tns5:festivo>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns7=&quot;http://www.example.com/namespaces/tns/1792485468889&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Call_GetHolidays&quot;/>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;Mapper1-input&quot; match=&quot;/&quot;>&lt;tns7:campo>&lt;xsl:value-of select=&quot;string((for $i in 0 to &amp;#xD;&amp;#xA;30&amp;#xD;&amp;#xA;return if (not(((((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) - xsd:date('1900-01-07')) div xsd:dayTimeDuration('P1D')) mod 7) = (0, 6))&amp;#xD;&amp;#xA;and not(string((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D')))) = tokenize($Call_GetHolidays, ',')))&amp;#xD;&amp;#xA;then (xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) else ())[1])&quot;/>&lt;/tns7:campo>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -1166,12 +752,66 @@
                             xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
                             xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
                             xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities"
-                            xmlns:tns_1791816753162="http://www.example.com/namespaces/tns/1791816753162" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            xmlns:tns_1792485468889="http://www.example.com/namespaces/tns/1792485468889" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                             <activityConfig>
                                 <properties name="config" xsi:type="activityconfig:EMFProperty">
                                     <type href="http://ns.tibco.com/bw/palette/generalactivities#//Mapper"/>
                                     <value
-                                    inputQName="tns_1791816753162:festivo" xsi:type="generalactivities:Mapper"/>
+                                    inputQName="tns_1792485468889:campo" xsi:type="generalactivities:Mapper"/>
+                                </properties>
+                            </activityConfig>
+                        </bwext:BWActivity>
+                    </tibex:config>
+                </tibex:activityExtension>
+            </bpws:extensionActivity>
+            <bpws:extensionActivity>
+                <tibex:extActivity
+                    inputVariable="Call_GetHolidaysNextYear-input"
+                    name="Call_GetHolidaysNextYear"
+                    outputVariable="Call_GetHolidaysNextYear"
+                    tibex:xpdlId="66528c4d-3fe7-4735-b338-99dd244fab33"
+                    type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                    <bpws:targets>
+                        <bpws:target linkName="MapperToCallProcess"/>
+                    </bpws:targets>
+                    <bpws:sources>
+                        <bpws:source linkName="Call_GetHolidaysNextYearToMapper2"/>
+                    </bpws:sources>
+                    <tibex:inputBindings>
+                        <tibex:inputBinding coercion=""
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns8=&quot;http://www.example.com/namespaces/tns/1792416103416&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;Call_GetHolidaysNextYear-input&quot; match=&quot;/&quot;>&lt;tns8:root>&lt;tns8:countryCode>&lt;xsl:value-of select=&quot;$Start/tns1:countryCode&quot;/>&lt;/tns8:countryCode>&lt;tns8:year>&lt;xsl:value-of select=&quot;string(xsd:int(substring($Start/tns1:requestedDeliveryDate, 1, 4)) + 1)&quot;/>&lt;/tns8:year>&lt;tns8:correlationId>&lt;xsl:value-of select=&quot;$Start/tns1:correlationId&quot;/>&lt;/tns8:correlationId>&lt;/tns8:root>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                    </tibex:inputBindings>
+                    <tibex:CallProcess
+                        subProcessName="orderenrichment.module.GetHolidays" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
+                </tibex:extActivity>
+            </bpws:extensionActivity>
+            <bpws:extensionActivity>
+                <tibex:activityExtension inputVariable="Mapper2-input"
+                    name="Mapper2" outputVariable="Mapper2"
+                    tibex:xpdlId="13210f9c-6241-4ab7-86c1-b0351a04cbb7" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                    <bpws:targets>
+                        <bpws:target linkName="Call_GetHolidaysNextYearToMapper2"/>
+                    </bpws:targets>
+                    <bpws:sources>
+                        <bpws:source linkName="Mapper2ToEnd"/>
+                    </bpws:sources>
+                    <tibex:inputBindings>
+                        <tibex:inputBinding
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns7=&quot;http://www.example.com/namespaces/tns/1792485468889&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Call_GetHolidays&quot;/>&lt;xsl:param name=&quot;Call_GetHolidaysNextYear&quot;/>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;Mapper2-input&quot; match=&quot;/&quot;>&lt;tns7:campo>&lt;xsl:value-of select=&quot;string((for $i in 0 to &amp;#xD;&amp;#xA;30&amp;#xD;&amp;#xA;return if (not(((((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) - xsd:date('1900-01-07')) div xsd:dayTimeDuration('P1D')) mod 7) = (0, 6))&amp;#xD;&amp;#xA;and not(string((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D')))) = tokenize(concat($Call_GetHolidays, ',', $Call_GetHolidaysNextYear), ',')))&amp;#xD;&amp;#xA;then (xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) else ())[1])&quot;/>&lt;/tns7:campo>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                    </tibex:inputBindings>
+                    <tibex:config>
+                        <bwext:BWActivity
+                            activityTypeID="bw.generalactivities.mapper"
+                            version="6.0.0.001"
+                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                            xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities"
+                            xmlns:tns_1792485468889="http://www.example.com/namespaces/tns/1792485468889" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <activityConfig>
+                                <properties name="config" xsi:type="activityconfig:EMFProperty">
+                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Mapper"/>
+                                    <value
+                                    inputQName="tns_1792485468889:campo" xsi:type="generalactivities:Mapper"/>
                                 </properties>
                             </activityConfig>
                         </bwext:BWActivity>

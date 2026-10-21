@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jndi:namedResource xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:http="http://xsd.tns.tibco.com/bw/models/sharedresource/httpclient" xmlns:jndi="http://xsd.tns.tibco.com/amf/models/sharedresource/jndi" xmi:id="_xGUEgcYaEfG1-5ooWifRGA" name="orderenrichment.module.FrankfurterHttpClientResource" type="http:HttpClientConfiguration">
-  <jndi:configuration xsi:type="http:HttpClientConfiguration" xmi:id="_xIiSEMYaEfG1-5ooWifRGA" httpClientVersion="httpcomponents" retryCount="3" idleConnectionTimeout="3000" useDefaultSSL="true" hystrixCommandName="orderenrichment.module.FrankfurterHttpClientResource" cmdExecutionIsolationStrategy="COUNT_BASED" cmdExecutionIsolationTimeout="10" cmdExecutionIsolationInterruptOnTimeout="true" cmdExecutionIsolationSemaphoreMaxConcRequests="8" cmdCircuitBreakerRequestVolumeThreshold="50" cmdCircuitBreakerSleepWindow="100" cmdCircuitBreakerErrorThresholdPercentage="100" cmdMetricsRollingStatsTime="100" cmdMetricsRollingStatsNumBuckets="60000" cmdMetricsHealthSnapshotInterval="500" tpCoreSize="10" tpMaxQueueSize="60000" tpQueueSizeRejectionThreshold="6000" tpKeepAliveTime="1">
-    <tcpDetails xmi:id="_xIo_wMYaEfG1-5ooWifRGA" port="443">
+  <jndi:configuration xsi:type="http:HttpClientConfiguration" xmi:id="_xIiSEMYaEfG1-5ooWifRGA" httpClientVersion="httpcomponents" retryCount="3" idleConnectionTimeout="3000" hystrixCommandName="orderenrichment.module.FrankfurterHttpClientResource" cmdExecutionIsolationStrategy="COUNT_BASED" cmdExecutionIsolationTimeout="10" cmdExecutionIsolationInterruptOnTimeout="true" cmdExecutionIsolationSemaphoreMaxConcRequests="8" cmdCircuitBreakerRequestVolumeThreshold="50" cmdCircuitBreakerSleepWindow="100" cmdCircuitBreakerErrorThresholdPercentage="100" cmdMetricsRollingStatsTime="100" cmdMetricsRollingStatsNumBuckets="60000" cmdMetricsHealthSnapshotInterval="500" tpCoreSize="10" tpMaxQueueSize="60000" tpQueueSizeRejectionThreshold="6000" tpKeepAliveTime="1">
+    <tcpDetails xmi:id="_xIo_wMYaEfG1-5ooWifRGA">
       <substitutionBindings xmi:id="_P1JwYMYbEfG1-5ooWifRGA" template="host" propName="frankfurter.host"/>
+      <substitutionBindings xmi:id="_RV4HwMlGEfGEAO5aqGPUsg" template="port" propName="frankfurter.port"/>
     </tcpDetails>
   </jndi:configuration>
 </jndi:namedResource>
