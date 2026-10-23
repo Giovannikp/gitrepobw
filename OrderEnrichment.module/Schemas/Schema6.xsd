@@ -5,6 +5,7 @@
       <xsd:sequence>
         <xsd:element name="effectiveDeliveryDate" type="xsd:string"/>
         <xsd:element name="deliveryShiftReason" type="xsd:string"/>
+        <xsd:element name="warnings" type="xsd:string"/>
       </xsd:sequence>
     </xsd:complexType>
   </xsd:element>

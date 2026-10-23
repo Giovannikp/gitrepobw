@@ -11,6 +11,7 @@
     xmlns:ns10="http://www.example.com/namespaces/tns/1792416103416"
     xmlns:ns11="http://www.example.com/namespaces/tns/1792416216625"
     xmlns:ns12="http://www.example.com/namespaces/tns/1792485468889"
+    xmlns:ns13="http://www.example.com/namespaces/tns/1792679953386"
     xmlns:ns2="http://tns.tibco.com/bw/activity/sendhttprequest/input+9b37cc6c-b71d-4918-bbcd-39b5bcdd5e28+RequestActivityInput"
     xmlns:ns3="http://tns.tibco.com/bw/activity/sendhttprequest/output+9b37cc6c-b71d-4918-bbcd-39b5bcdd5e28+RequestActivityOutput"
     xmlns:ns4="http://tns.tibco.com/bw/palette/internal/activityerror+bw.http.sendHTTPRequest"
@@ -29,6 +30,7 @@
                 <variable>Start</variable>
                 <variable>Call_GetHolidays</variable>
                 <variable>Mapper1</variable>
+                <variable>Call_GetHolidaysNextYear</variable>
                 <variable>Mapper2</variable>
             </endingVariables>
         </task>
@@ -50,7 +52,11 @@
         <task name="Mapper2">
             <endingVariables>
                 <variable>Mapper2-input</variable>
-                <variable>Call_GetHolidaysNextYear</variable>
+            </endingVariables>
+        </task>
+        <task name="LogStartDelivery">
+            <endingVariables>
+                <variable>LogStartDelivery-input</variable>
             </endingVariables>
         </task>
     </tibex:VariableDescriptor>
@@ -221,6 +227,23 @@
             </complexType>
             <element name="DuplicateKeyException" type="tns:DuplicateKeyExceptionType"/>
         </schema>
+        <xs:schema attributeFormDefault="unqualified"
+            elementFormDefault="qualified"
+            targetNamespace="http://www.tibco.com/pe/WriteToLogActivitySchema"
+            xmlns:tns="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:complexType name="LogParametersType">
+                <xs:sequence>
+                    <xs:element form="unqualified" minOccurs="0"
+                        name="msgCode" type="xs:string"/>
+                    <xs:element form="unqualified" minOccurs="0"
+                        name="loggerName" type="xs:string"/>
+                    <xs:element form="unqualified" minOccurs="0"
+                        name="logLevel" type="xs:string"/>
+                    <xs:element form="unqualified" name="message" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="ActivityInput" type="tns:LogParametersType"/>
+        </xs:schema>
     </tibex:Types>
     <tibex:ProcessInfo callable="true" createdBy="user"
         createdOn="Thu Oct 08 10:50:37 CEST 2026" description=""
@@ -282,8 +305,8 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.0"/>
-                                    <layoutConstraint x="2"
-                                    xsi:type="notation:Bounds" y="2"/>
+                                    <layoutConstraint x="-61"
+                                    xsi:type="notation:Bounds" y="-14"/>
                                     </children>
                                     <children type="4002">
                                     <children type="4017">
@@ -468,6 +491,43 @@
                                     x="323"
                                     xsi:type="notation:Bounds" y="202"/>
                                     </children>
+                                    <children type="4002 bw.generalactivities.log">
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <styles fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.6"/>
+                                    <layoutConstraint
+                                    height="40" width="40"
+                                    x="-2"
+                                    xsi:type="notation:Bounds" y="82"/>
+                                    </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
                                     <styles xsi:type="notation:FilteringStyle"/>
@@ -480,8 +540,8 @@
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity"/>
-                                    <layoutConstraint height="287"
-                                    width="535" xsi:type="notation:Bounds"/>
+                                    <layoutConstraint height="401"
+                                    width="713" xsi:type="notation:Bounds"/>
                                 </children>
                                 <styles xsi:type="notation:SortingStyle"/>
                                 <styles xsi:type="notation:FilteringStyle"/>
@@ -509,13 +569,13 @@
             </children>
             <styles fontName="Segoe UI" lineColor="0" xsi:type="notation:ShapeStyle"/>
             <element href="//0/@process"/>
-            <layoutConstraint height="363" width="880" xsi:type="notation:Bounds"/>
+            <layoutConstraint height="477" width="1058" xsi:type="notation:Bounds"/>
         </children>
         <styles xsi:type="notation:DiagramStyle"/>
         <element href="//0"/>
         <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.6" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -579,6 +639,17 @@
             <element href="//0/@process/@activity/@activity/@links/@children.5"/>
             <bendpoints points="[-8, -24, 0, 176]$[0, -175, 8, 25]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.6"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.6"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
     </notation:Diagram>
     <tibex:NamespaceRegistry enabled="true">
         <tibex:namespaceItem
@@ -601,6 +672,8 @@
             namespace="http://www.example.com/namespaces/tns/1792485468889" prefix="tns7"/>
         <tibex:namespaceItem
             namespace="http://www.example.com/namespaces/tns/1792416103416" prefix="tns8"/>
+        <tibex:namespaceItem
+            namespace="http://www.example.com/namespaces/tns/1792679953386" prefix="tns9"/>
     </tibex:NamespaceRegistry>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1791449599916"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1791449653483"/>
@@ -612,6 +685,7 @@
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1792416103416"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1792416216625"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1792485468889"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1792679953386"/>
     <bpws:variables>
         <bpws:variable element="ns:ProcessContext"
             name="_processContext" sca-bpel:internal="true"/>
@@ -628,15 +702,17 @@
             </bpws:from>
         </bpws:variable>
         <bpws:variable element="ns10:root" name="Call_GetHolidays-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns11:dates" name="Call_GetHolidays" sca-bpel:internal="true"/>
+        <bpws:variable element="ns13:root" name="Call_GetHolidays" sca-bpel:internal="true"/>
         <bpws:variable element="ns12:campo" name="Mapper1-input" sca-bpel:internal="true"/>
         <bpws:variable element="ns12:campo" name="Mapper1" sca-bpel:internal="true"/>
         <bpws:variable element="ns10:root"
             name="Call_GetHolidaysNextYear-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns11:dates"
+        <bpws:variable element="ns13:root"
             name="Call_GetHolidaysNextYear" sca-bpel:internal="true"/>
         <bpws:variable element="ns12:campo" name="Mapper2-input" sca-bpel:internal="true"/>
         <bpws:variable element="ns12:campo" name="Mapper2" sca-bpel:internal="true"/>
+        <bpws:variable element="ns5:ActivityInput"
+            name="LogStartDelivery-input" sca-bpel:internal="true"/>
     </bpws:variables>
     <bpws:extensions>
         <bpws:extension mustUnderstand="no" namespace="http://www.eclipse.org/gmf/runtime/1.0.3/notation"/>
@@ -655,6 +731,7 @@
                 <bpws:link name="MapperToCallProcess" tibex:linkType="SUCCESSWITHCONDITION"/>
                 <bpws:link name="Call_GetHolidaysNextYearToMapper2" tibex:linkType="SUCCESS"/>
                 <bpws:link name="Mapper2ToEnd" tibex:linkType="SUCCESS"/>
+                <bpws:link name="LogToCall_GetHolidays" tibex:linkType="SUCCESS"/>
             </bpws:links>
             <bpws:extensionActivity>
                 <tibex:receiveEvent createInstance="yes"
@@ -679,7 +756,7 @@
                     </bpws:targets>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1791450262275&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:param name=&quot;Mapper1&quot;/>&lt;xsl:param name=&quot;Mapper2&quot;/>&lt;xsl:param name=&quot;Call_GetHolidays&quot;/>&lt;xsl:template name=&quot;End-input&quot; match=&quot;/&quot;>&lt;tns:root>&lt;tns:effectiveDeliveryDate>&lt;xsl:value-of select=&quot;if (substring($Mapper1, 1, 4) != substring($Start/tns1:requestedDeliveryDate, 1, 4)) then $Mapper2 else $Mapper1&quot;/>&lt;/tns:effectiveDeliveryDate>&lt;tns:deliveryShiftReason>&lt;xsl:value-of select=&quot;if ($Start/tns1:requestedDeliveryDate = tokenize($Call_GetHolidays, ',')) then 'HOLIDAY'&amp;#xD;&amp;#xA;else if (((xsd:date($Start/tns1:requestedDeliveryDate) - xsd:date('1900-01-07')) div xsd:dayTimeDuration('P1D')) mod 7 = (0, 6)) then 'WEEKEND'&amp;#xD;&amp;#xA;else 'NONE'&quot;/>&lt;/tns:deliveryShiftReason>&lt;/tns:root>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1791450262275&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; xmlns:tns9=&quot;http://www.example.com/namespaces/tns/1792679953386&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:param name=&quot;Mapper1&quot;/>&lt;xsl:param name=&quot;Mapper2&quot;/>&lt;xsl:param name=&quot;Call_GetHolidays&quot;/>&lt;xsl:param name=&quot;Call_GetHolidaysNextYear&quot;/>&lt;xsl:template name=&quot;End-input&quot; match=&quot;/&quot;>&lt;tns:root>&lt;tns:effectiveDeliveryDate>&lt;xsl:value-of select=&quot;if (substring($Mapper1, 1, 4) !=substring($Start/tns1:requestedDeliveryDate, 1, 4)) then $Mapper2 else $Mapper1&quot;/>&lt;/tns:effectiveDeliveryDate>&lt;tns:deliveryShiftReason>&lt;xsl:value-of select=&quot;if ($Start/tns1:requestedDeliveryDate = tokenize($Call_GetHolidays/tns9:dates, ',')) then 'HOLIDAY'&amp;#xD;&amp;#xA;else if (((xsd:date($Start/tns1:requestedDeliveryDate) - xsd:date('1900-01-07')) div xsd:dayTimeDuration('P1D')) mod 7 = (0, 6)) then 'WEEKEND'&amp;#xD;&amp;#xA;else 'NONE'&quot;/>&lt;/tns:deliveryShiftReason>&lt;tns:warnings>&lt;xsl:value-of select=&quot;if ($Call_GetHolidays/tns9:skipped = true() or (if (substring($Mapper1, 1, 4) != substring($Start/tns1:requestedDeliveryDate, 1, 4)) then $Call_GetHolidaysNextYear/tns9:skipped = true() else false())) then 'HOLIDAY_CHECK_SKIPPED' else ()&quot;/>&lt;/tns:warnings>&lt;/tns:root>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -705,7 +782,7 @@
                     tibex:xpdlId="a81e9daa-e7f0-4a52-b5ee-0bc1f47bad02"
                     type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="StartToCallProcess"/>
+                        <bpws:target linkName="LogToCall_GetHolidays"/>
                     </bpws:targets>
                     <bpws:sources>
                         <bpws:source linkName="Call_GetHolidaysToMapper"/>
@@ -743,7 +820,7 @@
                     </bpws:sources>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns7=&quot;http://www.example.com/namespaces/tns/1792485468889&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Call_GetHolidays&quot;/>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;Mapper1-input&quot; match=&quot;/&quot;>&lt;tns7:campo>&lt;xsl:value-of select=&quot;string((for $i in 0 to &amp;#xD;&amp;#xA;30&amp;#xD;&amp;#xA;return if (not(((((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) - xsd:date('1900-01-07')) div xsd:dayTimeDuration('P1D')) mod 7) = (0, 6))&amp;#xD;&amp;#xA;and not(string((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D')))) = tokenize($Call_GetHolidays, ',')))&amp;#xD;&amp;#xA;then (xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) else ())[1])&quot;/>&lt;/tns7:campo>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns7=&quot;http://www.example.com/namespaces/tns/1792485468889&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns9=&quot;http://www.example.com/namespaces/tns/1792679953386&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;Call_GetHolidays&quot;/>&#xa;    &lt;xsl:param name=&quot;Start&quot;/>&#xa;    &lt;xsl:template name=&quot;Mapper1-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns7:campo>&#xa;            &lt;xsl:value-of select=&quot;string((for $i in 0 to &amp;#xD;&amp;#xA;30&amp;#xD;&amp;#xA;return if (not(((((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) - xsd:date('1900-01-07')) div xsd:dayTimeDuration('P1D')) mod 7) = (0, 6))&amp;#xD;&amp;#xA;and not(string((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D')))) = tokenize($Call_GetHolidays/tns9:dates, ',')))&amp;#xD;&amp;#xA;then (xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) else ())[1])&quot;/>&#xa;        &lt;/tns7:campo>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -797,7 +874,7 @@
                     </bpws:sources>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns7=&quot;http://www.example.com/namespaces/tns/1792485468889&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Call_GetHolidays&quot;/>&lt;xsl:param name=&quot;Call_GetHolidaysNextYear&quot;/>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;Mapper2-input&quot; match=&quot;/&quot;>&lt;tns7:campo>&lt;xsl:value-of select=&quot;string((for $i in 0 to &amp;#xD;&amp;#xA;30&amp;#xD;&amp;#xA;return if (not(((((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) - xsd:date('1900-01-07')) div xsd:dayTimeDuration('P1D')) mod 7) = (0, 6))&amp;#xD;&amp;#xA;and not(string((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D')))) = tokenize(concat($Call_GetHolidays, ',', $Call_GetHolidaysNextYear), ',')))&amp;#xD;&amp;#xA;then (xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) else ())[1])&quot;/>&lt;/tns7:campo>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns7=&quot;http://www.example.com/namespaces/tns/1792485468889&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns9=&quot;http://www.example.com/namespaces/tns/1792679953386&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;Call_GetHolidays&quot;/>&#xa;    &lt;xsl:param name=&quot;Call_GetHolidaysNextYear&quot;/>&#xa;    &lt;xsl:param name=&quot;Start&quot;/>&#xa;    &lt;xsl:template name=&quot;Mapper2-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns7:campo>&#xa;            &lt;xsl:value-of select=&quot;string((for $i in 0 to &amp;#xD;&amp;#xA;30&amp;#xD;&amp;#xA;return if (not(((((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) - xsd:date('1900-01-07')) div xsd:dayTimeDuration('P1D')) mod 7) = (0, 6))&amp;#xD;&amp;#xA;and not(string((xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D')))) = tokenize(concat(   $Call_GetHolidays/tns9:dates, ',', $Call_GetHolidaysNextYear/tns9:dates), ',')))&amp;#xD;&amp;#xA;then (xsd:date($Start/tns1:requestedDeliveryDate) + xsd:dayTimeDuration(concat('P', string($i), 'D'))) else ())[1])&quot;/>&#xa;        &lt;/tns7:campo>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -812,6 +889,40 @@
                                     <type href="http://ns.tibco.com/bw/palette/generalactivities#//Mapper"/>
                                     <value
                                     inputQName="tns_1792485468889:campo" xsi:type="generalactivities:Mapper"/>
+                                </properties>
+                            </activityConfig>
+                        </bwext:BWActivity>
+                    </tibex:config>
+                </tibex:activityExtension>
+            </bpws:extensionActivity>
+            <bpws:extensionActivity>
+                <tibex:activityExtension
+                    inputVariable="LogStartDelivery-input"
+                    name="LogStartDelivery"
+                    tibex:xpdlId="83924d39-4878-4a04-8156-f868e40d3b32" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                    <bpws:targets>
+                        <bpws:target linkName="StartToCallProcess"/>
+                    </bpws:targets>
+                    <bpws:sources>
+                        <bpws:source linkName="LogToCall_GetHolidays"/>
+                    </bpws:sources>
+                    <tibex:inputBindings>
+                        <tibex:inputBinding
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1791449715314&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;LogStartDelivery-input&quot; match=&quot;/&quot;>&lt;tns3:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('[', $Start/tns1:correlationId, '] Inizio richiesta')&quot;/>&lt;/message>&lt;/tns3:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                    </tibex:inputBindings>
+                    <tibex:config>
+                        <bwext:BWActivity
+                            activityTypeID="bw.generalactivities.log"
+                            version="6.0.0.001"
+                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                            xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <activityConfig>
+                                <properties name="config" xsi:type="activityconfig:EMFProperty">
+                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Log"/>
+                                    <value controlBy="Application"
+                                    role="Info"
+                                    suppressJobInfo="true" xsi:type="generalactivities:Log"/>
                                 </properties>
                             </activityConfig>
                         </bwext:BWActivity>

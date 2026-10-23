@@ -24,6 +24,8 @@
       <xs:element name="effectiveDeliveryDate" type="xs:string"/>
                   
       <xs:element name="deliveryShiftReason" type="xs:string"/>
+      
+      <xs:element name="warnings" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
               
     </xs:sequence>
         

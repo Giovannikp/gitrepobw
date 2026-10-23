@@ -138,6 +138,13 @@
         },
         "deliveryShiftReason" : {
           "type" : "string"
+        },
+        "warnings" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "uniqueItems" : false
+          }
         }
       }
     },

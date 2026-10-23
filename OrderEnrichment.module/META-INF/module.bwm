@@ -48,7 +48,4 @@
       <sca:interface.wsdl xmi:id="_YzLhwMLuEfGOfqiy79ywfQ" interface="http://xmlns.example.com/20261008100054PLT#wsdl.interface(orders)" scaext:wsdlLocation="../Processes/orderenrichment/module/Orders.bwp"/>
     </sca:service>
   </sca:component>
-  <sca:component xmi:id="_xBfksMxWEfGEAO5aqGPUsg" name="ComponentTestGetHolidays" compositeext:version="1.0.0.qualifier">
-    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_xBfkscxWEfGEAO5aqGPUsg" processName="orderenrichment.module.TestGetHolidays"/>
-  </sca:component>
 </sca:composite>
