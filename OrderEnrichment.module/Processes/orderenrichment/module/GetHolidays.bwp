@@ -79,6 +79,7 @@
         <task name="LogFestiviSkipped">
             <endingVariables>
                 <variable>LogFestiviSkipped-input</variable>
+                <variable>FaultDetails1</variable>
             </endingVariables>
         </task>
     </tibex:VariableDescriptor>
@@ -862,8 +863,8 @@
                                     <element href="//0/@process/@activity/@activity/@activities.5"/>
                                     <layoutConstraint
                                     height="40" width="40"
-                                    x="638"
-                                    xsi:type="notation:Bounds" y="231"/>
+                                    x="656"
+                                    xsi:type="notation:Bounds" y="237"/>
                                     </children>
                                     <children type="4002 bw.generalactivities.mapper">
                                     <children type="4017">
@@ -1070,7 +1071,7 @@
                                     <layoutConstraint
                                     height="40"
                                     width="40"
-                                    x="41"
+                                    x="37"
                                     xsi:type="notation:Bounds" y="53"/>
                                     </children>
 
@@ -1127,7 +1128,7 @@
                                     height="40"
                                     width="40"
                                     x="141"
-                                    xsi:type="notation:Bounds" y="39"/>
+                                    xsi:type="notation:Bounds" y="53"/>
                                     </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -1158,7 +1159,7 @@
                                     <element href="//0/@process/@activity/@activity/@activities.8"/>
                                     <layoutConstraint
                                     height="165"
-                                    width="421"
+                                    width="448"
                                     x="15"
                                     xsi:type="notation:Bounds" y="20"/>
                                     </children>
@@ -1249,9 +1250,9 @@
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.8"/>
                                     <layoutConstraint
-                                    height="209" width="461"
-                                    x="166"
-                                    xsi:type="notation:Bounds" y="158"/>
+                                    height="209" width="488"
+                                    x="154"
+                                    xsi:type="notation:Bounds" y="164"/>
                                     </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -1265,8 +1266,8 @@
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity"/>
-                                    <layoutConstraint height="474"
-                                    width="1003" xsi:type="notation:Bounds"/>
+                                    <layoutConstraint height="497"
+                                    width="884" xsi:type="notation:Bounds"/>
                                 </children>
                                 <styles xsi:type="notation:SortingStyle"/>
                                 <styles xsi:type="notation:FilteringStyle"/>
@@ -1275,7 +1276,7 @@
                             <styles xsi:type="bwnotation:BackgroundStyle"/>
                             <styles xsi:type="bwnotation:ResizingStyle"/>
                             <element href="//0/@process/@activity"/>
-                            <layoutConstraint height="462" width="1006" xsi:type="notation:Bounds"/>
+                            <layoutConstraint height="497" width="887" xsi:type="notation:Bounds"/>
                         </children>
                         <children type="4022">
                             <children type="3022">
@@ -1402,9 +1403,11 @@
                                     <styles fontName="Segoe UI"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
                                     <styles xsi:type="bwnotation:BackgroundStyle"/>
-                                    <styles xsi:type="bwnotation:ResizingStyle"/>
+                                    <styles restoreHeight="178"
+                                    restoreWidth="836" xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@faultHandlers/@catchAll"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    <layoutConstraint height="178"
+                                    width="836" xsi:type="notation:Bounds"/>
                                 </children>
                                 <styles xsi:type="notation:SortingStyle"/>
                                 <styles xsi:type="notation:FilteringStyle"/>
@@ -1413,7 +1416,8 @@
                             <styles xsi:type="bwnotation:BackgroundStyle"/>
                             <styles xsi:type="bwnotation:ResizingStyle"/>
                             <element href="//0/@process/@activity/@faultHandlers"/>
-                            <layoutConstraint height="200" width="911" xsi:type="notation:Bounds"/>
+                            <layoutConstraint height="200" width="846"
+                                x="22" xsi:type="notation:Bounds" y="497"/>
                         </children>
                         <styles xsi:type="notation:SortingStyle"/>
                         <styles xsi:type="notation:FilteringStyle"/>
@@ -1423,7 +1427,7 @@
                     <styles xsi:type="bwnotation:BackgroundStyle"/>
                     <styles xsi:type="bwnotation:ResizingStyle"/>
                     <element href="//0/@process/@activity"/>
-                    <layoutConstraint height="698" width="1006" x="1"
+                    <layoutConstraint height="698" width="887" x="1"
                         xsi:type="notation:Bounds" y="1"/>
                 </children>
                 <styles xsi:type="notation:SortingStyle"/>
@@ -1432,7 +1436,7 @@
             </children>
             <styles fontName="Segoe UI" lineColor="0" xsi:type="notation:ShapeStyle"/>
             <element href="//0/@process"/>
-            <layoutConstraint height="750" width="1228" xsi:type="notation:Bounds"/>
+            <layoutConstraint height="670" width="1229" xsi:type="notation:Bounds"/>
         </children>
         <styles xsi:type="notation:DiagramStyle"/>
         <element href="//0"/>
@@ -1481,17 +1485,6 @@
             <bendpoints points="[1, 25, 0, -99]$[0, 100, -1, -24]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.8/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5" type="4006">
-            <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.4"/>
-            <bendpoints points="[25, 1, -113, 0]$[114, 0, -24, -1]" xsi:type="notation:RelativeBendpoints"/>
-        </edges>
-        <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5"
             target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.6" type="4006">
             <children type="6002">
@@ -1499,7 +1492,7 @@
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.5"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.4"/>
             <bendpoints points="[25, 2, -79, 0]$[80, 0, -24, -2]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
@@ -1510,7 +1503,7 @@
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.6"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.5"/>
             <bendpoints points="[25, 0, -73, 0]$[74, 0, -24, 0]" xsi:type="notation:RelativeBendpoints"/>
             <targetAnchor id="(0.0,0.5142857142857142)" xsi:type="notation:IdentityAnchor"/>
         </edges>
@@ -1522,7 +1515,7 @@
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.7"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.6"/>
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
@@ -1533,7 +1526,7 @@
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.8"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.7"/>
             <bendpoints
                 points="[-24, -22, 109, 100]$[-108, -100, 25, 22]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
@@ -1581,6 +1574,28 @@
             <element href="//0/@process/@activity/@faultHandlers/@catchAll/@activity/@activity/@links/@children.0"/>
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.8/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.8/@children.0/@children.3" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.8/@activity/@activity/@activity/@links/@children.3"/>
+            <bendpoints points="[25, 0, -108, 0]$[121, 0, -12, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.8"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.8"/>
+            <bendpoints points="[227, -6, -81, 0]$[284, 0, -24, 6]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
     </notation:Diagram>
     <tibex:NamespaceRegistry enabled="true">
         <tibex:namespaceItem
@@ -1599,6 +1614,8 @@
             namespace="http://tns.tibco.com/bw/activity/sleep/xsd" prefix="tns3"/>
         <tibex:namespaceItem
             namespace="http://www.example.com/namespaces/tns/1792416216625" prefix="tns5"/>
+        <tibex:namespaceItem
+            namespace="http://www.example.com/namespaces/tns/1792679953386" prefix="tns6"/>
     </tibex:NamespaceRegistry>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1792416057120"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1792416073260"/>
@@ -1680,7 +1697,7 @@
                                 </bpws:sources>
                                 <tibex:inputBindings>
                                     <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1792416103416&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;LogFestiviSkipped-input&quot; match=&quot;/&quot;>&lt;tns:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('[', $Start/tns1:correlationId, '] Festivita skipped Paese=', $Start/tns1:countryCode, ' Anno=', $Start/tns1:year, ': controllo saltato')&quot;/>&lt;/message>&lt;/tns:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1792416103416&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:param name=&quot;FaultDetails1&quot;/>&lt;xsl:template name=&quot;LogFestiviSkipped-input&quot; match=&quot;/&quot;>&lt;tns:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('[', $Start/tns1:correlationId, '] Festivita skipped Paese=', $Start/tns1:countryCode, '  Anno=', $Start/tns1:year, ': controllo saltato', ' | causa=', $FaultDetails1/Msg)&quot;/>&lt;/message>&lt;/tns:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                 </tibex:inputBindings>
                                 <tibex:config>
                                     <bwext:BWActivity
@@ -1711,7 +1728,7 @@
                                 </bpws:targets>
                                 <tibex:inputBindings>
                                     <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1792679953386&quot; version=&quot;2.0&quot;>&lt;xsl:template name=&quot;End-input&quot; match=&quot;/&quot;>&lt;tns:root>&lt;tns:dates>&lt;xsl:value-of select=&quot;''&quot;/>&lt;/tns:dates>&lt;tns:skipped>&lt;xsl:value-of select=&quot;true()&quot;/>&lt;/tns:skipped>&lt;/tns:root>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns6=&quot;http://www.example.com/namespaces/tns/1792679953386&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:template name=&quot;End-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns6:root>&#xa;            &lt;tns6:dates>&#xa;                &lt;xsl:value-of select=&quot;''&quot;/>&#xa;            &lt;/tns6:dates>&#xa;            &lt;tns6:skipped>&#xa;                &lt;xsl:value-of select=&quot;true()&quot;/>&#xa;            &lt;/tns6:skipped>&#xa;        &lt;/tns6:root>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                 </tibex:inputBindings>
                                 <tibex:config>
                                     <bwext:BWActivity
@@ -1741,11 +1758,11 @@
                 <bpws:link name="LogToEnd" tibex:linkType="SUCCESS"/>
                 <bpws:link name="GetCacheToLogCacheMiss_Miss"
                     tibex:label="Miss" tibex:linkType="SUCCESSWITHNOCONDITION"/>
-                <bpws:link name="SendHTTPRequestToParseJSON" tibex:linkType="SUCCESS"/>
                 <bpws:link name="ParseJSONToMapper" tibex:linkType="SUCCESS"/>
                 <bpws:link name="LogCacheMissToRetryNager" tibex:linkType="SUCCESS"/>
                 <bpws:link name="MapperFestivoToSetSharedVariable" tibex:linkType="SUCCESS"/>
                 <bpws:link name="SetSharedVariableToEnd" tibex:linkType="SUCCESS"/>
+                <bpws:link name="RetryNagerToParseJSON" tibex:linkType="SUCCESS"/>
             </bpws:links>
             <bpws:extensionActivity>
                 <tibex:receiveEvent createInstance="yes"
@@ -1770,7 +1787,7 @@
                     </bpws:targets>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns5=&quot;http://www.example.com/namespaces/tns/1792416216625&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1792416103416&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1792679953386&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;GetCache&quot;/>&lt;xsl:param name=&quot;MapperFestivo&quot;/>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;End-input&quot; match=&quot;/&quot;>&lt;tns:root>&lt;tns:dates>&lt;xsl:value-of select=&quot;if (contains(concat(';', $GetCache), concat(';', $Start/tns1:countryCode, '-', $Start/tns1:year, '='))) then substring-before(substring-after(concat(';', $GetCache), concat(';', $Start/tns1:countryCode, '-', $Start/tns1:year, '=')), ';') else $MapperFestivo&quot;/>&lt;/tns:dates>&lt;tns:skipped>&lt;xsl:value-of select=&quot;false()&quot;/>&lt;/tns:skipped>&lt;/tns:root>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1792416103416&quot; xmlns:tns6=&quot;http://www.example.com/namespaces/tns/1792679953386&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;GetCache&quot;/>&#xa;    &lt;xsl:param name=&quot;MapperFestivo&quot;/>&#xa;    &lt;xsl:param name=&quot;Start&quot;/>&#xa;    &lt;xsl:template name=&quot;End-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns6:root>&#xa;            &lt;tns6:dates>&#xa;                &lt;xsl:value-of select=&quot;if (contains(concat(';', $GetCache), concat(';', $Start/tns1:countryCode, '-', $Start/tns1:year, '='))) then substring-before(substring-after(concat(';', $GetCache), concat(';', $Start/tns1:countryCode, '-', $Start/tns1:year, '=')), ';') else $MapperFestivo&quot;/>&#xa;            &lt;/tns6:dates>&#xa;            &lt;tns6:skipped>&#xa;                &lt;xsl:value-of select=&quot;false()&quot;/>&#xa;            &lt;/tns6:skipped>&#xa;        &lt;/tns6:root>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:inputBinding
                         expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">&lt;?xml version="1.0" encoding="UTF-8"?&gt; &lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns="http://www.example.com/namespaces/tns/1792679953386" version="2.0"&gt; &lt;xsl:template name="End-input" match="/"&gt; &lt;tns:dates/&gt;&lt;/xsl:template&gt; &lt;/xsl:stylesheet&gt;</tibex:inputBinding>
@@ -1863,7 +1880,7 @@
                     </bpws:sources>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1792416103416&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:param name=&quot;GetCache&quot;/>&lt;xsl:template name=&quot;LogCacheMiss-input&quot; match=&quot;/&quot;>&lt;tns:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('[', $Start/tns1:correlationId, '] ', 'Festivita chiamata paese=',$Start/tns1:countryCode, 'anno=',$Start/tns1:year, ' | cache=', $GetCache)&quot;/>&lt;/message>&lt;/tns:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1792416103416&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:param name=&quot;GetCache&quot;/>&lt;xsl:template name=&quot;LogCacheMiss-input&quot; match=&quot;/&quot;>&lt;tns:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('[', $Start/tns1:correlationId, '] ', 'Festivita chiamata Paese=',$Start/tns1:countryCode, ' Anno=',$Start/tns1:year, ' | cache=', $GetCache)&quot;/>&lt;/message>&lt;/tns:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -1889,14 +1906,14 @@
                     name="ParseJSON" outputVariable="ParseJSON"
                     tibex:xpdlId="00737c9f-4d1f-482e-9919-658715e9f4d6" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="SendHTTPRequestToParseJSON"/>
+                        <bpws:target linkName="RetryNagerToParseJSON"/>
                     </bpws:targets>
                     <bpws:sources>
                         <bpws:source linkName="ParseJSONToMapper"/>
                     </bpws:sources>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns6=&quot;activity.jsonParser.input+00737c9f-4d1f-482e-9919-658715e9f4d6+ActivityInputType&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;SendHTTPRequest&quot;/>&#xa;    &lt;xsl:template name=&quot;ParseJSON-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns6:ActivityInputClass>&#xa;            &lt;jsonString>&#xa;                &lt;xsl:value-of select=&quot;$SendHTTPRequest/asciiContent&quot;/>&#xa;            &lt;/jsonString>&#xa;        &lt;/tns6:ActivityInputClass>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns7=&quot;activity.jsonParser.input+00737c9f-4d1f-482e-9919-658715e9f4d6+ActivityInputType&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;SendHTTPRequest&quot;/>&#xa;    &lt;xsl:template name=&quot;ParseJSON-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns7:ActivityInputClass>&#xa;            &lt;jsonString>&#xa;                &lt;xsl:value-of select=&quot;$SendHTTPRequest/asciiContent&quot;/>&#xa;            &lt;/jsonString>&#xa;        &lt;/tns7:ActivityInputClass>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -1932,7 +1949,7 @@
                     </bpws:sources>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns7=&quot;http://www.example.com/namespaces/tns/1791816753162&quot; xmlns:tns6=&quot;http://www.example.org/HolidaysSchema&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;ParseJSON&quot;/>&#xa;    &lt;xsl:template name=&quot;MapperFestivo-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns7:festivo>&#xa;            &lt;xsl:value-of select=&quot;string-join($ParseJSON/tns6:holiday[@global = true() and tns6:types = 'Public']/@date, ',')&quot;/>&#xa;        &lt;/tns7:festivo>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns7=&quot;http://www.example.com/namespaces/tns/1791816753162&quot; xmlns:tns8=&quot;http://www.example.org/HolidaysSchema&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;ParseJSON&quot;/>&#xa;    &lt;xsl:template name=&quot;MapperFestivo-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns7:festivo>&#xa;            &lt;xsl:value-of select=&quot;string-join($ParseJSON/tns8:holiday[@global = true() and tns8:types = 'Public']/@date, ',')&quot;/>&#xa;        &lt;/tns7:festivo>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -1977,6 +1994,9 @@
                 <bpws:targets>
                     <bpws:target linkName="LogCacheMissToRetryNager"/>
                 </bpws:targets>
+                <bpws:sources>
+                    <bpws:source linkName="RetryNagerToParseJSON"/>
+                </bpws:sources>
                 <bpws:variables>
                     <bpws:variable name="tentativomiss"
                         sca-bpel:internal="true" type="xsd:int">
@@ -2023,6 +2043,8 @@
                                 <bpws:link name="SleepToLog" tibex:linkType="SUCCESS"/>
                                 <bpws:link name="LogToSendHTTPRequest" tibex:linkType="SUCCESS"/>
                                 <bpws:link name="GroupStartToSleep" tibex:linkType="SUCCESS"/>
+                                <bpws:link
+                                    name="SendHTTPRequestToGroupEnd" tibex:linkType="SUCCESS"/>
                             </bpws:links>
                             <bpws:empty name="GroupStart"
                                 tibex:group="groupStart" tibex:xpdlId="96418bfc-cba8-4260-aaf1-4d9aeb54ac51">
@@ -2033,6 +2055,9 @@
                             <bpws:assign name="GroupEnd"
                                 tibex:group="groupEnd"
                                 tibex:xpdlId="0a873669-f5ec-401c-8c66-c541190a0a76" validate="no">
+                                <bpws:targets>
+                                    <bpws:target linkName="SendHTTPRequestToGroupEnd"/>
+                                </bpws:targets>
                                 <bpws:copy>
                                     <bpws:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[true()]]></bpws:from>
                                     <bpws:to variable="repeatOnError_success_flag"/>
@@ -2049,7 +2074,7 @@
                                     <bpws:target linkName="LogToSendHTTPRequest"/>
                                     </bpws:targets>
                                     <bpws:sources>
-                                    <bpws:source linkName="SendHTTPRequestToParseJSON"/>
+                                    <bpws:source linkName="SendHTTPRequestToGroupEnd"/>
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
@@ -2092,7 +2117,7 @@
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://tns.tibco.com/bw/activity/sleep/xsd&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:bw=&quot;http://www.tibco.com/bw/xpath/bw-custom-functions&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;tentativomiss&quot;/>&lt;xsl:template name=&quot;Sleep-input&quot; match=&quot;/&quot;>&lt;tns3:SleepInputSchema>&lt;IntervalInMillisec>&lt;xsl:value-of select=&quot;xsd:integer(if ($tentativomiss > 1) then bw:getModuleProperty(&amp;quot;nager.retryDelayMs&amp;quot;) else 0)&quot;/>&lt;/IntervalInMillisec>&lt;/tns3:SleepInputSchema>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://tns.tibco.com/bw/activity/sleep/xsd&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:bw=&quot;http://www.tibco.com/bw/xpath/bw-custom-functions&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;tentativomiss&quot;/>&lt;xsl:template name=&quot;Sleep-input&quot; match=&quot;/&quot;>&lt;tns3:SleepInputSchema>&lt;IntervalInMillisec>&lt;xsl:value-of select=&quot;xsd:integer(if ($tentativomiss > 1) then bw:getModuleProperty(&amp;quot;nager.retryDelayMs&amp;quot;) else 1)&quot;/>&lt;/IntervalInMillisec>&lt;/tns3:SleepInputSchema>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                     </tibex:inputBindings>
                                     <tibex:config>
                                     <bwext:BWActivity

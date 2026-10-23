@@ -39,6 +39,7 @@
   <sca:property xmi:id="_CCm_AMPVEfGHZ5X5GRrfzg" name="BW.APPSPACE.NAME" type="XMLSchema:string" scalable="true"/>
   <sca:property xmi:id="_CCpbQMPVEfGHZ5X5GRrfzg" name="BW.MODULE.VERSION" type="XMLSchema:string" scalable="true"/>
   <sca:property xmi:id="_CCsekMPVEfGHZ5X5GRrfzg" name="BW.MODULE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_pmh0wM4TEfGEAO5aqGPUsg" name="IntervalInMillisec" type="XMLSchema:int" scaext:simpleValue="0" publicAccess="true" scalable="true"/>
   <sca:component xmi:id="_B5xMEMPVEfGHZ5X5GRrfzg" name="ComponentProcess" compositeext:version="1.0.0.qualifier">
     <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_B5xMEcPVEfGHZ5X5GRrfzg" processName="mockservices.module.Cambio"/>
     <sca:service xmi:id="_i59V4MPdEfGHZ5X5GRrfzg" name="v1-latest">

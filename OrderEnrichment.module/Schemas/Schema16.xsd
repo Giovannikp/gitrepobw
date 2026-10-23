@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.com/namespaces/tns/1792757890187" elementFormDefault="qualified" targetNamespace="http://www.example.com/namespaces/tns/1792757890187">
+    <xsd:element name="root">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="fxRate" type="xsd:decimal"/>
+                <xsd:element name="effectiveDeliveryDate" type="xsd:string"/>
+                <xsd:element name="deliveryShiftReason" type="xsd:string"/>
+                <xsd:element minOccurs="0" name="warnings" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
