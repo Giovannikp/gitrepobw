@@ -1789,8 +1789,6 @@
                         <tibex:inputBinding
                             expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1792416103416&quot; xmlns:tns6=&quot;http://www.example.com/namespaces/tns/1792679953386&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;GetCache&quot;/>&#xa;    &lt;xsl:param name=&quot;MapperFestivo&quot;/>&#xa;    &lt;xsl:param name=&quot;Start&quot;/>&#xa;    &lt;xsl:template name=&quot;End-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns6:root>&#xa;            &lt;tns6:dates>&#xa;                &lt;xsl:value-of select=&quot;if (contains(concat(';', $GetCache), concat(';', $Start/tns1:countryCode, '-', $Start/tns1:year, '='))) then substring-before(substring-after(concat(';', $GetCache), concat(';', $Start/tns1:countryCode, '-', $Start/tns1:year, '=')), ';') else $MapperFestivo&quot;/>&#xa;            &lt;/tns6:dates>&#xa;            &lt;tns6:skipped>&#xa;                &lt;xsl:value-of select=&quot;false()&quot;/>&#xa;            &lt;/tns6:skipped>&#xa;        &lt;/tns6:root>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
-                    <tibex:inputBinding
-                        expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">&lt;?xml version="1.0" encoding="UTF-8"?&gt; &lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns="http://www.example.com/namespaces/tns/1792679953386" version="2.0"&gt; &lt;xsl:template name="End-input" match="/"&gt; &lt;tns:dates/&gt;&lt;/xsl:template&gt; &lt;/xsl:stylesheet&gt;</tibex:inputBinding>
                     <tibex:config>
                         <bwext:BWActivity
                             activityTypeID="bw.internal.end"
@@ -1846,7 +1844,7 @@
                     </bpws:sources>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1792416103416&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;LogCacheHit-input&quot; match=&quot;/&quot;>&lt;tns:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('[', $Start/tns1:correlationId, '] ', 'Festivita CACHE HIT paese=',$Start/tns1:countryCode, 'anno=',$Start/tns1:year)&quot;/>&lt;/message>&lt;/tns:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1792416103416&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;LogCacheHit-input&quot; match=&quot;/&quot;>&lt;tns:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat('[', $Start/tns1:correlationId, '] ', 'Festivita CACHE HIT Paese=', $Start/tns1:countryCode, '  Anno=',$Start/tns1:year)&quot;/>&lt;/message>&lt;/tns:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -1988,9 +1986,7 @@
                     <tibex:SetSharedVariable variableName="HolidayCache" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
                 </tibex:extActivity>
             </bpws:extensionActivity>
-            <bpws:scope name="RetryNager" tibex:group="repeatOnError"
-                tibex:indexOriginalName="tentativomiss"
-                tibex:indexToGlobal="false" tibex:xpdlId="c3798b61-e3ac-44e0-a4f9-782d9ae96a4c">
+            <bpws:scope name="RetryNager" tibex:group="repeatOnError" tibex:xpdlId="c3798b61-e3ac-44e0-a4f9-782d9ae96a4c">
                 <bpws:targets>
                     <bpws:target linkName="LogCacheMissToRetryNager"/>
                 </bpws:targets>
@@ -2026,7 +2022,7 @@
                                     expression="1&lt;$tentativomiss" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
                                     </tibex:DesignExpression>
                                     <bpws:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[1<$tentativomiss]]></bpws:condition>
-                                    <bpws:rethrow name="Rethrow"/>
+                                    <bpws:rethrow name="Rethrow" tibex:xpdlId="ca0253a6-7c51-43fb-ac96-4949aa5986a0"/>
                                     <bpws:else>
                                     <bpws:assign name="Assign" validate="no">
                                     <bpws:copy>

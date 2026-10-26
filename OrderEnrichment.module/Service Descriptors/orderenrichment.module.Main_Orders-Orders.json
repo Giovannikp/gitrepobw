@@ -50,6 +50,12 @@
               "$ref" : "#/definitions/errorResponse"
             }
           },
+          "500" : {
+            "description" : "Internal Error",
+            "schema" : {
+              "$ref" : "#/definitions/errorResponse"
+            }
+          },
           "502" : {
             "description" : "UPSTREAM_FX_UNAVAILABLE",
             "schema" : {

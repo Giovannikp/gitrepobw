@@ -10,6 +10,7 @@
         </parameters>
         <responseStatus xmi:id="_8qa88MMREfGOfqiy79ywfQ" statusCode="400" reasonPhrase="Validation Error" elementQName="ErrorSchema:errorResponse"/>
         <responseStatus xmi:id="__Whc0MyTEfGEAO5aqGPUsg" statusCode="502" reasonPhrase="UPSTREAM_FX_UNAVAILABLE" elementQName="ErrorSchema:errorResponse"/>
+        <responseStatus xmi:id="_E1grINEgEfGmlLMjqU7dKg" statusCode="500" reasonPhrase="Internal Error" elementQName="ErrorSchema:errorResponse"/>
         <clientFormat>json</clientFormat>
         <clientRequestFormat>json</clientRequestFormat>
       </operation>
