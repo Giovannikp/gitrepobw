@@ -5,7 +5,7 @@
                 <xsd:element name="fxRate" type="xsd:decimal"/>
                 <xsd:element name="effectiveDeliveryDate" type="xsd:string"/>
                 <xsd:element name="deliveryShiftReason" type="xsd:string"/>
-                <xsd:element minOccurs="0" name="warnings" type="xsd:string"/>
+                <xsd:element maxOccurs="unbounded" minOccurs="0" name="warnings" type="xsd:string"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

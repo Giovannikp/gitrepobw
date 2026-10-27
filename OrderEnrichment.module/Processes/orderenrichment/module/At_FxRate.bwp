@@ -1467,9 +1467,7 @@
                     </tibex:config>
                 </tibex:activityExtension>
             </bpws:extensionActivity>
-            <bpws:scope name="RetryFx" tibex:group="repeatOnError"
-                tibex:indexOriginalName="tentativo"
-                tibex:indexToGlobal="false" tibex:xpdlId="bcf1c313-721e-482c-b683-889bb54fb4bd">
+            <bpws:scope name="RetryFx" tibex:group="repeatOnError" tibex:xpdlId="bcf1c313-721e-482c-b683-889bb54fb4bd">
                 <bpws:targets>
                     <bpws:target linkName="LogToRetryFx"/>
                 </bpws:targets>
@@ -1505,7 +1503,7 @@
                                     expression="$MapperRetryConfig/tns:retryCount &lt; $tentativo" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
                                     </tibex:DesignExpression>
                                     <bpws:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[$MapperRetryConfig/tns:retryCount < $tentativo]]></bpws:condition>
-                                    <bpws:rethrow name="Rethrow"/>
+                                    <bpws:rethrow name="Rethrow" tibex:xpdlId="657accf8-549f-4ad2-8d86-0f5771cd0623"/>
                                     <bpws:else>
                                     <bpws:assign name="Assign" validate="no">
                                     <bpws:copy>

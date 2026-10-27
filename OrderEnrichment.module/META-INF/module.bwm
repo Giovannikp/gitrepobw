@@ -3,7 +3,7 @@
   <sca:service xmi:id="_YzOlEMLuEfGOfqiy79ywfQ" name="orders" promote="ComponentOrders/orders">
     <sca:interface.wsdl xmi:id="_YzXH8MLuEfGOfqiy79ywfQ" interface="http://xmlns.example.com/20261008100054PLT#wsdl.interface(orders)" scaext:wsdlLocation="../Processes/orderenrichment/module/Orders.bwp"/>
     <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_Yzfq0MLuEfGOfqiy79ywfQ" name="RestService" path="/orders" docBasePath="http://localhost:7777/OrderEnrichment.module" docResourcePath="Orders" basePath="/" connector="orderenrichment.module.OrderHTTPConnectorResource" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/orderenrichment.module.Main_Orders-Orders.json">
-      <operation xmi:id="_YzhgAMLuEfGOfqiy79ywfQ" operationName="post" nickname="post-orders" httpMethod="POST" notes="postOrders" responseStyle="element" requestStyle="element" outputPartName="item">
+      <operation xmi:id="_YzhgAMLuEfGOfqiy79ywfQ" operationName="post" nickname="post-orders" httpMethod="POST" notes="postOrders" responseStyle="element" requestStyle="element" useEmptyValuesForNullResponse="true" outputPartName="item">
         <parameters xmi:id="__vqXUM0cEfGEAO5aqGPUsg">
           <parameterMapping xmi:id="__vqXUc0cEfGEAO5aqGPUsg" parameterName="X-Correlation-Id" parameterType="Header" dataType="string" description=""/>
           <parameterMapping xmi:id="_WFFY0M0rEfGEAO5aqGPUsg" parameterName="X-Correlation-Id" parameterType="ResponseHeader" dataType="string" description=""/>
